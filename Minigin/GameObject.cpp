@@ -2,33 +2,47 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
-#include "BaseComponent.h"
 
-dae::GameObject::~GameObject() = default;
+#include "BaseComponent.h"
+#include "TransformComponent.h"
+
+dae::GameObject::GameObject()
+{
+	m_pTransform = new TransformComponent();
+	m_pVecComponents.push_back(m_pTransform);
+}
+
+dae::GameObject::~GameObject()
+{
+	for (auto pComponent : m_pVecComponents)
+	{
+		delete pComponent;
+	}
+}
 
 void dae::GameObject::Initialize()
 {
-	for (auto component : m_pVecComponents)
+	for (auto pComponent : m_pVecComponents)
 	{
-		component->Initialize();
+		pComponent->Initialize();
 	}
 }
 
 void dae::GameObject::Update()
 {
-	for (auto component : m_pVecComponents)
+	for (auto pComponent : m_pVecComponents)
 	{
-		component->Initialize();
+		pComponent->Initialize();
 	}
 }
 
 void dae::GameObject::Render() const
 {
-	for (auto component : m_pVecComponents)
+	for (auto pComponent : m_pVecComponents)
 	{
-		component->Initialize();
+		pComponent->Initialize();
 	}
-	const auto pos = mTransform.GetPosition();
+	const auto pos = m_pTransform->GetPosition();
 	Renderer::GetInstance().RenderTexture(*mTexture, pos.x, pos.y);
 }
 
@@ -45,5 +59,5 @@ void dae::GameObject::SetTexture(const std::string& filename)
 
 void dae::GameObject::SetPosition(float x, float y)
 {
-	mTransform.SetPosition(x, y, 0.0f);
+	m_pTransform->SetPosition(x, y, 0.0f);
 }

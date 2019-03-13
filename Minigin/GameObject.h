@@ -8,11 +8,12 @@
 namespace dae
 {
 	class BaseComponent;
+	class TransformComponent;
 
 	class GameObject : public SceneObject
 	{
 	public:
-		GameObject() = default;
+		GameObject();
 		virtual ~GameObject();
 
 		void Initialize() override;
@@ -31,7 +32,8 @@ namespace dae
 
 	private:
 		std::vector<BaseComponent*> m_pVecComponents;
-		Transform mTransform;
+		TransformComponent* m_pTransform;
+		//Transform mTransform;
 		std::shared_ptr<Texture2D> mTexture;
 	};
 }
