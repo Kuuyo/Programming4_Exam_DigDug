@@ -75,6 +75,9 @@
     <ClInclude Include="BaseComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
@@ -115,5 +118,8 @@
     </ClCompile>
     <ClCompile Include="TextObject.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
