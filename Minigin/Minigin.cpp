@@ -75,7 +75,9 @@ void dae::Minigin::Run()
 	LoadGame();
 
 	{
-		auto t = std::chrono::high_resolution_clock::now();
+		auto previous = std::chrono::high_resolution_clock::now();
+		float lag{ 0.f };
+
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
@@ -83,13 +85,20 @@ void dae::Minigin::Run()
 		bool doContinue = true;
 		while (doContinue)
 		{
+			auto current = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<float> elapsed = current - previous;
+			previous = current;
+			lag += std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
+
 			doContinue = input.ProcessInput();
 
-			sceneManager.Update();
-			renderer.Render();
+			while (lag >= msPerFrame)
+			{
+				sceneManager.Update();
+				lag -= msPerFrame;
+			}
 
-			t += std::chrono::milliseconds(msPerFrame);
-			std::this_thread::sleep_until(t);
+			renderer.Render();
 		}
 	}
 
