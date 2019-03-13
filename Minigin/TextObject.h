@@ -10,6 +10,7 @@ namespace dae
 	class TextObject : public SceneObject
 	{
 	public:
+		void Initialize() override {}
 		void Update() override;
 		void Render() const override;
 

@@ -2,6 +2,13 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+void dae::SceneManager::Initialize()
+{
+	for (auto scene : mScenes)
+	{
+		scene->Initialize();
+	}
+}
 
 void dae::SceneManager::Update()
 {
