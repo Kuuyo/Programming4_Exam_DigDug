@@ -72,6 +72,9 @@
     <ClInclude Include="TextObject.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="BaseComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
