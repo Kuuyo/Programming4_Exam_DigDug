@@ -61,9 +61,6 @@
     <ClInclude Include="Texture2D.h">
       <Filter>Engine Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="TextObject.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="BaseComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
@@ -114,8 +111,6 @@
     <ClCompile Include="Texture2D.cpp">
       <Filter>Engine Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="TextObject.cpp" />
-    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Engine Files\Components</Filter>
     </ClCompile>

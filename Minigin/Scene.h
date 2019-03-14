@@ -3,12 +3,12 @@
 
 namespace dae
 {
-	class SceneObject;
+	class GameObject;
 	class Scene
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
-		void Add(const std::shared_ptr<SceneObject>& object);
+		void Add(const std::shared_ptr<GameObject>& object);
 
 		void Initialize();
 		void Update();
@@ -23,8 +23,8 @@ namespace dae
 	private: 
 		explicit Scene(const std::string& name);
 
-		std::string mName{};
-		std::vector < std::shared_ptr<SceneObject>> mObjects{};
+		std::string m_Name{};
+		std::vector <std::shared_ptr<GameObject>> m_Objects{};
 
 		static unsigned int idCounter; 
 	};

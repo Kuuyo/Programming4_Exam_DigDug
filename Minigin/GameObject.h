@@ -1,23 +1,24 @@
 #pragma once
 
-#include "Transform.h"
-#include "Texture2D.h"
-#include "SceneObject.h"
+#pragma warning (push)
+#pragma warning (disable:4201)
+#include <glm/vec3.hpp>
+#pragma warning (pop)
 
 namespace dae
 {
 	class BaseComponent;
 	class TransformComponent;
 
-	class GameObject : public SceneObject
+	class GameObject
 	{
 	public:
 		GameObject();
 		virtual ~GameObject();
 
-		void Initialize() override;
-		void Update() override;
-		void Render() const override;
+		void Initialize();
+		void Update();
+		void Render() const;
 
 		void AddComponent(BaseComponent* component);
 
