@@ -21,7 +21,7 @@ namespace dae
 
 		void AddComponent(BaseComponent* component);
 
-		void SetPosition(float x, float y, float z);
+		void SetPosition(float x = 0, float y = 0, float z = 0);
 		const glm::vec3& GetPosition() const;
 
 		GameObject(const GameObject& other) = delete;
