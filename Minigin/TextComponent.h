@@ -24,6 +24,8 @@ namespace dae
 		void Render() override;
 
 	private:
+		void CreateTextTexture();
+
 		Texture2D* m_pTexture;
 		std::string m_Text;
 		bool m_bNeedsUpdate;

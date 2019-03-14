@@ -7,6 +7,7 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <SDL.h>
+#include "Time.h"
 
 #include "GameObject.h"
 #include "Scene.h"
@@ -78,22 +79,21 @@ void dae::Minigin::Run()
 	LoadGame();
 
 	{
-		auto previous = std::chrono::high_resolution_clock::now();
 		float lag{ 0.f };
 
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
+		auto& time = Time::GetInstance();
 
 		sceneManager.Initialize();
+		time.Initialize();
 
 		bool doContinue = true;
 		while (doContinue)
 		{
-			auto current = std::chrono::high_resolution_clock::now();
-			std::chrono::duration<float> elapsed = current - previous;
-			previous = current;
-			lag += std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
+			time.Tick();
+			lag += time.GetDeltaTime();
 
 			doContinue = input.ProcessInput();
 

@@ -33,28 +33,14 @@ void dae::TextComponent::SetText(const std::string& text)
 void dae::TextComponent::Initialize()
 {
 	m_pFont = ResourceManager::GetInstance().LoadFont(m_Font, m_FontSize);
+	CreateTextTexture();
 }
 
 void dae::TextComponent::Update()
 {
 	if (m_bNeedsUpdate)
 	{
-		const SDL_Color color = { 255,255,255 }; // only white text is supported now
-		const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), color);
-		if (surf == nullptr)
-		{
-			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-		}
-		auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
-		if (texture == nullptr)
-		{
-			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-		}
-		SDL_FreeSurface(surf);
-
-		delete m_pTexture;
-		m_pTexture = new Texture2D(texture);
-		m_bNeedsUpdate = false;
+		CreateTextTexture();
 	}
 }
 
@@ -65,4 +51,26 @@ void dae::TextComponent::Render()
 		const auto pos = m_pParent->GetPosition();
 		Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);
 	}
+}
+
+void dae::TextComponent::CreateTextTexture()
+{
+	const SDL_Color color = { 255,255,255 }; // only white text is supported now
+	const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), color);
+	if (surf == nullptr)
+	{
+		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
+	}
+	auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+	if (texture == nullptr)
+	{
+		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+	}
+	SDL_FreeSurface(surf);
+
+	if(m_pTexture != nullptr)
+		delete m_pTexture;
+
+	m_pTexture = new Texture2D(texture);
+	m_bNeedsUpdate = false;
 }
