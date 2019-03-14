@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 
 #include "Transform.h"
 #include "Texture2D.h"
@@ -22,7 +21,7 @@ namespace dae
 
 		void AddComponent(BaseComponent* component);
 
-		void SetPosition(float x, float y);
+		void SetPosition(float x, float y, float z);
 		const glm::vec3& GetPosition() const;
 
 		GameObject(const GameObject& other) = delete;

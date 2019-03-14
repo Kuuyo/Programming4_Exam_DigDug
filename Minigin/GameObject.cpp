@@ -1,7 +1,5 @@
 #include "MiniginPCH.h"
 #include "GameObject.h"
-#include "ResourceManager.h"
-#include "Renderer.h"
 
 #include "BaseComponent.h"
 #include "TransformComponent.h"
@@ -42,7 +40,6 @@ void dae::GameObject::Render() const
 	{
 		pComponent->Render();
 	}
-	const auto pos = m_pTransform->GetPosition();
 }
 
 void dae::GameObject::AddComponent(BaseComponent* component)
@@ -51,9 +48,9 @@ void dae::GameObject::AddComponent(BaseComponent* component)
 	component->m_pParent = this;
 }
 
-void dae::GameObject::SetPosition(float x, float y)
+void dae::GameObject::SetPosition(float x, float y, float z)
 {
-	m_pTransform->SetPosition(x, y, 0.0f);
+	m_pTransform->SetPosition(x, y, z);
 }
 
 const glm::vec3& dae::GameObject::GetPosition() const
