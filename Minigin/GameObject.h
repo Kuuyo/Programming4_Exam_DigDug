@@ -22,8 +22,8 @@ namespace dae
 
 		void AddComponent(BaseComponent* component);
 
-		void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
+		const glm::vec3& GetPosition() const;
 
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -33,7 +33,5 @@ namespace dae
 	private:
 		std::vector<BaseComponent*> m_pVecComponents;
 		TransformComponent* m_pTransform;
-		//Transform mTransform;
-		std::shared_ptr<Texture2D> mTexture;
 	};
 }

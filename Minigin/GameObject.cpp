@@ -32,7 +32,7 @@ void dae::GameObject::Update()
 {
 	for (auto pComponent : m_pVecComponents)
 	{
-		pComponent->Initialize();
+		pComponent->Update();
 	}
 }
 
@@ -40,10 +40,9 @@ void dae::GameObject::Render() const
 {
 	for (auto pComponent : m_pVecComponents)
 	{
-		pComponent->Initialize();
+		pComponent->Render();
 	}
 	const auto pos = m_pTransform->GetPosition();
-	Renderer::GetInstance().RenderTexture(*mTexture, pos.x, pos.y);
 }
 
 void dae::GameObject::AddComponent(BaseComponent* component)
@@ -52,12 +51,12 @@ void dae::GameObject::AddComponent(BaseComponent* component)
 	component->m_pParent = this;
 }
 
-void dae::GameObject::SetTexture(const std::string& filename)
-{
-	mTexture = ResourceManager::GetInstance().LoadTexture(filename);
-}
-
 void dae::GameObject::SetPosition(float x, float y)
 {
 	m_pTransform->SetPosition(x, y, 0.0f);
+}
+
+const glm::vec3& dae::GameObject::GetPosition() const
+{
+	return m_pTransform->GetPosition();
 }
