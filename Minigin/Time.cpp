@@ -9,6 +9,9 @@ void dae::Time::Initialize()
 	m_PrevTime = 0;
 	m_CurrTime = 0;
 	m_bIsStopped = false;
+	m_ElapsedTime = 0.f;
+	m_FrameCount = 0;
+	m_FPS = 0;
 
 	__int64 countsPerSec;
 	QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&countsPerSec));
@@ -30,7 +33,7 @@ float dae::Time::GetDeltaTime() const
 	return static_cast<float>(m_DeltaTime);
 }
 
-int dae::Time::GetFPS() const
+unsigned int dae::Time::GetFPS() const
 {
 	return m_FPS;
 }

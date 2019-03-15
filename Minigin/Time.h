@@ -14,7 +14,7 @@ namespace dae
 
 		float GetTotalTime()const;
 		float GetDeltaTime()const;
-		int GetFPS()const;
+		unsigned int GetFPS()const;
 
 		void Reset();
 		void Start();
@@ -29,8 +29,8 @@ namespace dae
 		float m_DeltaTime;
 		float m_ElapsedTime;
 
-		int m_FrameCount;
-		int m_FPS;
+		unsigned int m_FrameCount;
+		unsigned int m_FPS;
 
 		__int64 m_BaseTime;
 		__int64 m_PausedTime;

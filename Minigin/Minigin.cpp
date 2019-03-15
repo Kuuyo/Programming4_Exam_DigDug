@@ -16,10 +16,28 @@
 #include "TextComponent.h"
 #include "FPSComponent.h"
 
+void dae::Minigin::Run()
+{
+	Initialize();
+
+	LoadGame();
+
+	GameLoop();
+
+	Cleanup();
+}
 
 void dae::Minigin::Initialize()
 {
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
+	InitializeSDL();
+
+	Renderer::GetInstance().Init(window);
+	ResourceManager::GetInstance().Init("../Data/");
+}
+
+void dae::Minigin::InitializeSDL()
+{
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
@@ -32,14 +50,10 @@ void dae::Minigin::Initialize()
 		480,
 		SDL_WINDOW_OPENGL
 	);
-	if (window == nullptr) 
+	if (window == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
-
-	Renderer::GetInstance().Init(window);
-	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Data/");
 }
 
 /**
@@ -68,49 +82,41 @@ void dae::Minigin::LoadGame() const
 	scene.Add(go);
 }
 
+void dae::Minigin::GameLoop()
+{
+	float lag{ 0.f };
+
+	auto& renderer = Renderer::GetInstance();
+	auto& sceneManager = SceneManager::GetInstance();
+	auto& input = InputManager::GetInstance();
+	auto& time = Time::GetInstance();
+
+	sceneManager.Initialize();
+	time.Initialize();
+
+	bool doContinue = true;
+	while (doContinue)
+	{
+		time.Tick();
+		lag += time.GetDeltaTime();
+
+		doContinue = input.ProcessInput();
+
+		sceneManager.Update();
+
+		while (lag >= msPerFrame)
+		{
+			time.CalculateFrameStats();
+			renderer.Render();
+			lag -= msPerFrame;
+		}
+	}
+}
+
 void dae::Minigin::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(window);
 	window = nullptr;
 	SDL_Quit();
-}
-
-void dae::Minigin::Run()
-{
-	Initialize();
-
-	LoadGame();
-
-	{
-		float lag{ 0.f };
-
-		auto& renderer = Renderer::GetInstance();
-		auto& sceneManager = SceneManager::GetInstance();
-		auto& input = InputManager::GetInstance();
-		auto& time = Time::GetInstance();
-
-		sceneManager.Initialize();
-		time.Initialize();
-
-		bool doContinue = true;
-		while (doContinue)
-		{
-			time.Tick();
-			lag += time.GetDeltaTime();
-
-			doContinue = input.ProcessInput();
-
-			sceneManager.Update();
-
-			while (lag >= msPerFrame)
-			{
-				time.CalculateFrameStats();
-				renderer.Render();
-				lag -= msPerFrame;
-			}			
-		}
-	}
-
-	Cleanup();
 }
