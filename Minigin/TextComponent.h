@@ -9,7 +9,7 @@ namespace dae
 	class TextComponent : public BaseComponent
 	{
 	public:
-		TextComponent(const std::string& text, int fontSize = 36, const std::string& font = "Lingua.otf");
+		TextComponent(const std::string& text = " ", int fontSize = 36, const std::string& font = "Lingua.otf");
 		virtual ~TextComponent();
 
 		void SetText(const std::string& text);

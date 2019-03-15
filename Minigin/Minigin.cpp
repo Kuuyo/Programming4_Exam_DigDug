@@ -14,6 +14,7 @@
 
 #include "TextureComponent.h"
 #include "TextComponent.h"
+#include "FPSComponent.h"
 
 
 void dae::Minigin::Initialize()
@@ -37,6 +38,8 @@ void dae::Minigin::Initialize()
 	}
 
 	Renderer::GetInstance().Init(window);
+	// tell the resource manager where he can find the game data
+	ResourceManager::GetInstance().Init("../Data/");
 }
 
 /**
@@ -59,6 +62,10 @@ void dae::Minigin::LoadGame() const
 	go->AddComponent(new TextComponent("Programming 4 Assignment"));
 	go->SetPosition(80, 20);
 	scene.Add(go);
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent(new FPSComponent());
+	scene.Add(go);
 }
 
 void dae::Minigin::Cleanup()
@@ -72,9 +79,6 @@ void dae::Minigin::Cleanup()
 void dae::Minigin::Run()
 {
 	Initialize();
-
-	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Data/");
 
 	LoadGame();
 
@@ -97,13 +101,14 @@ void dae::Minigin::Run()
 
 			doContinue = input.ProcessInput();
 
+			sceneManager.Update();
+
 			while (lag >= msPerFrame)
 			{
-				sceneManager.Update();
+				time.CalculateFrameStats();
+				renderer.Render();
 				lag -= msPerFrame;
-			}
-
-			renderer.Render();
+			}			
 		}
 	}
 

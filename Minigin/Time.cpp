@@ -30,6 +30,11 @@ float dae::Time::GetDeltaTime() const
 	return static_cast<float>(m_DeltaTime);
 }
 
+int dae::Time::GetFPS() const
+{
+	return m_FPS;
+}
+
 void dae::Time::Reset()
 {
 	__int64 currTime;
@@ -85,4 +90,16 @@ void dae::Time::Tick()
 
 	if (m_DeltaTime < 0.0)
 		m_DeltaTime = 0.0;
+}
+
+void dae::Time::CalculateFrameStats()
+{
+	++m_FrameCount;
+
+	if (GetTotalTime() - m_ElapsedTime >= 1.f)
+	{
+		m_FPS = m_FrameCount;
+		m_FrameCount = 0;
+		m_ElapsedTime += 1.f;
+	}
 }

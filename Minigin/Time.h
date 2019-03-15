@@ -2,6 +2,7 @@
 #include "Singleton.h"
 
 // Based on "3D Game Programming with DirectX11" by Frank D. Luna: Chapter 4 section 3 "Timing and Animation"
+// And Chapter 4 Section 4 Point 4 for CalculateFrameStat();
 // TODO: consider using std::chrono::high_resolution_clock or _Query_perf_counter()
 
 namespace dae
@@ -13,15 +14,23 @@ namespace dae
 
 		float GetTotalTime()const;
 		float GetDeltaTime()const;
+		int GetFPS()const;
 
 		void Reset();
 		void Start();
 		void Stop();
 		void Tick();
+
+		void CalculateFrameStats();
 		
-	private:
+	private:	
+
 		float m_SecondsPerCount;
 		float m_DeltaTime;
+		float m_ElapsedTime;
+
+		int m_FrameCount;
+		int m_FPS;
 
 		__int64 m_BaseTime;
 		__int64 m_PausedTime;
