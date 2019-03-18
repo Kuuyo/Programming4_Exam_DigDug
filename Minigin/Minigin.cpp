@@ -29,9 +29,11 @@ void dae::Minigin::Run()
 
 void dae::Minigin::Initialize()
 {
+	m_pLog = new Log();
+
 	InitializeSDL();
 
-	Renderer::GetInstance().Init(window);
+	Renderer::GetInstance().Init(m_pWindow);
 	// TODO: ResourceManager Init: Don't forget to change the resource path if needed
 	ResourceManager::GetInstance().Init("../Data/");
 }
@@ -45,7 +47,7 @@ void dae::Minigin::InitializeSDL()
 
 	// TODO: Creating SDL Window properties: enable setting a custom title and resolution; Custom struct for Game Settings ?; Game Settings class for Options menu?
 	// TODO: Creating SDL Window properties: change resolution at runtime?
-	window = SDL_CreateWindow(
+	m_pWindow = SDL_CreateWindow(
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
@@ -53,7 +55,11 @@ void dae::Minigin::InitializeSDL()
 		480,
 		SDL_WINDOW_OPENGL
 	);
-	if (window == nullptr)
+
+	//m_pLog->LogInfo("Window created!");
+	LogInfoC("Window created!");
+
+	if (m_pWindow == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
@@ -97,6 +103,8 @@ void dae::Minigin::GameLoop()
 	sceneManager.Initialize();
 	time.Initialize();
 
+	LogWarningC("This is just a test warning!");
+
 	float accumulatedTime{ 0.f };
 	bool doContinue = true;
 	while (doContinue)
@@ -122,8 +130,9 @@ void dae::Minigin::GameLoop()
 
 void dae::Minigin::Cleanup()
 {
+	delete m_pLog;
 	Renderer::GetInstance().Destroy();
-	SDL_DestroyWindow(window);
-	window = nullptr;
+	SDL_DestroyWindow(m_pWindow);
+	m_pWindow = nullptr;
 	SDL_Quit();
 }

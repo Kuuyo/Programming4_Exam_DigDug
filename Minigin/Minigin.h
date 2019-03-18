@@ -4,11 +4,16 @@ struct SDL_Window;
 
 namespace dae
 {
+	class Log;
+
 	class Minigin
 	{
-		const float m_MsPerFrame = 0.01667f; //16 for 60 fps, 33 for 30 fps
+		const unsigned int m_ConstFPS = 60;
+		const float m_MsPerFrame = m_ConstFPS / 1000.f;
 		const unsigned int m_MaxUpdates = 10;
-		SDL_Window* window{};
+		SDL_Window* m_pWindow{};
+		Log* m_pLog{};
+
 	public:
 		void Run();
 
