@@ -6,7 +6,7 @@ namespace dae
 {
 	class Log;
 
-	class Minigin
+	class Minigin final
 	{
 		const unsigned int m_ConstFPS = 60;
 		const float m_MsPerFrame = m_ConstFPS / 1000.f;

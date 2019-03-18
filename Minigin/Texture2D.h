@@ -3,7 +3,7 @@ struct SDL_Texture;
 
 namespace dae
 {
-	class Texture2D
+	class Texture2D final
 	{
 	public:
 		SDL_Texture* GetSDLTexture() const;

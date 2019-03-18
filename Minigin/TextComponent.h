@@ -7,7 +7,7 @@ namespace dae
 	class Texture2D;
 	class Font;
 
-	class TextComponent : public BaseComponent
+	class TextComponent final : public BaseComponent
 	{
 	public:
 		TextComponent(const std::string& text = " ", unsigned int fontSize = 36, SDL_Color color = { 255,255,255 }, const std::string& font = "Lingua.otf");

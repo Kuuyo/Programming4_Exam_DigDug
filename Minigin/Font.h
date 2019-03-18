@@ -3,7 +3,7 @@
 
 namespace dae
 {
-	class Font
+	class Font final
 	{
 	public:
 		TTF_Font* GetFont() const;

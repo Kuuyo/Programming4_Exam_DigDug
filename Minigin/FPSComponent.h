@@ -7,7 +7,7 @@ namespace dae
 {
 	class TextComponent;
 
-	class FPSComponent : public BaseComponent
+	class FPSComponent final : public BaseComponent
 	{
 	public:
 		FPSComponent(unsigned int fontSize = 20, SDL_Color color = { 255,255,100 });

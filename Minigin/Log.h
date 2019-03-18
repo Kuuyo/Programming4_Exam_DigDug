@@ -13,7 +13,7 @@ namespace dae
 		Error
 	};
 
-	class Log : public Singleton<Log>
+	class Log final : public Singleton<Log>
 	{
 	public:
 		Log();

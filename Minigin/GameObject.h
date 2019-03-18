@@ -12,7 +12,7 @@ namespace dae
 	class BaseComponent;
 	class TransformComponent;
 
-	class GameObject
+	class GameObject final
 	{
 	public:
 		GameObject();
