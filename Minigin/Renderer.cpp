@@ -13,11 +13,11 @@ void dae::Renderer::Init(SDL_Window * window)
 	}
 }
 
-void dae::Renderer::Render()
+void dae::Renderer::Render(float extrapolate)
 {
 	SDL_RenderClear(mRenderer);
 
-	SceneManager::GetInstance().Render();
+	SceneManager::GetInstance().Render(extrapolate);
 	
 	SDL_RenderPresent(mRenderer);
 }

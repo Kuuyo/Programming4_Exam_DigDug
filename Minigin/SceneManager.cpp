@@ -20,11 +20,11 @@ void dae::SceneManager::Update()
 	}
 }
 
-void dae::SceneManager::Render()
+void dae::SceneManager::Render(float extrapolate)
 {
 	for (const auto scene : mScenes)
 	{
-		scene->Render();
+		scene->Render(extrapolate);
 	}
 }
 

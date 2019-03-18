@@ -30,8 +30,9 @@ void dae::Scene::Update()
 	}
 }
 
-void dae::Scene::Render() const
+void dae::Scene::Render(float extrapolate) const
 {
+	(extrapolate); // TODO: Remember unreferenced parameter "extrapolate" in Scene::Render after deciding rendering of GameObject
 	for (const auto gameObject : m_Objects)
 	{
 		gameObject->Render();

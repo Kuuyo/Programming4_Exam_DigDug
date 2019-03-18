@@ -12,7 +12,7 @@ namespace dae
 
 		void Initialize();
 		void Update();
-		void Render() const;
+		void Render(float extrapolate) const;
 
 		~Scene();
 		Scene(const Scene& other) = delete;

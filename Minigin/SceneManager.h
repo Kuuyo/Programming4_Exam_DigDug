@@ -11,7 +11,7 @@ namespace dae
 
 		void Initialize();
 		void Update();
-		void Render();
+		void Render(float extrapolate);
 
 	private:
 		std::vector<std::shared_ptr<Scene>> mScenes;

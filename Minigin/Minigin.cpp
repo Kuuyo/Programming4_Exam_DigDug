@@ -84,10 +84,10 @@ void dae::Minigin::LoadGame() const
 	scene.Add(go);
 }
 
+// References: http://gameprogrammingpatterns.com/game-loop.html
+// Another view of the same deal: https://bell0bytes.eu/the-game-loop/
 void dae::Minigin::GameLoop()
 {
-	float lag{ 0.f };
-
 	// TODO: Currently there are quite a lot of singletons.. Create a struct and use dependency injection instead?
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
@@ -97,24 +97,26 @@ void dae::Minigin::GameLoop()
 	sceneManager.Initialize();
 	time.Initialize();
 
+	float accumulatedTime{ 0.f };
 	bool doContinue = true;
 	while (doContinue)
 	{
 		time.Tick();
-		lag += time.GetDeltaTime();
+		time.CalculateFrameStats();
 
 		doContinue = input.ProcessInput();
 
-		// TODO: Only one type of Update currently; Add a Fixed update or just implement Box2D?; Add UpperBound limits?
-		sceneManager.Update();
+		accumulatedTime += time.GetDeltaTime();
 
-		// TODO: GameLoop: Is this even okay? Think about the GameLoop and how to limit the FPS
-		while (lag >= msPerFrame)
+		unsigned int nrLoops{ 0 };
+		while (accumulatedTime >= m_MsPerFrame && nrLoops < m_MaxUpdates)
 		{
-			time.CalculateFrameStats();
-			renderer.Render();
-			lag -= msPerFrame;
+			sceneManager.Update();
+			accumulatedTime -= m_MsPerFrame;
+			++nrLoops;
 		}
+
+		renderer.Render(accumulatedTime / m_MsPerFrame);
 	}
 }
 

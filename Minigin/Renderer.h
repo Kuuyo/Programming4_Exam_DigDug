@@ -13,7 +13,7 @@ namespace dae
 
 	public:
 		void Init(SDL_Window* window);
-		void Render();
+		void Render(float extrapolate);
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
