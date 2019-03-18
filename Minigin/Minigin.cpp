@@ -79,6 +79,7 @@ void dae::Minigin::LoadGame() const
 
 	go = std::make_shared<GameObject>();
 	go->AddComponent(new FPSComponent());
+	go->SetPosition(3, 3);
 	scene.Add(go);
 }
 

@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseComponent.h"
 
+#include <SDL_ttf.h>
+
 namespace dae
 {
 	class TextComponent;
@@ -8,7 +10,7 @@ namespace dae
 	class FPSComponent : public BaseComponent
 	{
 	public:
-		FPSComponent();
+		FPSComponent(unsigned int fontSize = 20, SDL_Color color = { 255,255,100 });
 		virtual ~FPSComponent();
 
 		FPSComponent(const FPSComponent &) = delete;
@@ -22,5 +24,7 @@ namespace dae
 
 	private:
 		TextComponent* m_FpsDisplay;
+		unsigned int m_FontSize;
+		SDL_Color m_Color;
 	};
 }

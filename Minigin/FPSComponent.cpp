@@ -5,9 +5,10 @@
 #include "Time.h"
 #include "GameObject.h"
 
-
-dae::FPSComponent::FPSComponent()
+dae::FPSComponent::FPSComponent(unsigned int fontSize, SDL_Color color)
 	: m_FpsDisplay(nullptr)
+	, m_Color(color)
+	, m_FontSize(fontSize)
 {
 
 }
@@ -19,7 +20,7 @@ dae::FPSComponent::~FPSComponent()
 
 void dae::FPSComponent::Initialize()
 {
-	m_FpsDisplay = new TextComponent();
+	m_FpsDisplay = new TextComponent(" ", m_FontSize, m_Color);
 	m_FpsDisplay->Initialize();
 	m_pParent->AddComponent(m_FpsDisplay);
 }

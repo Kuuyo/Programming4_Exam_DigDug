@@ -2,20 +2,20 @@
 #include "TextComponent.h"
 
 #include <SDL.h>
-#include <SDL_ttf.h>
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
 #include "GameObject.h"
 #include "ResourceManager.h"
 
-dae::TextComponent::TextComponent(const std::string& text, int fontSize, const std::string& font)
+dae::TextComponent::TextComponent(const std::string& text, unsigned int fontSize, SDL_Color color, const std::string& font)
 	: m_bNeedsUpdate(true)
 	, m_Text(text)
 	, m_pFont(nullptr)
 	, m_pTexture(nullptr)
 	, m_FontSize(fontSize)
 	, m_Font(font)
+	, m_Color(color)
 {}
 
 dae::TextComponent::~TextComponent()
@@ -55,7 +55,7 @@ void dae::TextComponent::Render()
 
 void dae::TextComponent::CreateTextTexture()
 {
-	const SDL_Color color = { 255,255,255 }; // only white text is supported now
+	const SDL_Color color = m_Color; // only white text is supported now
 	const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), color);
 	if (surf == nullptr)
 	{

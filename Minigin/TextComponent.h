@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
+#include <SDL_ttf.h>
 
 namespace dae
 {
@@ -9,7 +10,7 @@ namespace dae
 	class TextComponent : public BaseComponent
 	{
 	public:
-		TextComponent(const std::string& text = " ", int fontSize = 36, const std::string& font = "Lingua.otf");
+		TextComponent(const std::string& text = " ", unsigned int fontSize = 36, SDL_Color color = { 255,255,255 }, const std::string& font = "Lingua.otf");
 		virtual ~TextComponent();
 
 		void SetText(const std::string& text);
@@ -27,9 +28,10 @@ namespace dae
 		void CreateTextTexture();
 
 		Texture2D* m_pTexture;
+		SDL_Color m_Color;
 		std::string m_Text;
 		bool m_bNeedsUpdate;
-		int m_FontSize;
+		unsigned int m_FontSize;
 		std::string m_Font;
 		Font* m_pFont;
 	};
