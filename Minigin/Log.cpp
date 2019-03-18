@@ -56,6 +56,9 @@ void dae::Log::LogInfo(const std::string& msg, const std::string& caller)
 {
 #ifdef _DEBUG
 	InternalLog(LogLevel::Info, msg, caller);
+#else
+	(msg);
+	(caller);
 #endif
 }
 
@@ -63,6 +66,9 @@ void dae::Log::LogDebug(const std::string& msg, const std::string& caller)
 {
 #ifdef _DEBUG
 	InternalLog(LogLevel::Debug, msg, caller);
+#else
+	(msg);
+	(caller);
 #endif
 }
 
