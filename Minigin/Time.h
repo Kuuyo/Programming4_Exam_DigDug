@@ -3,7 +3,8 @@
 
 // Based on "3D Game Programming with DirectX11" by Frank D. Luna: Chapter 4 section 3 "Timing and Animation"
 // And Chapter 4 Section 4 Point 4 for CalculateFrameStat();
-// TODO: consider using std::chrono::high_resolution_clock or _Query_perf_counter()
+
+// TODO: consider using std::chrono::high_resolution_clock or _Query_perf_counter(); SetThreadAffinity if still QPC to avoid it misbehaving?
 
 namespace dae
 {

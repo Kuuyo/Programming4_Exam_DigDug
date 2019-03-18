@@ -2,6 +2,8 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+// TODO: Currently the SceneManager updates and renders all scenes at once, remember to change this to only active scenes
+
 void dae::SceneManager::Initialize()
 {
 	for (auto scene : mScenes)

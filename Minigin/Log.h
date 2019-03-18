@@ -1,6 +1,8 @@
 #pragma once
 #include <streambuf>
 
+// TODO: Write an actual logger
+
 namespace dae
 {
 	class DebugStreambuf : public std::streambuf 

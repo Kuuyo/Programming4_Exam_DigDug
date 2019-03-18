@@ -5,6 +5,8 @@
 #include <glm/vec3.hpp>
 #pragma warning (pop)
 
+// TODO: Update TransformComponent to have more than just a SetPosition!
+
 namespace dae
 {
 	class TransformComponent : public BaseComponent

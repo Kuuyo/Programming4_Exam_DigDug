@@ -5,6 +5,8 @@
 #include <glm/vec3.hpp>
 #pragma warning (pop)
 
+// TODO: Add possibility to add GameObject as a child to a GameObject ?
+
 namespace dae
 {
 	class BaseComponent;

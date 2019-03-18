@@ -4,6 +4,8 @@
 #include "BaseComponent.h"
 #include "TransformComponent.h"
 
+// TODO: Right now all components are called to Update() and Render() -> Change this so they only Update() and rendering gets handled separately ?
+
 dae::GameObject::GameObject()
 {
 	m_pTransform = new TransformComponent();
@@ -45,6 +47,7 @@ void dae::GameObject::Render() const
 void dae::GameObject::AddComponent(BaseComponent* component)
 {
 	m_pVecComponents.push_back(component);
+	// TODO: Is GameObject being friend with BaseComponent to set it's parent what I want to do? public SetParent()?
 	component->m_pParent = this;
 }
 

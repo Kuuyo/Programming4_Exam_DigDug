@@ -32,6 +32,7 @@ void dae::Minigin::Initialize()
 	InitializeSDL();
 
 	Renderer::GetInstance().Init(window);
+	// TODO: ResourceManager Init: Don't forget to change the resource path if needed
 	ResourceManager::GetInstance().Init("../Data/");
 }
 
@@ -42,6 +43,8 @@ void dae::Minigin::InitializeSDL()
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
+	// TODO: Creating SDL Window properties: enable setting a custom title and resolution; Custom struct for Game Settings ?; Game Settings class for Options menu?
+	// TODO: Creating SDL Window properties: change resolution at runtime?
 	window = SDL_CreateWindow(
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_UNDEFINED,
@@ -56,9 +59,7 @@ void dae::Minigin::InitializeSDL()
 	}
 }
 
-/**
- * Code constructing the scene world starts here
- */
+// TODO: LoadGame: Create the actual game project and load scenes in there
 void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
@@ -87,6 +88,7 @@ void dae::Minigin::GameLoop()
 {
 	float lag{ 0.f };
 
+	// TODO: Currently there are quite a lot of singletons.. Create a struct and use dependency injection instead?
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
@@ -103,8 +105,10 @@ void dae::Minigin::GameLoop()
 
 		doContinue = input.ProcessInput();
 
+		// TODO: Only one type of Update currently; Add a Fixed update or just implement Box2D?; Add UpperBound limits?
 		sceneManager.Update();
 
+		// TODO: GameLoop: Is this even okay? Think about the GameLoop and how to limit the FPS
 		while (lag >= msPerFrame)
 		{
 			time.CalculateFrameStats();

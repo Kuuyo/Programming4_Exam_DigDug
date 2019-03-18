@@ -2,6 +2,8 @@
 #include <XInput.h>
 #include "Singleton.h"
 
+// TODO: Make it so you can actually add inputs to the InputManager..
+
 namespace dae
 {
 	enum class ControllerButton
