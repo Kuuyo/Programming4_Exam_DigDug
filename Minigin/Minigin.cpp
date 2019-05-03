@@ -96,6 +96,8 @@ void dae::Minigin::GameLoop()
 			++nrLoops;
 		}
 
+		LogInfoC(std::to_string(input.GetLeftStickX()));
+
 		renderer.Render(accumulatedTime / m_MsPerFrame);
 	}
 }

@@ -16,7 +16,7 @@ namespace dae
 	{
 	public:
 		GameObject();
-		virtual ~GameObject();
+		~GameObject();
 
 		void Initialize();
 		void Update();

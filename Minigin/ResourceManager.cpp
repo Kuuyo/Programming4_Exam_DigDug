@@ -10,7 +10,7 @@
 
 void dae::ResourceManager::Init(std::string&& dataPath)
 {
-	mDataPath = std::move(dataPath);
+	m_DataPath = std::move(dataPath);
 
 	// load support for png and jpg, this takes a while!
 
@@ -32,7 +32,7 @@ void dae::ResourceManager::Init(std::string&& dataPath)
 
 dae::Texture2D* dae::ResourceManager::LoadTexture(const std::string& file)
 {
-	std::string fullPath = mDataPath + file;
+	std::string fullPath = m_DataPath + file;
 	SDL_Texture *texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr) 
 	{
@@ -43,5 +43,5 @@ dae::Texture2D* dae::ResourceManager::LoadTexture(const std::string& file)
 
 dae::Font* dae::ResourceManager::LoadFont(const std::string& file, unsigned int size)
 {
-	return new Font(mDataPath + file, size);
+	return new Font(m_DataPath + file, size);
 }

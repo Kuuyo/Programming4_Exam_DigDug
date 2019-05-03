@@ -8,6 +8,8 @@
 #include "TextComponent.h"
 #include "FPSComponent.h"
 
+#include "Characters.h"
+
 void DigDug::LoadGame() const
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
@@ -29,5 +31,8 @@ void DigDug::LoadGame() const
 	go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::FPSComponent());
 	go->SetPosition(3, 3);
+	scene.Add(go);
+
+	Prefabs::CreateDigDugCharacter(go = std::make_shared<dae::GameObject>());
 	scene.Add(go);
 }
