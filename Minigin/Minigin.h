@@ -6,7 +6,7 @@ namespace dae
 {
 	class Log;
 
-	class Minigin final
+	class Minigin
 	{
 		const unsigned int m_ConstFPS = 60;
 		const float m_MsPerFrame = m_ConstFPS / 1000.f;
@@ -20,7 +20,7 @@ namespace dae
 		void Initialize();
 		void InitializeSDL();
 
-		void LoadGame() const;
+		virtual void LoadGame() const;
 		void GameLoop();
 
 		void Cleanup();		

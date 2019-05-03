@@ -1,21 +1,42 @@
 #include "pch.h"
+#include "DigDug.h"
 
-#pragma comment(lib,"xinput.lib")
+#include "SceneManager.h"
+#include "GameObject.h"
+#include "TextureComponent.h"
+#include "Scene.h"
+#include "TextComponent.h"
+#include "FPSComponent.h"
 
-#include <vld.h>
-#include "SDL.h"
-#include "Minigin.h"
-
-
-#pragma warning( push )  
-#pragma warning( disable : 4100 )  
-int main(int argc, char* argv[])
+DigDug::DigDug()
 {
-#pragma warning( pop )
+}
 
-	dae::Minigin* engine = new dae::Minigin();
-	engine->Run();
-	delete engine;
 
-	return 0;
+DigDug::~DigDug()
+{
+}
+
+void DigDug::LoadGame() const
+{
+	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
+
+	auto go = std::make_shared<dae::GameObject>();
+	go->AddComponent(new dae::TextureComponent("background.jpg"));
+	scene.Add(go);
+
+	go = std::make_shared<dae::GameObject>();
+	go->AddComponent(new dae::TextureComponent("logo.png"));
+	go->SetPosition(216, 180);
+	scene.Add(go);
+
+	go = std::make_shared<dae::GameObject>();
+	go->AddComponent(new dae::TextComponent("Programming 4 Assignment"));
+	go->SetPosition(80, 20);
+	scene.Add(go);
+
+	go = std::make_shared<dae::GameObject>();
+	go->AddComponent(new dae::FPSComponent());
+	go->SetPosition(3, 3);
+	scene.Add(go);
 }

@@ -68,26 +68,7 @@ void dae::Minigin::InitializeSDL()
 // TODO: LoadGame: Create the actual game project and load scenes in there
 void dae::Minigin::LoadGame() const
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
-	go->AddComponent(new TextureComponent("background.jpg"));
-	scene.Add(go);
-
-	go = std::make_shared<GameObject>();
-	go->AddComponent(new TextureComponent("logo.png"));
-	go->SetPosition(216, 180);
-	scene.Add(go);
-
-	go = std::make_shared<GameObject>();
-	go->AddComponent(new TextComponent("Programming 4 Assignment"));
-	go->SetPosition(80, 20);
-	scene.Add(go);
-
-	go = std::make_shared<GameObject>();
-	go->AddComponent(new FPSComponent());
-	go->SetPosition(3, 3);
-	scene.Add(go);
 }
 
 // References: http://gameprogrammingpatterns.com/game-loop.html
