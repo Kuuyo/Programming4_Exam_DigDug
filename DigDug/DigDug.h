@@ -4,8 +4,13 @@
 class DigDug final : public dae::Minigin
 {
 public:
-	DigDug();
-	~DigDug();
+	DigDug() = default;
+	virtual ~DigDug() {}
+
+	DigDug(const DigDug&) = delete;
+	DigDug(DigDug&&) = delete;
+	DigDug& operator= (const DigDug&) = delete;
+	DigDug& operator= (const DigDug&&) = delete;
 
 protected:
 	void LoadGame() const override;

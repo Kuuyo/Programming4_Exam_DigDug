@@ -87,9 +87,6 @@
     <ClCompile Include="Log.cpp">
       <Filter>Engine Files\_Core</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Engine Files\_Core</Filter>
-    </ClCompile>
     <ClCompile Include="Minigin.cpp">
       <Filter>Engine Files\_Core</Filter>
     </ClCompile>

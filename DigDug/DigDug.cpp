@@ -8,15 +8,6 @@
 #include "TextComponent.h"
 #include "FPSComponent.h"
 
-DigDug::DigDug()
-{
-}
-
-
-DigDug::~DigDug()
-{
-}
-
 void DigDug::LoadGame() const
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");

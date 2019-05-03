@@ -56,19 +56,12 @@ void dae::Minigin::InitializeSDL()
 		SDL_WINDOW_OPENGL
 	);
 
-	//m_pLog->LogInfo("Window created!");
 	LogInfoC("Window created!");
 
 	if (m_pWindow == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
-}
-
-// TODO: LoadGame: Create the actual game project and load scenes in there
-void dae::Minigin::LoadGame() const
-{
-
 }
 
 // References: http://gameprogrammingpatterns.com/game-loop.html
@@ -83,8 +76,6 @@ void dae::Minigin::GameLoop()
 
 	sceneManager.Initialize();
 	time.Initialize();
-
-	LogWarningC("This is just a test warning!");
 
 	float accumulatedTime{ 0.f };
 	bool doContinue = true;

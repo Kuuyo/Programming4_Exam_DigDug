@@ -20,9 +20,9 @@ namespace dae
 		void Initialize();
 		void InitializeSDL();
 
-		virtual void LoadGame() const;
+		virtual void LoadGame() const = 0;
 		void GameLoop();
 
-		void Cleanup();		
+		void Cleanup();
 	};
 }
