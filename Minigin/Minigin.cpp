@@ -35,7 +35,7 @@ void dae::Minigin::Initialize()
 
 	Renderer::GetInstance().Init(m_pWindow);
 	// TODO: ResourceManager Init: Don't forget to change the resource path if needed
-	ResourceManager::GetInstance().Init("../Data/");
+	ResourceManager::GetInstance().Init("Data/");
 }
 
 void dae::Minigin::InitializeSDL()
