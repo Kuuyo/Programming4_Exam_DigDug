@@ -7,7 +7,7 @@
 
 namespace dae
 {
-	enum class ButtonState
+	enum class KeyState
 	{
 		Default,
 		Triggered,
@@ -18,11 +18,14 @@ namespace dae
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
+		void Initialize();
+
 		bool ProcessInput();
 
+		// XInput
 		const bool IsPressed(const WORD button) const;
 		const bool WasPressed(const WORD button) const;
-		const ButtonState GetButtonState(const WORD button) const;
+		const KeyState GetButtonState(const WORD button) const;
 
 		const float GetLeftTrigger() const;
 		const float GetRightTrigger() const;
@@ -32,7 +35,14 @@ namespace dae
 		const float GetRightStickX() const;
 		const float GetRightStickY() const;
 
+		// Keyboard
+		const bool IsPressed(const SDL_Scancode key) const;
+		const bool WasPressed(const SDL_Scancode key) const;
+		const KeyState GetKeyState(const SDL_Scancode key) const;
+		const bool AreKeyModsPressed(const SDL_Keymod mod) const;
+
 	private:
+		// XInput
 		enum class ThumbStick
 		{
 			Left,
@@ -45,5 +55,11 @@ namespace dae
 		bool m_bControllerIsDisconnected{ false };
 
 		const glm::vec2 HandleStick(ThumbStick thumbstick) const;
+
+		// Keyboard
+		UINT8* m_PreviousKeyboardState;
+		const UINT8* m_CurrentKeyboardState;
+		SDL_Keymod m_PreviousKeyMods;
+		SDL_Keymod m_CurrentKeyMods;
 	};
 }

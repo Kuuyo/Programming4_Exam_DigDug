@@ -6,7 +6,6 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include <SDL.h>
 #include "Time.h"
 
 #include "GameObject.h"
@@ -75,6 +74,7 @@ void dae::Minigin::GameLoop()
 	auto& time = Time::GetInstance();
 
 	sceneManager.Initialize();
+	input.Initialize();
 	time.Initialize();
 
 	float accumulatedTime{ 0.f };
@@ -95,8 +95,6 @@ void dae::Minigin::GameLoop()
 			accumulatedTime -= m_MsPerFrame;
 			++nrLoops;
 		}
-
-		LogInfoC(std::to_string(input.GetLeftStickX()));
 
 		renderer.Render(accumulatedTime / m_MsPerFrame);
 	}

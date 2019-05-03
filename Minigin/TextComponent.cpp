@@ -1,7 +1,6 @@
 #include "MiniginPCH.h"
 #include "TextComponent.h"
 
-#include <SDL.h>
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"

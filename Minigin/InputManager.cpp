@@ -1,16 +1,24 @@
 #include "MiniginPCH.h"
 #include "InputManager.h"
-#include <SDL.h>
 #pragma warning(push)
 #pragma warning (disable:4201)
 #include "glm/gtx/norm.hpp"
 #pragma warning(pop)
 
-// References: https://bell0bytes.eu/xinput-and-gamepads/
+// References:
+// https://bell0bytes.eu/xinput-and-gamepads/
 // https://docs.microsoft.com/en-us/windows/desktop/xinput/getting-started-with-xinput
+// https://wiki.libsdl.org/
+
+void dae::InputManager::Initialize()
+{
+	m_PreviousKeyboardState = new UINT8[SDL_NUM_SCANCODES];
+	m_CurrentKeyboardState = SDL_GetKeyboardState(NULL);
+}
 
 bool dae::InputManager::ProcessInput()
 {
+	// XInput
 	m_PreviousState = m_CurrentState;
 
 	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
@@ -20,27 +28,22 @@ bool dae::InputManager::ProcessInput()
 		m_bControllerIsDisconnected = true;
 	}
 
+	// Keyboard
+	memcpy(m_PreviousKeyboardState, m_CurrentKeyboardState, SDL_NUM_SCANCODES);
+	m_PreviousKeyMods = m_CurrentKeyMods;
+
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
-	{
 		if (e.type == SDL_QUIT)
-		{
 			return false;
-		}
-		if (e.type == SDL_KEYDOWN)
-		{
-			
-		}
-		if (e.type == SDL_MOUSEBUTTONDOWN)
-		{
-			
-		}
-	}
+
+	m_CurrentKeyMods = SDL_GetModState();
 
 	return true;
 }
 
-// XInput
+#pragma region XInput
+
 const bool dae::InputManager::IsPressed(const WORD button) const
 {
 	return (m_CurrentState.Gamepad.wButtons & button) != 0;
@@ -51,18 +54,18 @@ const bool dae::InputManager::WasPressed(const WORD button) const
 	return (m_PreviousState.Gamepad.wButtons & button) != 0;
 }
 
-const dae::ButtonState dae::InputManager::GetButtonState(const WORD button) const
+const dae::KeyState dae::InputManager::GetButtonState(const WORD button) const
 {
 	if (WasPressed(button))
 		if (IsPressed(button))
-			return ButtonState::Held;
+			return KeyState::Held;
 		else
-			return ButtonState::Released;
+			return KeyState::Released;
 	else
 		if (IsPressed(button))
-			return ButtonState::Triggered;
+			return KeyState::Triggered;
 		else
-			return ButtonState::Default;
+			return KeyState::Default;
 }
 
 const float dae::InputManager::GetLeftTrigger() const
@@ -130,3 +133,37 @@ const glm::vec2 dae::InputManager::HandleStick(ThumbStick thumbstick) const
 	return stick;
 }
 
+#pragma endregion
+
+#pragma region Keyboard
+
+const bool dae::InputManager::IsPressed(const SDL_Scancode key) const
+{
+	return (m_CurrentKeyboardState[key] != 0);
+}
+
+const bool dae::InputManager::WasPressed(const SDL_Scancode key) const
+{
+	return (m_PreviousKeyboardState[key] != 0);
+}
+
+const dae::KeyState dae::InputManager::GetKeyState(const SDL_Scancode key) const
+{
+	if (WasPressed(key))
+		if (IsPressed(key))
+			return KeyState::Held;
+		else
+			return KeyState::Released;
+	else
+		if (IsPressed(key))
+			return KeyState::Triggered;
+		else
+			return KeyState::Default;
+}
+
+const bool dae::InputManager::AreKeyModsPressed(const SDL_Keymod mod) const
+{
+	return (m_CurrentKeyMods & mod) != 0;
+}
+
+#pragma endregion
