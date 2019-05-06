@@ -1,33 +1,34 @@
 #include "MiniginPCH.h"
+
 #include "SceneManager.h"
 #include "Scene.h"
+#include "Renderer.h"
+#include "GameContext.h"
 
-// TODO: Currently the SceneManager updates and renders all scenes at once, remember to change this to only active scenes
-
-void dae::SceneManager::Initialize()
-{
-	for (auto scene : m_pScenesMap)
-	{
-		scene.second->Initialize();
-	}
-}
-
-void dae::SceneManager::Cleanup()
+dae::SceneManager::~SceneManager()
 {
 	for (auto scene : m_pScenesMap)
 	{
 		delete scene.second;
+	} 
+}
+
+void dae::SceneManager::Initialize(const GameContext &gameContext)
+{
+	for (auto scene : m_pScenesMap)
+	{
+		scene.second->Initialize(gameContext);
 	}
 }
 
-void dae::SceneManager::Update()
+void dae::SceneManager::Update(const GameContext &gameContext)
 {
-	m_pActiveScene->Update();
+	m_pActiveScene->Update(gameContext);
 }
 
-void dae::SceneManager::Render(float extrapolate)
+void dae::SceneManager::Render(const GameContext &gameContext, float extrapolate)
 {
-	m_pActiveScene->Render(extrapolate);
+	m_pActiveScene->Render(gameContext.Renderer, extrapolate);
 }
 
 void dae::SceneManager::AddScene(Scene* pScene)

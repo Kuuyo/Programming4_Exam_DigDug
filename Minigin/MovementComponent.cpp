@@ -11,14 +11,10 @@ dae::MovementComponent::~MovementComponent()
 {
 }
 
-void dae::MovementComponent::Initialize()
+void dae::MovementComponent::Initialize(const GameContext &)
 {
 }
 
-void dae::MovementComponent::Update()
-{
-}
-
-void dae::MovementComponent::Render()
+void dae::MovementComponent::Update(const GameContext &)
 {
 }

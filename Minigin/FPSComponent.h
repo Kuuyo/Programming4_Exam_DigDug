@@ -6,6 +6,8 @@
 namespace dae
 {
 	class TextComponent;
+	class Texture2D;
+	class Font;
 
 	class FPSComponent final : public BaseComponent
 	{
@@ -18,12 +20,13 @@ namespace dae
 		FPSComponent & operator= (const FPSComponent &) = delete;
 		FPSComponent & operator= (const FPSComponent &&) = delete;
 
-		void Initialize() override;
-		void Update() override;
-		void Render() override;
+		void Initialize(const GameContext &gameContext) override;
+		void Update(const GameContext &gameContext) override;
 
 	private:
-		TextComponent* m_FpsDisplay;
+		Texture2D* m_pTexture;
+		Font* m_pFont;
+		std::string m_Text;
 		unsigned int m_FontSize;
 		SDL_Color m_Color;
 	};

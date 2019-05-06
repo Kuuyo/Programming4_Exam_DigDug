@@ -18,29 +18,19 @@ dae::GameObject::~GameObject()
 	}
 }
 
-void dae::GameObject::Initialize()
+void dae::GameObject::Initialize(const GameContext &gameContext)
 {
 	for (auto pComponent : m_pVecComponents)
 	{
-		pComponent->Initialize();
+		pComponent->Initialize(gameContext);
 	}
 }
 
-void dae::GameObject::Update()
+void dae::GameObject::Update(const GameContext &gameContext)
 {
 	for (auto pComponent : m_pVecComponents)
 	{
-		pComponent->Update();
-	}
-}
-
-// TODO: Right now all components are called to Update() and Render() -> Change this so they only Update() and rendering gets handled separately ?
-// TODO: Extrapolate is not added to GameObject yet, see above line
-void dae::GameObject::Render() const
-{
-	for (auto pComponent : m_pVecComponents)
-	{
-		pComponent->Render();
+		pComponent->Update(gameContext);
 	}
 }
 
@@ -59,4 +49,14 @@ void dae::GameObject::SetPosition(float x, float y, float z)
 const glm::vec3& dae::GameObject::GetPosition() const
 {
 	return m_pTransform->GetPosition();
+}
+
+dae::Scene* dae::GameObject::GetScene() const
+{
+	return m_pScene;
+}
+
+void dae::GameObject::SetScene(Scene* pScene)
+{
+	m_pScene = pScene;
 }

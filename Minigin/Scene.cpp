@@ -2,45 +2,49 @@
 #include "Scene.h"
 
 #include "GameObject.h"
-
-unsigned int dae::Scene::idCounter = 0;
+#include "Renderer.h"
+#include "Texture2D.h"
 
 dae::Scene::Scene(const std::string& name) : m_Name(name) {}
 
-dae::Scene::~Scene() = default;
-
-void dae::Scene::Add(const std::shared_ptr<GameObject>& object)
+dae::Scene::~Scene()
 {
+}
+
+void dae::Scene::Initialize(const GameContext &gameContext)
+{
+	for (auto gameObject : m_Objects)
+	{
+		gameObject->Initialize(gameContext);
+	}
+}
+
+void dae::Scene::Update(const GameContext &gameContext)
+{
+	for(auto gameObject : m_Objects)
+	{
+		gameObject->Update(gameContext);
+	}
+}
+
+void dae::Scene::Render(Renderer* pRenderer, float) const
+{
+	// TODO: Remember unreferenced parameter "extrapolate" in Scene::Render
+	pRenderer->Render(m_pTextureVec);
+}
+
+void dae::Scene::AddGameObject(const std::shared_ptr<GameObject>& object)
+{
+	object->SetScene(this);
 	m_Objects.push_back(object);
+}
+
+void dae::Scene::AddTexture(Texture2D* &pTexture)
+{
+	m_pTextureVec.push_back(pTexture);
 }
 
 const std::string dae::Scene::GetName()
 {
 	return m_Name;
 }
-
-void dae::Scene::Initialize()
-{
-	for (auto gameObject : m_Objects)
-	{
-		gameObject->Initialize();
-	}
-}
-
-void dae::Scene::Update()
-{
-	for(auto gameObject : m_Objects)
-	{
-		gameObject->Update();
-	}
-}
-
-void dae::Scene::Render(float extrapolate) const
-{
-	(extrapolate); // TODO: Remember unreferenced parameter "extrapolate" in Scene::Render after deciding rendering of GameObject
-	for (const auto gameObject : m_Objects)
-	{
-		gameObject->Render();
-	}
-}
-

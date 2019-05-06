@@ -4,37 +4,38 @@
 #include "TextComponent.h"
 #include "Time.h"
 #include "GameObject.h"
+#include "ResourceManager.h"
+#include "Font.h"
+#include "Texture2D.h"
 
 dae::FPSComponent::FPSComponent(unsigned int fontSize, SDL_Color color)
-	: m_FpsDisplay(nullptr)
-	, m_Color(color)
+	: m_Color(color)
 	, m_FontSize(fontSize)
+	, m_pTexture(nullptr)
+	, m_pFont(nullptr)
+	, m_Text(" ")
 {
 
 }
-
 
 dae::FPSComponent::~FPSComponent()
 {
+	delete m_pFont;
+	delete m_pTexture;
 }
 
-void dae::FPSComponent::Initialize()
+void dae::FPSComponent::Initialize(const GameContext &gameContext)
 {
-	// TODO: TextComponent being added through FPSComponent: Decide to leave it this like this or find another solution
-	// Inherit from TextComponent? (If this is even allowed..)
-	// Let Components have components as children?
-	m_FpsDisplay = new TextComponent(" ", m_FontSize, m_Color);
-	m_FpsDisplay->Initialize();
-	m_pParent->AddComponent(m_FpsDisplay);
+	m_pFont = gameContext.Resources->LoadFont("Lingua.otf", m_FontSize);
+	gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition());
+	m_pParent->GetScene()->AddTexture(m_pTexture);
 }
 
-void dae::FPSComponent::Update()
+void dae::FPSComponent::Update(const GameContext &gameContext)
 {
 	std::string text = std::to_string(Time::GetInstance().GetFPS());
 	text.append(" FPS");
-	m_FpsDisplay->SetText(text);
-}
+	m_Text = text;
 
-void dae::FPSComponent::Render()
-{
+	gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition());
 }

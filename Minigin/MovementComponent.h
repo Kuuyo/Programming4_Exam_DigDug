@@ -14,12 +14,10 @@ namespace dae
 		MovementComponent & operator= (const MovementComponent &) = delete;
 		MovementComponent & operator= (const MovementComponent &&) = delete;
 
-		void Initialize() override;
-		void Update() override;
-		void Render() override;
+		void Initialize(const GameContext &gameContext) override;
+		void Update(const GameContext &gameContext) override;
 
 	private:
 		UINT m_PlayerIndex;
-
 	};
 }

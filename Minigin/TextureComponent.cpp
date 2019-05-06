@@ -18,17 +18,12 @@ dae::TextureComponent::~TextureComponent()
 	delete m_pTexture;
 }
 
-void dae::TextureComponent::Initialize()
+void dae::TextureComponent::Initialize(const GameContext &gameContext)
 {
-	m_pTexture = ResourceManager::GetInstance().LoadTexture(m_FileName);
+	m_pTexture = gameContext.Resources->CreateTexture(m_FileName, m_pParent->GetPosition());
+	m_pParent->GetScene()->AddTexture(m_pTexture);
 }
 
-void dae::TextureComponent::Update()
+void dae::TextureComponent::Update(const GameContext &)
 {
-}
-
-void dae::TextureComponent::Render()
-{
-	auto pos = m_pParent->GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);
 }

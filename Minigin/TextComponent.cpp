@@ -8,7 +8,7 @@
 #include "ResourceManager.h"
 
 dae::TextComponent::TextComponent(const std::string& text, unsigned int fontSize, SDL_Color color, const std::string& font)
-	: m_bNeedsUpdate(true)
+	: m_bNeedsUpdate(false)
 	, m_Text(text)
 	, m_pFont(nullptr)
 	, m_pTexture(nullptr)
@@ -29,47 +29,18 @@ void dae::TextComponent::SetText(const std::string& text)
 	m_bNeedsUpdate = true;
 }
 
-void dae::TextComponent::Initialize()
+void dae::TextComponent::Initialize(const GameContext &gameContext)
 {
-	m_pFont = ResourceManager::GetInstance().LoadFont(m_Font, m_FontSize);
-	CreateTextTexture();
+	m_pFont = gameContext.Resources->LoadFont(m_Font, m_FontSize);
+	gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition());
+	m_pParent->GetScene()->AddTexture(m_pTexture);
 }
 
-void dae::TextComponent::Update()
+void dae::TextComponent::Update(const GameContext &gameContext)
 {
 	if (m_bNeedsUpdate)
 	{
-		CreateTextTexture();
+		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition());
+		m_bNeedsUpdate = false;
 	}
-}
-
-void dae::TextComponent::Render()
-{
-	if (m_pTexture != nullptr)
-	{
-		const auto pos = m_pParent->GetPosition();
-		Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);
-	}
-}
-
-void dae::TextComponent::CreateTextTexture()
-{
-	const SDL_Color color = m_Color; // only white text is supported now
-	const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), color);
-	if (surf == nullptr)
-	{
-		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-	}
-	auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
-	if (texture == nullptr)
-	{
-		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
-	}
-	SDL_FreeSurface(surf);
-
-	if(m_pTexture != nullptr)
-		delete m_pTexture;
-
-	m_pTexture = new Texture2D(texture);
-	m_bNeedsUpdate = false;
 }

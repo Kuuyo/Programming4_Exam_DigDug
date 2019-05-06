@@ -1,4 +1,5 @@
 #pragma once
+#include "Scene.h"
 
 #pragma warning (push)
 #pragma warning (disable:4201)
@@ -11,6 +12,7 @@ namespace dae
 {
 	class BaseComponent;
 	class TransformComponent;
+	struct GameContext;
 
 	class GameObject final
 	{
@@ -18,14 +20,14 @@ namespace dae
 		GameObject();
 		~GameObject();
 
-		void Initialize();
-		void Update();
-		void Render() const;
+		void Initialize(const GameContext &gameContext);
+		void Update(const GameContext &gameContext);
 
 		void AddComponent(BaseComponent* component);
 
 		void SetPosition(float x = 0, float y = 0, float z = 0);
 		const glm::vec3& GetPosition() const;
+		Scene* GetScene() const;
 
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -33,7 +35,12 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
+		friend void Scene::AddGameObject(const std::shared_ptr<GameObject>& object);
+
+		void SetScene(Scene* pScene);
+
 		std::vector<BaseComponent*> m_pVecComponents;
 		TransformComponent* m_pTransform;
+		Scene* m_pScene;
 	};
 }

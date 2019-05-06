@@ -16,9 +16,8 @@ namespace dae
 		TextureComponent & operator= (const TextureComponent &) = delete;
 		TextureComponent & operator= (const TextureComponent &&) = delete;
 
-		void Initialize() override;
-		void Update() override;
-		void Render() override;
+		void Initialize(const GameContext &gameContext) override;
+		void Update(const GameContext &gameContext) override;
 
 	private:
 		Texture2D* m_pTexture;

@@ -14,9 +14,8 @@ namespace dae
 		const glm::vec3& GetPosition() const { return m_Position; }
 		void SetPosition(float x, float y, float z);
 
-		void Initialize() override;
-		void Update() override;
-		void Render() override;
+		void Initialize(const GameContext &gameContext) override;
+		void Update(const GameContext &gameContext) override;
 
 		TransformComponent(const TransformComponent &) = delete;
 		TransformComponent(TransformComponent &&) = delete;

@@ -20,13 +20,10 @@ namespace dae
 		TextComponent & operator= (const TextComponent &) = delete;
 		TextComponent & operator= (const TextComponent &&) = delete;
 
-		void Initialize() override;
-		void Update() override;
-		void Render() override;
+		void Initialize(const GameContext &gameContext) override;
+		void Update(const GameContext &gameContext) override;
 
 	private:
-		void CreateTextTexture();
-
 		Texture2D* m_pTexture;
 		SDL_Color m_Color;
 		std::string m_Text;

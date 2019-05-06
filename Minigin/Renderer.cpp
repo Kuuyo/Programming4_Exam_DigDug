@@ -3,7 +3,7 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 
-void dae::Renderer::Init(SDL_Window * window)
+dae::Renderer::Renderer(SDL_Window* window)
 {
 	m_pRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (m_pRenderer == nullptr)
@@ -12,22 +12,29 @@ void dae::Renderer::Init(SDL_Window * window)
 	}
 }
 
-void dae::Renderer::Render(float extrapolate)
-{
-	SDL_RenderClear(m_pRenderer);
-
-	SceneManager::GetInstance().Render(extrapolate);
-	
-	SDL_RenderPresent(m_pRenderer);
-}
-
-void dae::Renderer::Destroy()
+dae::Renderer::~Renderer()
 {
 	if (m_pRenderer != nullptr)
 	{
 		SDL_DestroyRenderer(m_pRenderer);
 		m_pRenderer = nullptr;
 	}
+}
+
+void dae::Renderer::Render(const std::vector<Texture2D*> &pTextures) const
+{
+	SDL_RenderClear(m_pRenderer);
+
+	for (const auto pTexture : pTextures)
+		RenderTexture(*pTexture);
+	
+	SDL_RenderPresent(m_pRenderer);
+}
+
+void dae::Renderer::RenderTexture(const Texture2D& texture) const
+{
+	const glm::vec2 pos = texture.GetPosition();
+	RenderTexture(texture, pos.x, pos.y);
 }
 
 void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const

@@ -1,4 +1,5 @@
 #pragma once
+#include "GameContext.h"
 
 struct SDL_Window;
 
@@ -12,7 +13,7 @@ namespace dae
 		void Run();
 
 	protected:
-		virtual void LoadGame() const = 0;
+		virtual void LoadGame(GameContext gameContext) const = 0;
 
 	private:
 		void Initialize();
@@ -27,5 +28,7 @@ namespace dae
 		const unsigned int m_MaxUpdates = 10;
 		SDL_Window* m_pWindow{};
 		Log* m_pLog{};
+
+		GameContext m_GameContext;
 	};
 }

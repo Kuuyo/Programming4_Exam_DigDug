@@ -3,6 +3,7 @@
 namespace dae
 {
 	class GameObject;
+	struct GameContext;
 
 	class BaseComponent
 	{
@@ -16,9 +17,8 @@ namespace dae
 		BaseComponent & operator= (const BaseComponent &&) = delete;
 
 	protected:
-		virtual void Initialize() = 0;
-		virtual void Update() = 0;
-		virtual void Render() = 0;
+		virtual void Initialize(const GameContext &gameContext) = 0;
+		virtual void Update(const GameContext &gameContext) = 0;
 
 		GameObject* m_pParent;
 

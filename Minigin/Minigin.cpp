@@ -19,7 +19,7 @@ void dae::Minigin::Run()
 {
 	Initialize();
 
-	LoadGame();
+	LoadGame(m_GameContext);
 
 	GameLoop();
 
@@ -32,9 +32,18 @@ void dae::Minigin::Initialize()
 
 	InitializeSDL();
 
-	Renderer::GetInstance().Init(m_pWindow);
+	m_GameContext = GameContext();
+
+	m_GameContext.Scenes = new SceneManager();
+
+	m_GameContext.Renderer = new Renderer(m_pWindow);
+
+	m_GameContext.Resources = new ResourceManager();
 	// TODO: ResourceManager Init: Don't forget to change the resource path if needed
-	ResourceManager::GetInstance().Init("Data/");
+	m_GameContext.Resources->Init("Data/", m_GameContext.Renderer);
+
+	InputManager::GetInstance().Initialize();
+	Time::GetInstance().Initialize();
 }
 
 void dae::Minigin::InitializeSDL()
@@ -67,15 +76,11 @@ void dae::Minigin::InitializeSDL()
 // Another view of the same deal: https://bell0bytes.eu/the-game-loop/
 void dae::Minigin::GameLoop()
 {
+	m_GameContext.Scenes->Initialize(m_GameContext);
 	// TODO: Currently there are quite a lot of singletons.. Create a struct and use dependency injection instead?
-	auto& renderer = Renderer::GetInstance();
-	auto& sceneManager = SceneManager::GetInstance();
+	auto* sceneManager = m_GameContext.Scenes;
 	auto& input = InputManager::GetInstance();
 	auto& time = Time::GetInstance();
-
-	sceneManager.Initialize();
-	input.Initialize();
-	time.Initialize();
 
 	float accumulatedTime{ 0.f };
 	bool doContinue = true;
@@ -91,21 +96,24 @@ void dae::Minigin::GameLoop()
 		unsigned int nrLoops{ 0 };
 		while (accumulatedTime >= m_MsPerFrame && nrLoops < m_MaxUpdates)
 		{
-			sceneManager.Update();
+			sceneManager->Update(m_GameContext);
 			accumulatedTime -= m_MsPerFrame;
 			++nrLoops;
 		}
 
-		renderer.Render(accumulatedTime / m_MsPerFrame);
+		sceneManager->Render(m_GameContext, accumulatedTime / m_MsPerFrame);
 	}
 }
 
 void dae::Minigin::Cleanup()
 {
-	SceneManager::GetInstance().Cleanup();
 	InputManager::GetInstance().CleanUp();
+
+	delete m_GameContext.Scenes;
+	delete m_GameContext.Renderer;
+	delete m_GameContext.Resources;
+
 	delete m_pLog;
-	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_pWindow);
 	m_pWindow = nullptr;
 	SDL_Quit();

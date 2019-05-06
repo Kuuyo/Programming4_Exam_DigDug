@@ -1,5 +1,4 @@
 #pragma once
-#include "Singleton.h"
 #include <map>
 
 namespace dae
@@ -7,14 +6,15 @@ namespace dae
 	class Scene;
 
 	// Based on OverlordEngine SceneManager
-	class SceneManager final : public Singleton<SceneManager>
+	class SceneManager final
 	{
 	public:
-		void Initialize();
-		void Cleanup();
+		~SceneManager();
 
-		void Update();
-		void Render(float extrapolate);		
+		void Initialize(const GameContext &gameContext);
+
+		void Update(const GameContext &gameContext);
+		void Render(const GameContext &gameContext, float extrapolate);		
 
 		void AddScene(Scene* pScene);
 		void RemoveScene(Scene* pScene);
@@ -25,7 +25,7 @@ namespace dae
 		
 	private:
 		std::map<std::string, Scene*> m_pScenesMap;
-		Scene* m_pActiveScene;
+		Scene* m_pActiveScene{ nullptr };
 	};
 
 }

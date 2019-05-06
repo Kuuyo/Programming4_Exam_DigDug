@@ -7,9 +7,10 @@
 #include "Texture2D.h"
 #include "Font.h"
 
-void dae::ResourceManager::Init(std::string&& dataPath)
+void dae::ResourceManager::Init(std::string&& dataPath, Renderer* pRenderer)
 {
 	m_DataPath = std::move(dataPath);
+	m_pRenderer = pRenderer;
 
 	// load support for png and jpg, this takes a while!
 
@@ -29,17 +30,44 @@ void dae::ResourceManager::Init(std::string&& dataPath)
 	}
 }
 
-dae::Texture2D* dae::ResourceManager::LoadTexture(const std::string& file)
+dae::Texture2D* dae::ResourceManager::CreateTexture(const std::string& file, const glm::vec2 &pos)
 {
 	std::string fullPath = m_DataPath + file;
-	SDL_Texture *texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
+	SDL_Texture *texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr) 
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
-	return new Texture2D(texture);
+	return new Texture2D(texture, pos);
 }
 
+void dae::ResourceManager::CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text, Texture2D* &pTexture, const glm::vec2 &pos)
+{
+	const auto surf = TTF_RenderText_Blended(pFont->GetFont(), text.c_str(), color);
+	if (surf == nullptr)
+	{
+		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
+	}
+
+	auto texture = SDL_CreateTextureFromSurface(m_pRenderer->GetSDLRenderer(), surf);
+	if (texture == nullptr)
+	{
+		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+	}
+
+	SDL_FreeSurface(surf);
+
+	if (pTexture != nullptr)
+	{
+		SDL_DestroyTexture(pTexture->m_pTexture);
+		pTexture->m_pTexture = texture;
+		return;
+	}
+
+	pTexture = new Texture2D(texture, pos);
+}
+
+// TODO: Create a font library
 dae::Font* dae::ResourceManager::LoadFont(const std::string& file, unsigned int size)
 {
 	return new Font(m_DataPath + file, size);

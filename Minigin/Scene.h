@@ -1,22 +1,25 @@
 #pragma once
-#include "SceneManager.h"
 
 namespace dae
 {
 	class GameObject;
+	class Texture2D;
+	class Renderer;
+	struct GameContext;
 
 	class Scene final
 	{
 	public:
 		explicit Scene(const std::string& name);
 
-		void Add(const std::shared_ptr<GameObject>& object);
+		void Initialize(const GameContext &gameContext);
+		void Update(const GameContext &gameContext);
+		void Render(Renderer* pRenderer, float extrapolate) const;
+
+		void AddGameObject(const std::shared_ptr<GameObject>& object);
+		void AddTexture(Texture2D* &pTexture);
 
 		const std::string GetName();
-
-		void Initialize();
-		void Update();
-		void Render(float extrapolate) const;
 
 		~Scene();
 		Scene(const Scene& other) = delete;
@@ -24,11 +27,10 @@ namespace dae
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
-	private: 
+	private:
 		std::string m_Name{};
 		std::vector<std::shared_ptr<GameObject>> m_Objects{};
-
-		static unsigned int idCounter; 
+		std::vector<Texture2D*> m_pTextureVec{};
 	};
 
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "Minigin.h"
+#include "GameContext.h"
 
 class DigDug final : public dae::Minigin
 {
@@ -13,6 +14,6 @@ public:
 	DigDug& operator= (const DigDug&&) = delete;
 
 protected:
-	void LoadGame() const override;
+	void LoadGame(dae::GameContext gameContext) const override;
 };
 

@@ -16,14 +16,10 @@ void dae::TransformComponent::SetPosition(float x, float y, float z)
 	m_Position = glm::vec3{ x,y,z };
 }
 
-void dae::TransformComponent::Initialize()
+void dae::TransformComponent::Initialize(const GameContext &)
 {
 }
 
-void dae::TransformComponent::Update()
-{
-}
-
-void dae::TransformComponent::Render()
+void dae::TransformComponent::Update(const GameContext &)
 {
 }
