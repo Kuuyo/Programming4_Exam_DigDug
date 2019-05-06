@@ -17,7 +17,7 @@ namespace dae
 	private:
 		void Initialize();
 		void InitializeSDL();
-
+		
 		void GameLoop();
 
 		void Cleanup();

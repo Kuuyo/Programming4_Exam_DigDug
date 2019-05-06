@@ -14,6 +14,11 @@ void dae::Scene::Add(const std::shared_ptr<GameObject>& object)
 	m_Objects.push_back(object);
 }
 
+const std::string dae::Scene::GetName()
+{
+	return m_Name;
+}
+
 void dae::Scene::Initialize()
 {
 	for (auto gameObject : m_Objects)

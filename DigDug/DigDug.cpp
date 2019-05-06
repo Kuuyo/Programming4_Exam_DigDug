@@ -12,27 +12,33 @@
 
 void DigDug::LoadGame() const
 {
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
+	dae::Scene* pTestScene = new dae::Scene("TestScene");
+	dae::SceneManager::GetInstance().AddScene(pTestScene);
 
 	auto go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::TextureComponent("background.jpg"));
-	scene.Add(go);
+	pTestScene->Add(go);
 
 	go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::TextureComponent("logo.png"));
 	go->SetPosition(216, 180);
-	scene.Add(go);
+	pTestScene->Add(go);
 
 	go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::TextComponent("Programming 4 Assignment"));
 	go->SetPosition(80, 20);
-	scene.Add(go);
+	pTestScene->Add(go);
 
 	go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::FPSComponent());
 	go->SetPosition(3, 3);
-	scene.Add(go);
+	pTestScene->Add(go);
+
+	////////////////////////////////////////////////////////////////////////////
+
+	dae::Scene* pDigDugScene = new dae::Scene("DigDug");
+	dae::SceneManager::GetInstance().AddScene(pDigDugScene);
 
 	Prefabs::CreateDigDugCharacter(go = std::make_shared<dae::GameObject>());
-	scene.Add(go);
+	pDigDugScene->Add(go);
 }

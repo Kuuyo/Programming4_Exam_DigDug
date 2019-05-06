@@ -5,8 +5,8 @@
 
 void dae::Renderer::Init(SDL_Window * window)
 {
-	mRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (mRenderer == nullptr) 
+	m_pRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (m_pRenderer == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
@@ -14,19 +14,19 @@ void dae::Renderer::Init(SDL_Window * window)
 
 void dae::Renderer::Render(float extrapolate)
 {
-	SDL_RenderClear(mRenderer);
+	SDL_RenderClear(m_pRenderer);
 
 	SceneManager::GetInstance().Render(extrapolate);
 	
-	SDL_RenderPresent(mRenderer);
+	SDL_RenderPresent(m_pRenderer);
 }
 
 void dae::Renderer::Destroy()
 {
-	if (mRenderer != nullptr)
+	if (m_pRenderer != nullptr)
 	{
-		SDL_DestroyRenderer(mRenderer);
-		mRenderer = nullptr;
+		SDL_DestroyRenderer(m_pRenderer);
+		m_pRenderer = nullptr;
 	}
 }
 

@@ -102,6 +102,8 @@ void dae::Minigin::GameLoop()
 
 void dae::Minigin::Cleanup()
 {
+	SceneManager::GetInstance().Cleanup();
+	InputManager::GetInstance().CleanUp();
 	delete m_pLog;
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_pWindow);

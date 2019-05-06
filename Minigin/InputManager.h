@@ -19,6 +19,7 @@ namespace dae
 	{
 	public:
 		void Initialize();
+		void CleanUp();
 
 		bool ProcessInput();
 
@@ -57,8 +58,8 @@ namespace dae
 		const glm::vec2 HandleStick(ThumbStick thumbstick) const;
 
 		// Keyboard
-		UINT8* m_PreviousKeyboardState;
-		const UINT8* m_CurrentKeyboardState;
+		UINT8* m_pPreviousKeyboardState;
+		const UINT8* m_pCurrentKeyboardState;
 		SDL_Keymod m_PreviousKeyMods;
 		SDL_Keymod m_CurrentKeyMods;
 	};

@@ -14,8 +14,13 @@
 
 void dae::InputManager::Initialize()
 {
-	m_PreviousKeyboardState = new UINT8[SDL_NUM_SCANCODES];
-	m_CurrentKeyboardState = SDL_GetKeyboardState(NULL);
+	m_pPreviousKeyboardState = new UINT8[SDL_NUM_SCANCODES];
+	m_pCurrentKeyboardState = SDL_GetKeyboardState(NULL);
+}
+
+void dae::InputManager::CleanUp()
+{
+	delete[] m_pPreviousKeyboardState;
 }
 
 bool dae::InputManager::ProcessInput()
@@ -31,7 +36,7 @@ bool dae::InputManager::ProcessInput()
 	}
 
 	// Keyboard
-	memcpy(m_PreviousKeyboardState, m_CurrentKeyboardState, SDL_NUM_SCANCODES);
+	memcpy(m_pPreviousKeyboardState, m_pCurrentKeyboardState, SDL_NUM_SCANCODES);
 	m_PreviousKeyMods = m_CurrentKeyMods;
 
 	SDL_Event e;
@@ -141,12 +146,12 @@ const glm::vec2 dae::InputManager::HandleStick(ThumbStick thumbstick) const
 
 const bool dae::InputManager::IsPressed(const SDL_Scancode key) const
 {
-	return (m_CurrentKeyboardState[key] != 0);
+	return (m_pCurrentKeyboardState[key] != 0);
 }
 
 const bool dae::InputManager::WasPressed(const SDL_Scancode key) const
 {
-	return (m_PreviousKeyboardState[key] != 0);
+	return (m_pPreviousKeyboardState[key] != 0);
 }
 
 const dae::KeyState dae::InputManager::GetKeyState(const SDL_Scancode key) const

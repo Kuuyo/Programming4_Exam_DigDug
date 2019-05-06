@@ -6,31 +6,53 @@
 
 void dae::SceneManager::Initialize()
 {
-	for (auto scene : mScenes)
+	for (auto scene : m_pScenesMap)
 	{
-		scene->Initialize();
+		scene.second->Initialize();
+	}
+}
+
+void dae::SceneManager::Cleanup()
+{
+	for (auto scene : m_pScenesMap)
+	{
+		delete scene.second;
 	}
 }
 
 void dae::SceneManager::Update()
 {
-	for(auto scene : mScenes)
-	{
-		scene->Update();
-	}
+	m_pActiveScene->Update();
 }
 
 void dae::SceneManager::Render(float extrapolate)
 {
-	for (const auto scene : mScenes)
-	{
-		scene->Render(extrapolate);
-	}
+	m_pActiveScene->Render(extrapolate);
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
+void dae::SceneManager::AddScene(Scene* pScene)
 {
-	const auto scene = std::shared_ptr<Scene>(new Scene(name));
-	mScenes.push_back(scene);
-	return *scene;
+	m_pScenesMap.insert({ pScene->GetName(),pScene });
+	if (m_pActiveScene == nullptr)
+		m_pActiveScene = pScene;
+}
+
+void dae::SceneManager::RemoveScene(Scene* pScene)
+{
+	m_pScenesMap.erase(pScene->GetName());
+}
+
+void dae::SceneManager::RemoveScene(const std::string& sceneName)
+{
+	m_pScenesMap.erase(sceneName);
+}
+
+void dae::SceneManager::SetActiveScene(const std::string& sceneName)
+{
+	m_pActiveScene = m_pScenesMap.at(sceneName);
+}
+
+dae::Scene* dae::SceneManager::GetActiveScene() const
+{
+	return m_pActiveScene;
 }
