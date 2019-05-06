@@ -10,6 +10,8 @@
 // https://docs.microsoft.com/en-us/windows/desktop/xinput/getting-started-with-xinput
 // https://wiki.libsdl.org/
 
+// TODO: Make InputManager a subject (instead of holding arrays of states ?)
+
 void dae::InputManager::Initialize()
 {
 	m_PreviousKeyboardState = new UINT8[SDL_NUM_SCANCODES];
