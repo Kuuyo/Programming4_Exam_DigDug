@@ -16,8 +16,10 @@ namespace dae
 	class Log final : public Singleton<Log>
 	{
 	public:
-		Log();
-		~Log();
+		Log() = default;
+
+		void Initialize();
+		void CleanUp();
 
 		void LogFormat(LogLevel level, const std::string& caller, const char* msg, ...);
 		void LogInfo(const std::string& msg, const std::string& caller);
@@ -34,8 +36,8 @@ namespace dae
 		void InternalLog(LogLevel level, const std::string& msg, const std::string& caller ="");
 
 		static HANDLE m_ConsoleHandle;
-		const unsigned int m_ConvertBufferSize;
-		char* m_ConvertBuffer;	
+		const unsigned int m_ConvertBufferSize = 1024;
+		char* m_ConvertBuffer = nullptr;	
 	};
 
 	// The C stands for it returns the caller

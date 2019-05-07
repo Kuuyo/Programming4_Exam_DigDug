@@ -4,9 +4,7 @@
 
 HANDLE dae::Log::m_ConsoleHandle = nullptr;
 
-dae::Log::Log()
-	: m_ConvertBuffer(nullptr)
-	, m_ConvertBufferSize(1024)
+void dae::Log::Initialize()
 {
 #ifdef _DEBUG
 	if (AllocConsole())
@@ -28,11 +26,11 @@ dae::Log::Log()
 		SetConsoleTitle("DebugConsole");
 	}
 #endif
-	
+
 	m_ConvertBuffer = new char[m_ConvertBufferSize];
 }
 
-dae::Log::~Log()
+void dae::Log::CleanUp()
 {
 #ifdef _DEBUG
 	FreeConsole();

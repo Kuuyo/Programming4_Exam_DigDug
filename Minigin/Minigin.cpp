@@ -28,16 +28,13 @@ void dae::Minigin::Run()
 
 void dae::Minigin::Initialize()
 {
-	m_pLog = new Log();
+	Log::GetInstance().Initialize();
 
 	InitializeSDL();
 
 	m_GameContext = GameContext();
-
 	m_GameContext.Scenes = new SceneManager();
-
 	m_GameContext.Renderer = new Renderer(m_pWindow);
-
 	m_GameContext.Resources = new ResourceManager();
 	// TODO: ResourceManager Init: Don't forget to change the resource path if needed
 	m_GameContext.Resources->Init("Data/", m_GameContext.Renderer);
@@ -113,7 +110,8 @@ void dae::Minigin::Cleanup()
 	delete m_GameContext.Renderer;
 	delete m_GameContext.Resources;
 
-	delete m_pLog;
+	Log::GetInstance().CleanUp();
+
 	SDL_DestroyWindow(m_pWindow);
 	m_pWindow = nullptr;
 	SDL_Quit();
