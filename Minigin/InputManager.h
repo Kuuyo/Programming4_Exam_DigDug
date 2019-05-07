@@ -15,11 +15,11 @@ namespace dae
 		Released		
 	};
 
-	class InputManager final : public Singleton<InputManager>
+	class InputManager final
 	{
 	public:
-		void Initialize();
-		void CleanUp();
+		InputManager();
+		~InputManager();
 
 		bool ProcessInput();
 
@@ -41,6 +41,11 @@ namespace dae
 		const bool WasPressed(const SDL_Scancode key) const;
 		const KeyState GetKeyState(const SDL_Scancode key) const;
 		const bool AreKeyModsPressed(const SDL_Keymod mod) const;
+
+		InputManager(const InputManager&) = delete;
+		InputManager(InputManager&&) = delete;
+		InputManager& operator= (const InputManager&) = delete;
+		InputManager& operator= (const InputManager&&) = delete;
 
 	private:
 		// XInput

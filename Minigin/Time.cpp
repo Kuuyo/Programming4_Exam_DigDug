@@ -1,18 +1,17 @@
 #include "MiniginPCH.h"
 #include "Time.h"
 
-void dae::Time::Initialize()
+dae::Time::Time()
+	: m_DeltaTime(-1.f)
+	, m_BaseTime(0)
+	, m_PausedTime(0)
+	, m_PrevTime(0)
+	, m_CurrTime(0)
+	, m_bIsStopped(false)
+	, m_ElapsedTime(0.f)
+	, m_FrameCount(0)
+	, m_FPS(0)
 {
-	m_DeltaTime = -1.0;
-	m_BaseTime = 0;
-	m_PausedTime = 0;
-	m_PrevTime = 0;
-	m_CurrTime = 0;
-	m_bIsStopped = false;
-	m_ElapsedTime = 0.f;
-	m_FrameCount = 0;
-	m_FPS = 0;
-
 	__int64 countsPerSec;
 	QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&countsPerSec));
 	m_SecondsPerCount = 1.f / static_cast<float>(countsPerSec);

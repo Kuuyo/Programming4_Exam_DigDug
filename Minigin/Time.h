@@ -8,10 +8,10 @@
 
 namespace dae
 {
-	class Time final : public Singleton<Time>
+	class Time final
 	{
 	public:
-		void Initialize();
+		Time();
 
 		float GetTotalTime()const;
 		float GetDeltaTime()const;

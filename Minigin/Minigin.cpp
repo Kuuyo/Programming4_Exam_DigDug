@@ -38,9 +38,8 @@ void dae::Minigin::Initialize()
 	m_GameContext.Resources = new ResourceManager();
 	// TODO: ResourceManager Init: Don't forget to change the resource path if needed
 	m_GameContext.Resources->Init("Data/", m_GameContext.Renderer);
-
-	InputManager::GetInstance().Initialize();
-	Time::GetInstance().Initialize();
+	m_GameContext.Input = new InputManager();
+	m_GameContext.Time = new Time();
 }
 
 void dae::Minigin::InitializeSDL()
@@ -76,19 +75,19 @@ void dae::Minigin::GameLoop()
 	m_GameContext.Scenes->Initialize(m_GameContext);
 	// TODO: Currently there are quite a lot of singletons.. Create a struct and use dependency injection instead?
 	auto* sceneManager = m_GameContext.Scenes;
-	auto& input = InputManager::GetInstance();
-	auto& time = Time::GetInstance();
+	auto* input = m_GameContext.Input;
+	auto* time = m_GameContext.Time;
 
 	float accumulatedTime{ 0.f };
 	bool doContinue = true;
 	while (doContinue)
 	{
-		time.Tick();
-		time.CalculateFrameStats();
+		time->Tick();
+		time->CalculateFrameStats();
 
-		doContinue = input.ProcessInput();
+		doContinue = input->ProcessInput();
 
-		accumulatedTime += time.GetDeltaTime();
+		accumulatedTime += time->GetDeltaTime();
 
 		unsigned int nrLoops{ 0 };
 		while (accumulatedTime >= m_MsPerFrame && nrLoops < m_MaxUpdates)
@@ -104,8 +103,8 @@ void dae::Minigin::GameLoop()
 
 void dae::Minigin::Cleanup()
 {
-	InputManager::GetInstance().CleanUp();
-
+	delete m_GameContext.Time;
+	delete m_GameContext.Input;
 	delete m_GameContext.Scenes;
 	delete m_GameContext.Renderer;
 	delete m_GameContext.Resources;

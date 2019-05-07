@@ -12,13 +12,13 @@
 
 // TODO: Make InputManager a subject (instead of holding arrays of states ?)
 
-void dae::InputManager::Initialize()
+dae::InputManager::InputManager()
 {
 	m_pPreviousKeyboardState = new UINT8[SDL_NUM_SCANCODES];
 	m_pCurrentKeyboardState = SDL_GetKeyboardState(NULL);
 }
 
-void dae::InputManager::CleanUp()
+dae::InputManager::~InputManager()
 {
 	delete[] m_pPreviousKeyboardState;
 }

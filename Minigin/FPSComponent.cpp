@@ -33,7 +33,7 @@ void dae::FPSComponent::Initialize(const GameContext &gameContext)
 
 void dae::FPSComponent::Update(const GameContext &gameContext)
 {
-	std::string text = std::to_string(Time::GetInstance().GetFPS());
+	std::string text = std::to_string(gameContext.Time->GetFPS());
 	text.append(" FPS");
 	m_Text = text;
 
