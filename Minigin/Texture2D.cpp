@@ -21,3 +21,8 @@ glm::vec2 dae::Texture2D::GetPosition() const
 {
 	return m_Position;
 }
+
+void dae::Texture2D::SetPosition(float x, float y)
+{
+	m_Position = { x,y };
+}

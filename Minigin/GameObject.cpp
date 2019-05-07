@@ -46,6 +46,11 @@ void dae::GameObject::SetPosition(float x, float y, float z)
 	m_pTransform->SetPosition(x, y, z);
 }
 
+void dae::GameObject::SetPosition(glm::vec3 pos)
+{
+	m_pTransform->SetPosition(pos.x, pos.y, pos.z);
+}
+
 const glm::vec3& dae::GameObject::GetPosition() const
 {
 	return m_pTransform->GetPosition();

@@ -26,4 +26,6 @@ void dae::TextureComponent::Initialize(const GameContext &gameContext)
 
 void dae::TextureComponent::Update(const GameContext &)
 {
+	auto pos = m_pParent->GetPosition();
+	m_pTexture->SetPosition(pos.x, pos.y);
 }

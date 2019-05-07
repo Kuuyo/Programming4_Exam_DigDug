@@ -13,6 +13,7 @@
 // TODO: Make InputManager a subject (instead of holding arrays of states ?)
 
 dae::InputManager::InputManager()
+	: Subject("InputManager")
 {
 	m_pPreviousKeyboardState = new UINT8[SDL_NUM_SCANCODES];
 	m_pCurrentKeyboardState = SDL_GetKeyboardState(NULL);
@@ -41,8 +42,14 @@ bool dae::InputManager::ProcessInput()
 
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
+	{
 		if (e.type == SDL_QUIT)
 			return false;
+		if (e.type == SDL_KEYDOWN)
+			Notify(this, 2, e.type, e.key);
+		if (e.type == SDL_KEYUP)
+			Notify(this, 2, e.type, e.key);
+	}
 
 	m_CurrentKeyMods = SDL_GetModState();
 

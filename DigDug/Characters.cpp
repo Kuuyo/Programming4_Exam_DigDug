@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "TextureComponent.h"
+#include "MovementComponent.h"
 
 void Prefabs::CreateDigDugCharacter(std::shared_ptr<dae::GameObject> out)
 {
@@ -11,4 +12,7 @@ void Prefabs::CreateDigDugCharacter(std::shared_ptr<dae::GameObject> out)
 
 	dae::TextureComponent* pTexture = new dae::TextureComponent("DigDug.gif");
 	out->AddComponent(pTexture);
+
+	dae::MovementComponent* pMovement = new dae::MovementComponent();
+	out->AddComponent(pMovement);
 }

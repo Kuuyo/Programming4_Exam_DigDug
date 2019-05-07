@@ -26,6 +26,7 @@ namespace dae
 		void AddComponent(BaseComponent* component);
 
 		void SetPosition(float x = 0, float y = 0, float z = 0);
+		void SetPosition(glm::vec3 pos);
 		const glm::vec3& GetPosition() const;
 		Scene* GetScene() const;
 

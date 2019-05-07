@@ -12,6 +12,7 @@ namespace dae
 
 		SDL_Texture* GetSDLTexture() const;
 		glm::vec2 GetPosition() const;
+		void SetPosition(float x, float y);
 
 		Texture2D(const Texture2D &) = delete;
 		Texture2D(Texture2D &&) = delete;

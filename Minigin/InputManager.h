@@ -1,6 +1,6 @@
 #pragma once
 #include <XInput.h>
-#include "Singleton.h"
+#include "Observer.h"
 
 // TODO: Make it so you can actually add inputs to the InputManager..
 // TODO: Make more than 1 controller available
@@ -15,7 +15,7 @@ namespace dae
 		Released		
 	};
 
-	class InputManager final
+	class InputManager final : public Subject
 	{
 	public:
 		InputManager();

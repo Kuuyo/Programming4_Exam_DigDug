@@ -1,12 +1,17 @@
 #pragma once
 #include "BaseComponent.h"
+#include "Observer.h"
+#include <map>
+#include "Structs.h"
 
 namespace dae
 {
-	class MovementComponent final : public BaseComponent
+	class InputManager;
+
+	class MovementComponent final : public BaseComponent, public Observer
 	{
 	public:
-		MovementComponent();
+		MovementComponent(int playerIndex = 0);
 		virtual ~MovementComponent();
 
 		MovementComponent(const MovementComponent &) = delete;
@@ -18,6 +23,11 @@ namespace dae
 		void Update(const GameContext &gameContext) override;
 
 	private:
+		InputManager* m_pInput;
 		UINT m_PlayerIndex;
+		float m_Speed;
+		std::map<SDL_Scancode, InputMapping> m_InputMappingMap;
+		std::map<std::string, glm::vec3> m_Direction;
+		void OnNotify(const Subject* subject, int nrArgs, va_list args) override;
 	};
 }

@@ -34,6 +34,9 @@ void DigDug::LoadGame(dae::GameContext gameContext) const
 	go->SetPosition(3, 3);
 	pTestScene->AddGameObject(go);
 
+	Prefabs::CreateDigDugCharacter(go = std::make_shared<dae::GameObject>());
+	pTestScene->AddGameObject(go);
+
 	////////////////////////////////////////////////////////////////////////////
 
 	//dae::Scene* pDigDugScene = new dae::Scene("DigDug");
