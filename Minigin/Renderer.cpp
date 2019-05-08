@@ -53,11 +53,29 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, float ) const
 
 void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
 {
+	SDL_Rect src = texture.GetSourceRect();
+
+	int width{ 0 }, height{ 0 };
+
+	if (SDL_RectEmpty(&src))
+	{
+		SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &width, &height);
+	}
+
+	width = src.w > 0 ? src.w : width;
+	height = src.h > 0 ? src.h : height;
+	
+	src.w = width;
+	src.h = height;
+
+	bool center = texture.GetIsCentered();
 	SDL_Rect dst;
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
-	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+	dst.x = center ? static_cast<int>(x - (width*.5f)) : static_cast<int>(x);
+	dst.y = center ? static_cast<int>(y - (height*.5f)) : static_cast<int>(y);
+	dst.w = width;
+	dst.h = height;
+
+	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
 }
 
 void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const

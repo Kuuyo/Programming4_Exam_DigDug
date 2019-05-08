@@ -16,11 +16,11 @@ void DigDug::LoadGame(dae::GameContext gameContext) const
 	gameContext.Scenes->AddScene(pTestScene);
 
 	auto go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::TextureComponent("background.jpg"));
+	go->AddComponent(new dae::TextureComponent("background.jpg", false));
 	pTestScene->AddGameObject(go);
 
 	go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::TextureComponent("logo.png"));
+	go->AddComponent(new dae::TextureComponent("logo.png", false));
 	go->SetPosition(216, 180);
 	pTestScene->AddGameObject(go);
 

@@ -14,12 +14,14 @@ void Prefabs::CreateDigDugCharacter(std::shared_ptr<dae::GameObject> out)
 	dae::BodyComponent* pBody = new dae::BodyComponent();
 	dae::BodyComponent::BoxFixtureDesc fixtureDesc;
 	ZeroMemory(&fixtureDesc, sizeof(fixtureDesc));
-	fixtureDesc.halfWidth = 5.f;
-	fixtureDesc.halfHeight = 5.f;
+	fixtureDesc.halfWidth = 8.f;
+	fixtureDesc.halfHeight = 8.f;
 	pBody->SetBoxFixture(fixtureDesc);
 	out->AddComponent(pBody);
 
-	dae::TextureComponent* pTexture = new dae::TextureComponent("DigDug.gif");
+	SDL_Rect src{};
+	src.h = src.w = 16;
+	dae::TextureComponent* pTexture = new dae::TextureComponent("DigDug.gif", true, src);
 	out->AddComponent(pTexture);
 
 	dae::MovementComponent* pMovement = new dae::MovementComponent();

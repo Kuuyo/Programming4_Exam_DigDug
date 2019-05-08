@@ -30,15 +30,9 @@ void dae::ResourceManager::Init(std::string&& dataPath, Renderer* pRenderer)
 	}
 }
 
-dae::Texture2D* dae::ResourceManager::CreateTexture(const std::string& file, const glm::vec2 &pos)
+dae::Texture2D* dae::ResourceManager::CreateTexture(const std::string &file, const glm::vec2 &pos, const SDL_Rect &sourceRect, bool isCentered)
 {
-	std::string fullPath = m_DataPath + file;
-	SDL_Texture *texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());
-	if (texture == nullptr) 
-	{
-		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
-	}
-	return new Texture2D(texture, pos);
+	return new Texture2D(CreateSDLTexture(file), pos, sourceRect, isCentered);
 }
 
 void dae::ResourceManager::CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text, Texture2D* &pTexture, const glm::vec2 &pos)
@@ -64,11 +58,23 @@ void dae::ResourceManager::CreateTextTexture(const SDL_Color &color, const Font*
 		return;
 	}
 
-	pTexture = new Texture2D(texture, pos);
+	pTexture = new Texture2D(texture, pos, SDL_Rect(), false);
 }
 
 // TODO: Create a font library
 dae::Font* dae::ResourceManager::LoadFont(const std::string& file, unsigned int size)
 {
 	return new Font(m_DataPath + file, size);
+}
+
+SDL_Texture* dae::ResourceManager::CreateSDLTexture(const std::string & file)
+{
+	std::string fullPath = m_DataPath + file;
+	SDL_Texture *texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());
+	if (texture == nullptr)
+	{
+		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
+	}
+
+	return texture;
 }

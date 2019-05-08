@@ -6,9 +6,11 @@
 #include "GameObject.h"
 #include "Texture2D.h"
 
-dae::TextureComponent::TextureComponent(const std::string& fileName)
-	: m_FileName(fileName)
+dae::TextureComponent::TextureComponent(std::string&& fileName, bool isCentered, const SDL_Rect &sourceRect)
+	: m_FileName(std::move(fileName))
 	, m_pTexture(nullptr)
+	, m_SourceRect(sourceRect)
+	, m_IsCentered(isCentered)
 {
 }
 
@@ -20,7 +22,7 @@ dae::TextureComponent::~TextureComponent()
 
 void dae::TextureComponent::Initialize(const GameContext &gameContext)
 {
-	m_pTexture = gameContext.Resources->CreateTexture(m_FileName, m_pParent->GetPosition());
+	m_pTexture = gameContext.Resources->CreateTexture(m_FileName, m_pParent->GetPosition(), m_SourceRect, m_IsCentered);
 	m_pParent->GetScene()->AddTexture(m_pTexture);
 }
 

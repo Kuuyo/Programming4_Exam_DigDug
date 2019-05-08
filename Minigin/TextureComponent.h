@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
+#include <SDL.h>
 
 namespace dae
 {
@@ -8,7 +9,7 @@ namespace dae
 	class TextureComponent final : public BaseComponent
 	{
 	public:
-		TextureComponent(const std::string& fileName);
+		TextureComponent(std::string&& fileName, bool isCentered = true, const SDL_Rect &sourceRect = SDL_Rect());
 		virtual ~TextureComponent();
 
 		TextureComponent(const TextureComponent &) = delete;
@@ -22,5 +23,7 @@ namespace dae
 	private:
 		Texture2D* m_pTexture;
 		std::string m_FileName;
+		SDL_Rect m_SourceRect;
+		bool m_IsCentered;
 	};
 }
