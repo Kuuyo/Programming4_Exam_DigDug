@@ -27,10 +27,10 @@ void dae::Scene::Update(const GameContext &gameContext)
 	}
 }
 
-void dae::Scene::Render(Renderer* pRenderer, float) const
+void dae::Scene::Render(Renderer* pRenderer, float extrapolate) const
 {
 	// TODO: Remember unreferenced parameter "extrapolate" in Scene::Render
-	pRenderer->Render(m_pTextureVec);
+	pRenderer->Render(m_pTextureVec, extrapolate);
 }
 
 void dae::Scene::AddGameObject(const std::shared_ptr<GameObject>& object)

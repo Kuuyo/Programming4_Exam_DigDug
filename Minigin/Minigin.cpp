@@ -2,6 +2,7 @@
 #include "Minigin.h"
 #include <chrono>
 #include <thread>
+#include <Box2D/Box2D.h>
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
@@ -34,7 +35,8 @@ void dae::Minigin::Initialize()
 
 	m_GameContext = GameContext();
 	m_GameContext.Scenes = new SceneManager();
-	m_GameContext.Renderer = new Renderer(m_pWindow);
+	m_GameContext.Physics = new b2World({ 0.f,0.f }); // TODO: Gravity is hardcoded
+	m_GameContext.Renderer = new Renderer(m_pWindow, m_GameContext.Physics);
 	m_GameContext.Resources = new ResourceManager();
 	// TODO: ResourceManager Init: Don't forget to change the resource path if needed
 	m_GameContext.Resources->Init("Data/", m_GameContext.Renderer);
@@ -77,6 +79,7 @@ void dae::Minigin::GameLoop()
 	auto* sceneManager = m_GameContext.Scenes;
 	auto* input = m_GameContext.Input;
 	auto* time = m_GameContext.Time;
+	auto* physics = m_GameContext.Physics;
 
 	float accumulatedTime{ 0.f };
 	bool doContinue = true;
@@ -87,22 +90,24 @@ void dae::Minigin::GameLoop()
 
 		doContinue = input->ProcessInput();
 
-		accumulatedTime += time->GetDeltaTime();
+		accumulatedTime += time->GetDeltaTime();	
 
 		unsigned int nrLoops{ 0 };
 		while (accumulatedTime >= m_MsPerFrame && nrLoops < m_MaxUpdates)
 		{
-			sceneManager->Update(m_GameContext);
+			physics->Step(m_MsPerFrame, 8, 3);
 			accumulatedTime -= m_MsPerFrame;
 			++nrLoops;
 		}
 
+		sceneManager->Update(m_GameContext);
 		sceneManager->Render(m_GameContext, accumulatedTime / m_MsPerFrame);
 	}
 }
 
 void dae::Minigin::Cleanup()
 {
+	delete m_GameContext.Physics;
 	delete m_GameContext.Scenes;
 	delete m_GameContext.Time;	
 	delete m_GameContext.Renderer;

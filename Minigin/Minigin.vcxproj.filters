@@ -23,12 +23,12 @@
     <Filter Include="Engine Files\_Main">
       <UniqueIdentifier>{2e34b86e-76ea-4c1b-b8c5-2ac34b8f26a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine Files\_Debug">
+      <UniqueIdentifier>{eb1a2829-c9f7-42ed-a571-e5fece403d69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputManager.h">
-      <Filter>Engine Files\_Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Log.h">
       <Filter>Engine Files\_Core</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
@@ -94,12 +94,18 @@
     <ClInclude Include="Structs.h">
       <Filter>Engine Files\_Core</Filter>
     </ClInclude>
+    <ClInclude Include="BodyComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Engine Files\_Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Box2DDebugRender.h">
+      <Filter>Engine Files\_Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
-      <Filter>Engine Files\_Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Log.cpp">
       <Filter>Engine Files\_Core</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
@@ -149,6 +155,15 @@
     </ClCompile>
     <ClCompile Include="Observer.cpp">
       <Filter>Engine Files\_Core</Filter>
+    </ClCompile>
+    <ClCompile Include="BodyComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Engine Files\_Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2DDebugRender.cpp">
+      <Filter>Engine Files\_Debug</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

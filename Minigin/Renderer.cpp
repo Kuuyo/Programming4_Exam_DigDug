@@ -2,38 +2,52 @@
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
+#include "Box2DDebugRender.h"
 
-dae::Renderer::Renderer(SDL_Window* window)
+dae::Renderer::Renderer(SDL_Window* window, b2World* pPhysics)
 {
 	m_pRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (m_pRenderer == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
+
+	m_pPhysics = pPhysics;
+
+#if defined(DEBUG) | defined(_DEBUG)	
+	m_pBox2DDebugRenderer = new Box2DDebugRender(this);
+	m_pPhysics->SetDebugDraw(m_pBox2DDebugRenderer);
+	m_pBox2DDebugRenderer->SetFlags(b2Draw::e_shapeBit);
+	m_pBox2DDebugRenderer->AppendFlags(b2Draw::e_centerOfMassBit);
+#endif
 }
 
 dae::Renderer::~Renderer()
 {
 	if (m_pRenderer != nullptr)
-	{
 		SDL_DestroyRenderer(m_pRenderer);
-		m_pRenderer = nullptr;
-	}
+
+	if (m_pBox2DDebugRenderer != nullptr)
+		delete m_pBox2DDebugRenderer;
 }
 
-void dae::Renderer::Render(const std::vector<Texture2D*> &pTextures) const
+void dae::Renderer::Render(const std::vector<Texture2D*> &pTextures, float extrapolate) const
 {
 	SDL_RenderClear(m_pRenderer);
 
 	for (const auto pTexture : pTextures)
-		RenderTexture(*pTexture);
+		RenderTexture(*pTexture, extrapolate);
+
+#if defined(DEBUG) | defined(_DEBUG)
+	m_pPhysics->DrawDebugData();
+#endif
 	
 	SDL_RenderPresent(m_pRenderer);
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture) const
+void dae::Renderer::RenderTexture(const Texture2D& texture, float ) const
 {
-	const glm::vec2 pos = texture.GetPosition();
+	glm::vec2 pos = texture.GetPosition();
 	RenderTexture(texture, pos.x, pos.y);
 }
 

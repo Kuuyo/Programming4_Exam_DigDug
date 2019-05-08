@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Time.h"
 #include "InputManager.h"
+#include "BodyComponent.h"
 
 dae::MovementComponent::MovementComponent(int playerIndex)
 	:m_PlayerIndex(playerIndex)
@@ -26,6 +27,8 @@ void dae::MovementComponent::Initialize(const GameContext &gameContext)
 	m_pInput = gameContext.Input;
 	m_pInput->AddObserver(this);
 
+	m_bHasBody = m_pParent->HasComponent<BodyComponent>();
+
 	// TODO: Make Input in MovementComponent not hardcoded
 	InputMapping im = InputMapping();
 	im.Name = "Up";
@@ -40,12 +43,23 @@ void dae::MovementComponent::Initialize(const GameContext &gameContext)
 
 void dae::MovementComponent::Update(const GameContext &gameContext)
 {
-	for (auto im : m_InputMappingMap)
-		if (im.second.IsPressed)
-			m_pParent->SetPosition(
-				m_pParent->GetPosition() +
-				(m_Direction.at(im.second.Name) * gameContext.Time->GetDeltaTime() * m_Speed)
-			);
+	if (!m_bHasBody)
+	{
+		for (auto im : m_InputMappingMap)
+			if (im.second.IsPressed)
+				m_pParent->SetPosition(
+					m_pParent->GetPosition() +
+					(m_Direction.at(im.second.Name) * gameContext.Time->GetDeltaTime() * m_Speed)
+				);
+	}		
+	else
+	{
+		glm::vec3 mov{ 0,0,0 };
+		for (auto im : m_InputMappingMap)
+			if (im.second.IsPressed)
+				mov += (m_Direction.at(im.second.Name) * m_Speed);
+		m_pParent->GetComponent<BodyComponent>()->SetLinearVelocity(mov.x,mov.y);
+	}
 }
 
 void dae::MovementComponent::OnNotify(const Subject* subject, int, va_list args)
@@ -55,6 +69,7 @@ void dae::MovementComponent::OnNotify(const Subject* subject, int, va_list args)
 		SDL_EventType event = va_arg(args, SDL_EventType); (event);
 		SDL_KeyboardEvent kbEvent = va_arg(args, SDL_KeyboardEvent);
 
-		m_InputMappingMap.at(kbEvent.keysym.scancode).IsPressed = kbEvent.state && SDL_PRESSED;
+		if (m_InputMappingMap.find(kbEvent.keysym.scancode) != m_InputMappingMap.end())		
+			m_InputMappingMap.at(kbEvent.keysym.scancode).IsPressed = kbEvent.state && SDL_PRESSED;
 	}
 }

@@ -23,11 +23,14 @@ namespace dae
 		void Update(const GameContext &gameContext) override;
 
 	private:
+		bool m_bHasBody = false;
+
 		InputManager* m_pInput;
 		UINT m_PlayerIndex;
 		float m_Speed;
 		std::map<SDL_Scancode, InputMapping> m_InputMappingMap;
 		std::map<std::string, glm::vec3> m_Direction;
+
 		void OnNotify(const Subject* subject, int nrArgs, va_list args) override;
 	};
 }

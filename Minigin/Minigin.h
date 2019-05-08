@@ -24,10 +24,9 @@ namespace dae
 		void Cleanup();
 
 		const unsigned int m_ConstFPS = 60;
-		const float m_MsPerFrame = m_ConstFPS / 1000.f;
+		const float m_MsPerFrame = 1.f / m_ConstFPS;
 		const unsigned int m_MaxUpdates = 10;
 		SDL_Window* m_pWindow{};
-		Log* m_pLog{};
 
 		GameContext m_GameContext;
 	};

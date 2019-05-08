@@ -99,7 +99,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)3rdParty\Box2D\include;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -121,7 +121,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)3rdParty\Box2D\include;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -145,7 +145,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)3rdParty\Box2D\include;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -171,7 +171,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)3rdParty\Box2D\include;$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>

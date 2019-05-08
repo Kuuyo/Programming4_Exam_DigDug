@@ -1,4 +1,5 @@
 #pragma once
+class b2World;
 
 namespace dae
 {
@@ -15,5 +16,6 @@ namespace dae
 		Renderer* Renderer{ nullptr };
 		ResourceManager* Resources{ nullptr };
 		Time* Time{ nullptr };
+		b2World* Physics{ nullptr };
 	};
 }
