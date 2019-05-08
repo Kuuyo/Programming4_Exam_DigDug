@@ -14,9 +14,8 @@ void Prefabs::CreateDigDugCharacter(std::shared_ptr<dae::GameObject> out)
 	dae::BodyComponent* pBody = new dae::BodyComponent();
 	dae::BodyComponent::BoxFixtureDesc fixtureDesc;
 	ZeroMemory(&fixtureDesc, sizeof(fixtureDesc));
-	fixtureDesc.halfWidth = 1.f;
-	fixtureDesc.halfHeight = 1.f;
-	fixtureDesc.friction = 3.f;
+	fixtureDesc.halfWidth = 5.f;
+	fixtureDesc.halfHeight = 5.f;
 	pBody->SetBoxFixture(fixtureDesc);
 	out->AddComponent(pBody);
 
@@ -25,6 +24,4 @@ void Prefabs::CreateDigDugCharacter(std::shared_ptr<dae::GameObject> out)
 
 	dae::MovementComponent* pMovement = new dae::MovementComponent();
 	out->AddComponent(pMovement);
-
-
 }
