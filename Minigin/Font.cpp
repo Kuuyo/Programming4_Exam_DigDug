@@ -10,7 +10,7 @@ dae::Font::Font(const std::string& fullPath, unsigned size) : mFont(nullptr), mS
 	mFont = TTF_OpenFont(fullPath.c_str(), size);
 	if (mFont == nullptr) 
 	{
-		throw std::runtime_error(std::string("Failed to load font: ") + SDL_GetError());
+		LogErrorC(std::string("Failed to load font : ") + SDL_GetError());
 	}
 }
 

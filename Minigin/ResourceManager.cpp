@@ -16,17 +16,17 @@ void dae::ResourceManager::Init(std::string&& dataPath, Renderer* pRenderer)
 
 	if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG) 
 	{
-		throw std::runtime_error(std::string("Failed to load support for png's: ") + SDL_GetError());
+		LogErrorC(std::string("Failed to load support for png's: ") + SDL_GetError());
 	}
 
 	if ((IMG_Init(IMG_INIT_JPG) & IMG_INIT_JPG) != IMG_INIT_JPG) 
 	{
-		throw std::runtime_error(std::string("Failed to load support for jpg's: ") + SDL_GetError());
+		LogErrorC(std::string("Failed to load support for jpg's: ") + SDL_GetError());
 	}
 
 	if (TTF_Init() != 0) 
 	{
-		throw std::runtime_error(std::string("Failed to load support for fonts: ") + SDL_GetError());
+		LogErrorC(std::string("Failed to load support for fonts: ") + SDL_GetError());
 	}
 }
 
@@ -41,13 +41,13 @@ void dae::ResourceManager::CreateTextTexture(const SDL_Color &color, const Font*
 	const auto surf = TTF_RenderText_Blended(pFont->GetFont(), text.c_str(), color);
 	if (surf == nullptr)
 	{
-		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
+		LogErrorC(std::string("Render text failed: ") + SDL_GetError());
 	}
 
 	auto texture = SDL_CreateTextureFromSurface(m_pRenderer->GetSDLRenderer(), surf);
 	if (texture == nullptr)
 	{
-		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+		LogErrorC(std::string("Create text texture from surface failed: ") + SDL_GetError());
 	}
 
 	SDL_FreeSurface(surf);
@@ -74,7 +74,7 @@ SDL_Texture* dae::ResourceManager::CreateSDLTexture(const std::string & file)
 	SDL_Texture *texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());
 	if (texture == nullptr)
 	{
-		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
+		LogErrorC(std::string("Failed to load texture: ") + SDL_GetError());
 	}
 
 	return texture;

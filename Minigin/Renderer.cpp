@@ -9,7 +9,7 @@ dae::Renderer::Renderer(SDL_Window* window, const GameContext &gameContext)
 	m_pRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (m_pRenderer == nullptr)
 	{
-		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
+		LogErrorC(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
 
 	SDL_RenderSetScale(m_pRenderer, gameContext.GameSettings.GameScaleX, gameContext.GameSettings.GameScaleY);

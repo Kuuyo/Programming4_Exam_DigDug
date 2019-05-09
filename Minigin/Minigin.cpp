@@ -50,10 +50,9 @@ void dae::Minigin::InitializeSDL(const GameSettings &gameSettings)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
-		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
+		LogErrorC(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
-	// TODO: Creating SDL Window properties: enable setting a custom title and resolution; Custom struct for Game Settings ?; Game Settings class for Options menu?
 	// TODO: Creating SDL Window properties: change resolution at runtime?
 	m_pWindow = SDL_CreateWindow(
 		gameSettings.WindowTitle.c_str(),
@@ -64,12 +63,12 @@ void dae::Minigin::InitializeSDL(const GameSettings &gameSettings)
 		SDL_WINDOW_OPENGL
 	);
 
-	LogInfoC("Window created!");
-
 	if (m_pWindow == nullptr)
 	{
-		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
+		LogErrorC(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
+
+	LogInfoC("Window created!");
 }
 
 // References: http://gameprogrammingpatterns.com/game-loop.html
