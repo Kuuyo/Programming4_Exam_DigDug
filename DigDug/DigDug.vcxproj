@@ -189,11 +189,15 @@
   <ItemGroup>
     <ClInclude Include="Characters.h" />
     <ClInclude Include="DigDug.h" />
+    <ClInclude Include="LevelBlocks.h" />
+    <ClInclude Include="Level_1.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Characters.cpp" />
     <ClCompile Include="DigDug.cpp" />
+    <ClCompile Include="LevelBlocks.cpp" />
+    <ClCompile Include="Level_1.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -30,6 +30,7 @@ void dae::ResourceManager::Init(std::string&& dataPath, Renderer* pRenderer)
 	}
 }
 
+// TODO: Texture library
 dae::Texture2D* dae::ResourceManager::CreateTexture(const std::string &file, const glm::vec2 &pos, const SDL_Rect &sourceRect, bool isCentered)
 {
 	return new Texture2D(CreateSDLTexture(file), pos, sourceRect, isCentered);

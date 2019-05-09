@@ -11,16 +11,20 @@ dae::Scene::~Scene()
 {
 }
 
-void dae::Scene::Initialize(const GameContext &gameContext)
+void dae::Scene::RootInitialize(const GameContext &gameContext)
 {
+	Initialize(gameContext);
+
 	for (auto gameObject : m_Objects)
 	{
 		gameObject->Initialize(gameContext);
 	}
 }
 
-void dae::Scene::Update(const GameContext &gameContext)
+void dae::Scene::RootUpdate(const GameContext &gameContext)
 {
+	Update(gameContext);
+
 	for(auto gameObject : m_Objects)
 	{
 		gameObject->Update(gameContext);

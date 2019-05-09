@@ -143,6 +143,16 @@ void dae::BodyComponent::SetLinearDamping(float d)
 	m_pBody->SetLinearDamping(d);
 }
 
+bool dae::BodyComponent::HasContactList() const
+{
+	return m_pBody->GetContactList() != nullptr;
+}
+
+b2ContactEdge* dae::BodyComponent::GetContactList()
+{
+	return m_pBody->GetContactList();
+}
+
 void dae::BodyComponent::CreateFixtureDef(const std::shared_ptr<b2Shape> shape, const FixtureDesc desc)
 {
 	auto fixtureDef = std::make_shared<b2FixtureDef>();
@@ -151,6 +161,7 @@ void dae::BodyComponent::CreateFixtureDef(const std::shared_ptr<b2Shape> shape, 
 	fixtureDef->friction = desc.friction;
 	fixtureDef->isSensor = desc.isSensor;
 	fixtureDef->restitution = desc.restitution;
+	fixtureDef->filter = desc.filter;
 
 	m_FixtureDefVec.push_back(fixtureDef);
 }

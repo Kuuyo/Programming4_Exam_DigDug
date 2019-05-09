@@ -10,6 +10,9 @@
     <Filter Include="Prefabs">
       <UniqueIdentifier>{78222119-2cb1-4ebf-8e97-7425ff2107b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{9a40d7ff-9dc3-4aaf-9fd6-9f7ac37b4b0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -20,6 +23,12 @@
     </ClInclude>
     <ClInclude Include="Characters.h">
       <Filter>Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelBlocks.h">
+      <Filter>Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_1.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +43,12 @@
     </ClCompile>
     <ClCompile Include="Characters.cpp">
       <Filter>Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelBlocks.cpp">
+      <Filter>Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_1.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

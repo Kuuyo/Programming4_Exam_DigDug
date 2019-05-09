@@ -17,13 +17,13 @@ void dae::SceneManager::Initialize(const GameContext &gameContext)
 {
 	for (auto scene : m_pScenesMap)
 	{
-		scene.second->Initialize(gameContext);
+		scene.second->RootInitialize(gameContext);
 	}
 }
 
 void dae::SceneManager::Update(const GameContext &gameContext)
 {
-	m_pActiveScene->Update(gameContext);
+	m_pActiveScene->RootUpdate(gameContext);
 }
 
 void dae::SceneManager::Render(const GameContext &gameContext, float extrapolate)

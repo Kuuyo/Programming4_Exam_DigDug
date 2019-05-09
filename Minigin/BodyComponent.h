@@ -19,6 +19,7 @@ namespace dae
 			float friction;
 			float restitution;
 			float density;
+			b2Filter filter;
 			bool isSensor;
 		};
 
@@ -83,6 +84,9 @@ namespace dae
 		void SetAngularVelocity(float aVel);
 
 		void SetLinearDamping(float d);
+
+		bool HasContactList() const;
+		b2ContactEdge* GetContactList();
 
 	protected:
 		void Initialize(const GameContext &gameContext) override;
