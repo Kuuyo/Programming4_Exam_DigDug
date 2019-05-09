@@ -96,6 +96,7 @@ void dae::Minigin::GameLoop()
 		while (accumulatedTime >= m_MsPerFrame && nrLoops < m_MaxUpdates)
 		{
 			physics->Step(m_MsPerFrame, 8, 3);
+			sceneManager->FixedUpdate();
 			accumulatedTime -= m_MsPerFrame;
 			++nrLoops;
 		}

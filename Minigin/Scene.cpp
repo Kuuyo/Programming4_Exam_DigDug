@@ -45,10 +45,21 @@ void dae::Scene::Render(Renderer* pRenderer, float extrapolate) const
 
 void dae::Scene::BeginContact(b2Contact* contact)
 {
-	auto go = static_cast<BodyComponent*>(contact->GetFixtureA()->GetUserData())->GetGameObject();
-	OnCollisionEnter(contact, go);
-	go = static_cast<BodyComponent*>(contact->GetFixtureB()->GetUserData())->GetGameObject();
-	OnCollisionEnter(contact, go);
+	auto goA = static_cast<BodyComponent*>(contact->GetFixtureA()->GetUserData())->GetGameObject();
+	OnCollisionEnter(contact, goA);
+	auto goB = static_cast<BodyComponent*>(contact->GetFixtureB()->GetUserData())->GetGameObject();
+	OnCollisionEnter(contact, goB);
+
+	m_pActiveCollisionMap.insert({ contact,{ goA,goB } });
+}
+
+void dae::Scene::ContactUpdate()
+{
+	for(auto col : m_pActiveCollisionMap)
+	{
+		OnCollisionStay(col.first, col.second.first);
+		OnCollisionStay(col.first, col.second.second);
+	}
 }
 
 void dae::Scene::EndContact(b2Contact* contact)
@@ -57,6 +68,8 @@ void dae::Scene::EndContact(b2Contact* contact)
 	OnCollisionExit(contact, go);
 	go = static_cast<BodyComponent*>(contact->GetFixtureB()->GetUserData())->GetGameObject();
 	OnCollisionExit(contact, go);
+
+	m_pActiveCollisionMap.erase(contact);
 }
 
 void dae::Scene::AddGameObject(const std::shared_ptr<GameObject>& object)

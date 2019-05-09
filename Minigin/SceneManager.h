@@ -13,6 +13,7 @@ namespace dae
 
 		void Initialize(const GameContext &gameContext);
 
+		void FixedUpdate();
 		void Update(const GameContext &gameContext);
 		void Render(const GameContext &gameContext, float extrapolate);		
 

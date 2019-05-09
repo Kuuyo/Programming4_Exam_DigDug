@@ -81,6 +81,11 @@ void Level_1::OnCollisionEnter(b2Contact*, dae::GameObject* gameObject)
 	LogInfoC(gameObject->GetTag());
 }
 
+void Level_1::OnCollisionStay(b2Contact*, dae::GameObject* gameObject)
+{
+	LogInfoC(gameObject->GetTag());
+}
+
 void Level_1::OnCollisionExit(b2Contact*, dae::GameObject* gameObject)
 {
 	LogInfoC(gameObject->GetTag());

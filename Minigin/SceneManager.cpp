@@ -21,6 +21,11 @@ void dae::SceneManager::Initialize(const GameContext &gameContext)
 	}
 }
 
+void dae::SceneManager::FixedUpdate()
+{
+	m_pActiveScene->ContactUpdate();
+}
+
 void dae::SceneManager::Update(const GameContext &gameContext)
 {
 	m_pActiveScene->RootUpdate(gameContext);
