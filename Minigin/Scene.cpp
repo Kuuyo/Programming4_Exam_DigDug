@@ -13,6 +13,11 @@ dae::Scene::Scene(const std::string& name) : m_Name(name) {}
 
 dae::Scene::~Scene()
 {
+	for (auto gameObject : m_Objects)
+	{
+		if (gameObject != nullptr)
+			delete gameObject;
+	}
 }
 
 void dae::Scene::RootInitialize(const GameContext &gameContext)
@@ -37,6 +42,14 @@ void dae::Scene::RootUpdate(const GameContext &gameContext)
 	{
 		gameObject->Update(gameContext);
 	}
+
+	// TODO: Maybe find a prettier way to do this
+	for (auto gO : m_ObjectsToRemove)
+	{
+		RemoveFromVector(m_Objects, gO);
+	}
+
+	m_ObjectsToRemove.clear();
 }
 
 void dae::Scene::Render(Renderer* pRenderer, float extrapolate) const
@@ -74,10 +87,15 @@ void dae::Scene::EndContact(b2Contact* contact)
 	m_pActiveCollisionMap.erase(contact);
 }
 
-void dae::Scene::AddGameObject(const std::shared_ptr<GameObject>& object)
+void dae::Scene::AddGameObject(GameObject* object)
 {
 	object->SetScene(this);
 	m_Objects.push_back(object);
+}
+
+void dae::Scene::RemoveGameObject(GameObject* object)
+{
+	m_ObjectsToRemove.push_back(object);
 }
 
 void dae::Scene::AddTexture(Texture2D* &pTexture)

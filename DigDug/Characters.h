@@ -7,5 +7,5 @@ namespace dae
 
 namespace Prefabs
 {
-	void CreateDigDugCharacter(std::shared_ptr<dae::GameObject> out);
+	void CreateDigDugCharacter(dae::GameObject* out);
 }

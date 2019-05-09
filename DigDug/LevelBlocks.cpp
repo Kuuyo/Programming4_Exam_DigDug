@@ -7,10 +7,10 @@
 #include "Scene.h"
 #include "GameContext.h"
 
-void Prefabs::CreateLevelBlock(std::shared_ptr<dae::GameObject> out)
+void Prefabs::CreateLevelBlock(dae::GameObject* out)
 {
 	if (out == nullptr)
-		out = std::make_shared<dae::GameObject>("LevelBlock");
+		out = new dae::GameObject("LevelBlock");
 
 	dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_staticBody);
 
@@ -44,7 +44,7 @@ void Prefabs::CreateLevelBlock(std::shared_ptr<dae::GameObject> out)
 
 void Prefabs::CreateLevel(dae::Scene* pScene, const dae::GameSettings &gameSettings, const int blockSize, const int topBorder, const int bottomBorder)
 {
-	std::shared_ptr<dae::GameObject> go = nullptr;
+	dae::GameObject* go = nullptr;
 
 	const float halfSize = blockSize * .5f;
 
@@ -61,7 +61,7 @@ void Prefabs::CreateLevel(dae::Scene* pScene, const dae::GameSettings &gameSetti
 		x = -halfSize;
 		for (int j = 0; j < width; ++j)
 		{
-			Prefabs::CreateLevelBlock(go = std::make_shared<dae::GameObject>("LevelBlock"));
+			Prefabs::CreateLevelBlock(go = new dae::GameObject("LevelBlock"));
 			pScene->AddGameObject(go);
 			x += blockSize;
 			go->SetPosition(x, y);

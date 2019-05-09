@@ -6,10 +6,10 @@
 #include "MovementComponent.h"
 #include "BodyComponent.h"
 
-void Prefabs::CreateDigDugCharacter(std::shared_ptr<dae::GameObject> out)
+void Prefabs::CreateDigDugCharacter(dae::GameObject* out)
 {
 	if (out == nullptr)
-		out = std::make_shared<dae::GameObject>("DigDug");
+		out = new dae::GameObject("DigDug");
 
 	dae::BodyComponent* pBody = new dae::BodyComponent();
 	dae::BodyComponent::BoxFixtureDesc fixtureDesc{};

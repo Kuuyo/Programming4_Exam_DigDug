@@ -26,30 +26,22 @@ Level_1::~Level_1()
 
 void Level_1::Initialize(const dae::GameContext &gameContext)
 {
-	auto go = std::make_shared<dae::GameObject>();
+	auto go = new dae::GameObject();
 	go->AddComponent(new dae::TextureComponent("DigDug.png", false));
 	AddGameObject(go);
 
-	go = std::make_shared<dae::GameObject>();
+	go = new dae::GameObject();
 	go->AddComponent(new dae::FPSComponent(true, 16));
 	AddGameObject(go);
 	go->SetPosition(0.f, 6.f, 0.f, dae::Anchor::BottomCenter);
 
-	Prefabs::CreateDigDugCharacter(go = std::make_shared<dae::GameObject>("DigDug"));
+	Prefabs::CreateDigDugCharacter(go = new dae::GameObject("DigDug"));
 	AddGameObject(go);
 	go->SetPosition(10.f, 10.f, 0.f, dae::Anchor::TopRight);
-
-	go = std::make_shared<dae::GameObject>();
-	dae::BodyComponent* pBody = new dae::BodyComponent();
-	dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
-	fixtureDesc.halfWidth = 16.f;
-	fixtureDesc.halfHeight = 16.f;
-
-	pBody->SetBoxFixture(fixtureDesc);
-	go->AddComponent(pBody);
 	
-	go = std::make_shared<dae::GameObject>("Wall");
-	pBody = new dae::BodyComponent(b2BodyType::b2_staticBody);
+	go = new dae::GameObject("Wall");
+	dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
+	auto pBody = new dae::BodyComponent(b2BodyType::b2_staticBody);
 	fixtureDesc.halfWidth = .1f;
 	fixtureDesc.halfHeight = float(gameContext.GameSettings.WindowHeight * .5f);
 
@@ -67,8 +59,16 @@ void Level_1::Update(const dae::GameContext &)
 {
 }
 
-void Level_1::OnCollisionEnter(b2Contact*, dae::GameObject* )
+void Level_1::OnCollisionEnter(b2Contact* , dae::GameObject* )
 {
+	//// TODO: Predefine tags pls
+	//if (gameObject->GetTag() == "DigDug" &&
+	//	static_cast<dae::BodyComponent*>( // TODO: wtf, fix this
+	//		contact->GetFixtureB()->GetUserData())->GetGameObject()->GetTag() == "LevelBlock")
+	//{
+	//	RemoveGameObject(static_cast<dae::BodyComponent*>( // TODO: wtf, fix this
+	//		contact->GetFixtureB()->GetUserData())->GetGameObject());
+	//}
 }
 
 void Level_1::OnCollisionStay(b2Contact*, dae::GameObject* )

@@ -15,6 +15,8 @@ dae::BodyComponent::~BodyComponent()
 
 void dae::BodyComponent::Initialize(const GameContext &gameContext)
 {
+	m_Physics = gameContext.Physics;
+
 	b2BodyDef def;
 	def.type = m_BodyType;
 	def.angle = 0;

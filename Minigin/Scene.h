@@ -20,7 +20,9 @@ namespace dae
 	public:
 		explicit Scene(const std::string& name);
 
-		void AddGameObject(const std::shared_ptr<GameObject>& object);
+		void AddGameObject(GameObject* object);
+		void RemoveGameObject(GameObject* object);
+
 		void AddTexture(Texture2D* &pTexture);
 
 		const std::string GetName() const;
@@ -55,7 +57,8 @@ namespace dae
 		SceneContext m_SceneContext;
 		std::map<b2Contact*, std::pair<GameObject*, GameObject*>> m_pActiveCollisionMap;
 		std::string m_Name{};
-		std::vector<std::shared_ptr<GameObject>> m_Objects{};
+		std::vector<GameObject*> m_Objects{};
+		std::vector<GameObject*> m_ObjectsToRemove{};
 		std::vector<Texture2D*> m_pTextureVec{};
 		// TODO: Fix this vector of pointers bullshit
 	};

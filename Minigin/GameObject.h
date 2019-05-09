@@ -64,7 +64,7 @@ namespace dae
 #pragma endregion
 
 	private:
-		friend void Scene::AddGameObject(const std::shared_ptr<GameObject>& object);
+		friend void Scene::AddGameObject(GameObject* object);
 
 		void SetScene(Scene* pScene);
 
