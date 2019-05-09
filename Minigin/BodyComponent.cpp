@@ -162,6 +162,7 @@ void dae::BodyComponent::CreateFixtureDef(const std::shared_ptr<b2Shape> shape, 
 	fixtureDef->isSensor = desc.isSensor;
 	fixtureDef->restitution = desc.restitution;
 	fixtureDef->filter = desc.filter;
+	fixtureDef->userData = this;
 
 	m_FixtureDefVec.push_back(fixtureDef);
 }

@@ -12,7 +12,8 @@ namespace dae
 			FixtureDesc()
 				: friction(.2f)
 				, restitution(0.f)
-				, density(1.f)
+				, density(0.f)
+				, filter(b2Filter())
 				, isSensor(false)
 			{}
 

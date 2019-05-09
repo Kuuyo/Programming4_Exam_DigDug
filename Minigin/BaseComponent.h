@@ -11,6 +11,8 @@ namespace dae
 		BaseComponent() = default;
 		virtual ~BaseComponent() = default;
 
+		GameObject* GetGameObject() { return m_pParent; }
+
 		BaseComponent(const BaseComponent &) = delete;
 		BaseComponent(BaseComponent &&) = delete;
 		BaseComponent & operator= (const BaseComponent &) = delete;

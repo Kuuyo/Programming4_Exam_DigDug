@@ -8,26 +8,26 @@
 void Prefabs::CreateLevelBlock(std::shared_ptr<dae::GameObject> out)
 {
 	if (out == nullptr)
-		out = std::make_shared<dae::GameObject>();
+		out = std::make_shared<dae::GameObject>("LevelBlock");
 
 	dae::BodyComponent* pBody = new dae::BodyComponent();
 
-	dae::BodyComponent::BoxFixtureDesc fixtureDesc;
-	ZeroMemory(&fixtureDesc, sizeof(fixtureDesc));
+	dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
 	fixtureDesc.halfWidth = 2.f;
 	fixtureDesc.halfHeight = 2.f;
-	fixtureDesc.isSensor = true;
-	fixtureDesc.filter.categoryBits = 2;
-	fixtureDesc.filter.maskBits = 2;
+	fixtureDesc.isSensor = false;
+	fixtureDesc.filter.categoryBits = 0x0002;
+	fixtureDesc.filter.maskBits = 0x0001;
+	// TODO: make bits not hardcoded
 
 	std::vector<dae::BodyComponent::BoxFixtureDesc> boxFixtureDescs;
-	fixtureDesc.center = { 1.f,1.f };
+	fixtureDesc.center = { 2.f,2.f };
 	boxFixtureDescs.push_back(fixtureDesc);
-	fixtureDesc.center = { -1.f,-1.f };
+	fixtureDesc.center = { -2.f,-2.f };
 	boxFixtureDescs.push_back(fixtureDesc);
-	fixtureDesc.center = { 1.f,-1.f };
+	fixtureDesc.center = { 2.f,-2.f };
 	boxFixtureDescs.push_back(fixtureDesc);
-	fixtureDesc.center = { -1.f,1.f };
+	fixtureDesc.center = { -2.f,2.f };
 	boxFixtureDescs.push_back(fixtureDesc);
 
 	pBody->SetBoxFixtures(boxFixtureDescs);

@@ -1,5 +1,6 @@
 #pragma once
 #include "Observer.h"
+#include <Box2D/Dynamics/b2WorldCallbacks.h>
 
 namespace dae
 {
@@ -8,7 +9,7 @@ namespace dae
 	class Renderer;
 	struct GameContext;
 
-	class Scene
+	class Scene : public b2ContactListener
 	{
 	public:
 		explicit Scene(const std::string& name);
@@ -27,6 +28,8 @@ namespace dae
 	protected:
 		virtual void Initialize(const GameContext &) {}
 		virtual void Update(const GameContext &) {}
+		virtual void OnCollisionEnter(b2Contact* , GameObject* ) {}
+		virtual void OnCollisionExit(b2Contact* , GameObject* ) {}
 
 	private:
 		friend class SceneManager;
@@ -34,6 +37,9 @@ namespace dae
 		void RootInitialize(const GameContext &gameContext);
 		void RootUpdate(const GameContext &gameContext);
 		void Render(Renderer* pRenderer, float extrapolate) const;
+
+		void BeginContact(b2Contact* contact) override;
+		void EndContact(b2Contact* contact) override;
 
 		std::string m_Name{};
 		std::vector<std::shared_ptr<GameObject>> m_Objects{};

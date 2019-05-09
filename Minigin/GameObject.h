@@ -18,6 +18,7 @@ namespace dae
 	{
 	public:
 		GameObject();
+		GameObject(std::string &&tag);
 		~GameObject();
 
 		void Initialize(const GameContext &gameContext);
@@ -25,11 +26,11 @@ namespace dae
 
 		void AddComponent(BaseComponent* component);
 
-
 		void SetPosition(float x = 0, float y = 0, float z = 0);
 		void SetPosition(glm::vec3 pos);
 		const glm::vec3& GetPosition() const;
 		Scene* GetScene() const;
+		std::string GetTag() const { return m_Tag; }
 
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -63,6 +64,7 @@ namespace dae
 
 		void SetScene(Scene* pScene);
 
+		std::string m_Tag;
 		std::vector<BaseComponent*> m_pVecComponents;
 		TransformComponent* m_pTransform;
 		Scene* m_pScene;

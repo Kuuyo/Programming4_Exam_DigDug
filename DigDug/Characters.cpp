@@ -9,13 +9,15 @@
 void Prefabs::CreateDigDugCharacter(std::shared_ptr<dae::GameObject> out)
 {
 	if (out == nullptr)
-		out = std::make_shared<dae::GameObject>();
+		out = std::make_shared<dae::GameObject>("DigDug");
 
 	dae::BodyComponent* pBody = new dae::BodyComponent();
-	dae::BodyComponent::BoxFixtureDesc fixtureDesc;
-	ZeroMemory(&fixtureDesc, sizeof(fixtureDesc));
+	dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
 	fixtureDesc.halfWidth = 8.f;
 	fixtureDesc.halfHeight = 8.f;
+	fixtureDesc.filter.categoryBits = 0x0001;
+	// TODO: make bits not hardcoded
+
 	pBody->SetBoxFixture(fixtureDesc);
 	out->AddComponent(pBody);
 

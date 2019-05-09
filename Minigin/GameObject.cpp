@@ -10,6 +10,13 @@ dae::GameObject::GameObject()
 	m_pVecComponents.push_back(m_pTransform);
 }
 
+dae::GameObject::GameObject(std::string &&tag)
+	: m_Tag(std::move(tag))
+{
+	m_pTransform = new TransformComponent();
+	m_pVecComponents.push_back(m_pTransform);
+}
+
 dae::GameObject::~GameObject()
 {
 	for (auto pComponent : m_pVecComponents)
