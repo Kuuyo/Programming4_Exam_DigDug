@@ -57,7 +57,6 @@ void dae::TransformComponent::SetPosition(float x, float y, float z, Anchor anch
 	glm::vec3 newPos{ x,y,z };
 
 	// TODO: Fix Scene not being accessible before after the GO is added to it
-	LogInfoC(m_pParent->GetTag());
 	auto gC = m_pParent->GetScene()->GetSceneContext().GameContext;
 
 	// TODO: Fix this, it's garbage

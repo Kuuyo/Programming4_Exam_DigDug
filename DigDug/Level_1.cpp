@@ -31,17 +31,13 @@ void Level_1::Initialize(const dae::GameContext &gameContext)
 	AddGameObject(go);
 
 	go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::TextureComponent("logo.png", false));
-	AddGameObject(go);
-	go->SetPosition(216, 180);
-
-	go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::FPSComponent(true, 16));
 	AddGameObject(go);
 	go->SetPosition(0.f, 6.f, 0.f, dae::Anchor::BottomCenter);
 
 	Prefabs::CreateDigDugCharacter(go = std::make_shared<dae::GameObject>("DigDug"));
 	AddGameObject(go);
+	go->SetPosition(10.f, 10.f, 0.f, dae::Anchor::TopRight);
 
 	go = std::make_shared<dae::GameObject>();
 	dae::BodyComponent* pBody = new dae::BodyComponent();
@@ -64,26 +60,21 @@ void Level_1::Initialize(const dae::GameContext &gameContext)
 	go->SetPosition(float(gameContext.GameSettings.WindowResolutionW + .1f)
 		, float(gameContext.GameSettings.WindowHeight * .5f));
 
-	Prefabs::CreateLevelBlock(go = std::make_shared<dae::GameObject>("LevelBlock"));
-	AddGameObject(go);
-	go->SetPosition(216, 180);
+	Prefabs::CreateLevel(this, gameContext.GameSettings);
 }
 
 void Level_1::Update(const dae::GameContext &)
 {
 }
 
-void Level_1::OnCollisionEnter(b2Contact*, dae::GameObject* gameObject)
+void Level_1::OnCollisionEnter(b2Contact*, dae::GameObject* )
 {
-	LogInfoC(gameObject->GetTag());
 }
 
-void Level_1::OnCollisionStay(b2Contact*, dae::GameObject* gameObject)
+void Level_1::OnCollisionStay(b2Contact*, dae::GameObject* )
 {
-	LogInfoC(gameObject->GetTag());
 }
 
-void Level_1::OnCollisionExit(b2Contact*, dae::GameObject* gameObject)
+void Level_1::OnCollisionExit(b2Contact*, dae::GameObject* )
 {
-	LogInfoC(gameObject->GetTag());
 }

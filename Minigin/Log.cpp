@@ -112,7 +112,7 @@ void dae::Log::InternalLog(LogLevel level, const std::string& msg, const std::st
 		ss << "[INFO]:: << ";
 		break;
 	case dae::LogLevel::Debug:
-		SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 		ss << "[DEBUG]:: << ";
 		break;
 	case dae::LogLevel::Warning:

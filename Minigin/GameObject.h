@@ -44,6 +44,8 @@ namespace dae
 		template <class T>
 		bool HasComponent()
 		{
+			// TODO: Effectively you're calling GetComponent twice with this
+			// as the most logical action after is to do GetComponent, maybe just delete this
 			return GetComponent<T>() != nullptr;
 		}
 
