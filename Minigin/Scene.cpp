@@ -46,10 +46,26 @@ void dae::Scene::RootUpdate(const GameContext &gameContext)
 	// TODO: Maybe find a prettier way to do this
 	for (auto gO : m_ObjectsToRemove)
 	{
-		RemoveFromVector(m_Objects, gO);
+		auto it = std::find(m_Objects.begin(), m_Objects.end(), gO);
+		if (it != m_Objects.end())
+		{
+			delete (*it);
+			m_Objects.erase(it);
+		}
 	}
 
 	m_ObjectsToRemove.clear();
+
+	for (auto tX : m_pTexturesToRemove)
+	{
+		auto it = std::find(m_pTextureVec.begin(), m_pTextureVec.end(), tX);
+		if (it != m_pTextureVec.end())
+		{
+			m_pTextureVec.erase(it);
+		}
+	}
+
+	m_pTexturesToRemove.clear();
 }
 
 void dae::Scene::Render(Renderer* pRenderer, float extrapolate) const
@@ -98,9 +114,14 @@ void dae::Scene::RemoveGameObject(GameObject* object)
 	m_ObjectsToRemove.push_back(object);
 }
 
-void dae::Scene::AddTexture(Texture2D* &pTexture)
+void dae::Scene::AddTexture(Texture2D* pTexture)
 {
 	m_pTextureVec.push_back(pTexture);
+}
+
+void dae::Scene::RemoveTexture(Texture2D* pTexture)
+{
+	m_pTexturesToRemove.push_back(pTexture);
 }
 
 const std::string dae::Scene::GetName() const

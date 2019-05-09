@@ -6,7 +6,7 @@ namespace dae
 	class Texture2D final
 	{
 	public:
-		explicit Texture2D(SDL_Texture* texture, const glm::vec2 &pos, const SDL_Rect &sourceRect, bool isCentered);
+		Texture2D(SDL_Texture* texture, const glm::vec2 &pos, const SDL_Rect &sourceRect, bool isCentered);
 		~Texture2D();
 
 		SDL_Texture* GetSDLTexture() const;

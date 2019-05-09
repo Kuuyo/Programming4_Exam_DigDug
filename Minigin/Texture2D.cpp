@@ -11,7 +11,8 @@ dae::Texture2D::Texture2D(SDL_Texture* texture, const glm::vec2 &pos, const SDL_
 
 dae::Texture2D::~Texture2D()
 {
-	SDL_DestroyTexture(m_pTexture);
+	// TODO: FIX DESTROYING TEXTURES
+	// SDL_DestroyTexture(m_pTexture);
 }
 
 SDL_Texture* dae::Texture2D::GetSDLTexture() const

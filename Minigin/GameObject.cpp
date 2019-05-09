@@ -20,7 +20,8 @@ dae::GameObject::~GameObject()
 {
 	for (auto pComponent : m_pVecComponents)
 	{
-		delete pComponent;
+		if(pComponent != nullptr)
+			delete pComponent;
 	}
 }
 

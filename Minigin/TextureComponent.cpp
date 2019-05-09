@@ -18,6 +18,7 @@ dae::TextureComponent::TextureComponent(std::string&& fileName, bool isCentered,
 dae::TextureComponent::~TextureComponent()
 {
 	delete m_pTexture;
+	m_pParent->GetScene()->RemoveTexture(m_pTexture);
 }
 
 void dae::TextureComponent::Initialize(const GameContext &gameContext)

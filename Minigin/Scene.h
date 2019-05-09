@@ -23,7 +23,8 @@ namespace dae
 		void AddGameObject(GameObject* object);
 		void RemoveGameObject(GameObject* object);
 
-		void AddTexture(Texture2D* &pTexture);
+		void AddTexture(Texture2D* pTexture);
+		void RemoveTexture(Texture2D* pTexture);
 
 		const std::string GetName() const;
 		SceneContext GetSceneContext() const { return m_SceneContext; }
@@ -60,6 +61,7 @@ namespace dae
 		std::vector<GameObject*> m_Objects{};
 		std::vector<GameObject*> m_ObjectsToRemove{};
 		std::vector<Texture2D*> m_pTextureVec{};
+		std::vector<Texture2D*> m_pTexturesToRemove{};
 		// TODO: Fix this vector of pointers bullshit
 	};
 

@@ -1,5 +1,10 @@
 #pragma once
 #include <XInput.h>
+#include <SDL_keycode.h>
+#pragma warning(push)
+#pragma warning (disable:4201)
+#include <glm/vec2.hpp>
+#pragma warning(pop)
 #include "Observer.h"
 
 // TODO: Make it so you can actually add inputs to the InputManager..

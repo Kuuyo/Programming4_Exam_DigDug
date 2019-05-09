@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Level_1.h"
 
+#include "InputManager.h"
+
 #include "GameObject.h"
 #include "GameContext.h"
 #include "TextureComponent.h"
@@ -35,9 +37,9 @@ void Level_1::Initialize(const dae::GameContext &gameContext)
 	AddGameObject(go);
 	go->SetPosition(0.f, 6.f, 0.f, dae::Anchor::BottomCenter);
 
-	Prefabs::CreateDigDugCharacter(go = new dae::GameObject("DigDug"));
-	AddGameObject(go);
-	go->SetPosition(10.f, 10.f, 0.f, dae::Anchor::TopRight);
+	Prefabs::CreateDigDugCharacter(m_pDigDug);
+	AddGameObject(m_pDigDug);
+	m_pDigDug->SetPosition(10.f, 10.f, 0.f, dae::Anchor::TopRight);
 	
 	go = new dae::GameObject("Wall");
 	dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
@@ -59,16 +61,16 @@ void Level_1::Update(const dae::GameContext &)
 {
 }
 
-void Level_1::OnCollisionEnter(b2Contact* , dae::GameObject* )
+void Level_1::OnCollisionEnter(b2Contact* contact, dae::GameObject* gameObject)
 {
-	//// TODO: Predefine tags pls
-	//if (gameObject->GetTag() == "DigDug" &&
-	//	static_cast<dae::BodyComponent*>( // TODO: wtf, fix this
-	//		contact->GetFixtureB()->GetUserData())->GetGameObject()->GetTag() == "LevelBlock")
-	//{
-	//	RemoveGameObject(static_cast<dae::BodyComponent*>( // TODO: wtf, fix this
-	//		contact->GetFixtureB()->GetUserData())->GetGameObject());
-	//}
+	// TODO: Predefine tags pls
+	if (gameObject->GetTag() == "DigDug" &&
+		static_cast<dae::BodyComponent*>( // TODO: wtf, fix this
+			contact->GetFixtureB()->GetUserData())->GetGameObject()->GetTag() == "LevelBlock")
+	{
+		RemoveGameObject(static_cast<dae::BodyComponent*>( // TODO: wtf, fix this
+			contact->GetFixtureB()->GetUserData())->GetGameObject());
+	}
 }
 
 void Level_1::OnCollisionStay(b2Contact*, dae::GameObject* )

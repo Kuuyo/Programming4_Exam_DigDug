@@ -1,6 +1,11 @@
 #pragma once
 #include "Scene.h"
 
+namespace dae
+{
+	class GameObject;
+}
+
 class Level_1 final : public dae::Scene
 {
 public:
@@ -14,5 +19,8 @@ protected:
 	void OnCollisionEnter(b2Contact* contact, dae::GameObject* gameObject) override;
 	void OnCollisionStay(b2Contact* contact, dae::GameObject* gameObject) override;
 	void OnCollisionExit(b2Contact* contact, dae::GameObject* gameObject) override;
+
+private:
+	dae::GameObject* m_pDigDug{ nullptr };
 };
 

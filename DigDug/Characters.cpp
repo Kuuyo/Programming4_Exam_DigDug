@@ -6,7 +6,7 @@
 #include "MovementComponent.h"
 #include "BodyComponent.h"
 
-void Prefabs::CreateDigDugCharacter(dae::GameObject* out)
+void Prefabs::CreateDigDugCharacter(dae::GameObject* &out)
 {
 	if (out == nullptr)
 		out = new dae::GameObject("DigDug");

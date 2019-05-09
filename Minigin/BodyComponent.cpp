@@ -11,6 +11,8 @@ dae::BodyComponent::BodyComponent(b2BodyType bodyType)
 
 dae::BodyComponent::~BodyComponent()
 {
+	if(m_Physics->GetBodyCount() > 0)
+		m_Physics->DestroyBody(m_pBody);
 }
 
 void dae::BodyComponent::Initialize(const GameContext &gameContext)

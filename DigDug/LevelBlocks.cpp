@@ -7,13 +7,13 @@
 #include "Scene.h"
 #include "GameContext.h"
 
-void Prefabs::CreateLevelBlock(dae::GameObject* out)
+void Prefabs::CreateLevelBlock(dae::GameObject* &out)
 {
 	if (out == nullptr)
 		out = new dae::GameObject("LevelBlock");
 
-	dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_staticBody);
-
+	dae::BodyComponent* pBody = new dae::BodyComponent();
+	
 	dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
 	fixtureDesc.halfWidth = 2.f;
 	fixtureDesc.halfHeight = 2.f;
@@ -21,7 +21,7 @@ void Prefabs::CreateLevelBlock(dae::GameObject* out)
 	fixtureDesc.filter.categoryBits = 0x0002;
 	fixtureDesc.filter.maskBits = 0x0001;
 	// TODO: make bits not hardcoded
-
+	
 	std::vector<dae::BodyComponent::BoxFixtureDesc> boxFixtureDescs;
 	fixtureDesc.center = { 2.f,2.f };
 	boxFixtureDescs.push_back(fixtureDesc);
@@ -31,9 +31,9 @@ void Prefabs::CreateLevelBlock(dae::GameObject* out)
 	boxFixtureDescs.push_back(fixtureDesc);
 	fixtureDesc.center = { -2.f,2.f };
 	boxFixtureDescs.push_back(fixtureDesc);
-
+	
 	pBody->SetBoxFixtures(boxFixtureDescs);
-
+	
 	out->AddComponent(pBody);
 
 	SDL_Rect src{};
