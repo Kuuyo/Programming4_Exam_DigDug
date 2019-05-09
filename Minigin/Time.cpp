@@ -1,6 +1,8 @@
 #include "MiniginPCH.h"
 #include "Time.h"
 
+#include <iomanip>
+
 dae::Time::Time()
 	: m_DeltaTime(-1.f)
 	, m_BaseTime(0)
@@ -25,6 +27,32 @@ float dae::Time::GetTotalTime() const
 		return static_cast<float>(((m_StopTime - m_PausedTime) - m_BaseTime) * m_SecondsPerCount);
 	else
 		return static_cast<float>(((m_CurrTime - m_PausedTime) - m_BaseTime) * m_SecondsPerCount);
+}
+
+std::string dae::Time::GetTotalTimeFormatted() const
+{
+	std::ios_base::fmtflags f(std::cout.flags());
+
+	float seconds = GetTotalTime();
+
+	int secs = int(seconds);
+	int hour = secs / 3600;
+	int min = (secs / 60) % 60;
+	int sec = secs % 60;
+
+	int prec = int((seconds - int(seconds)) * 10000);
+	
+	std::stringstream ss;
+
+	ss << std::setfill('0')
+		<< std::setw(2) << hour
+		<< ":" << std::setw(2) << min
+		<< ":" << std::setw(2) << sec
+		<< "." << std::setw(5) << prec;
+
+	std::cout.flags(f);
+
+	return ss.str();
 }
 
 float dae::Time::GetDeltaTime() const

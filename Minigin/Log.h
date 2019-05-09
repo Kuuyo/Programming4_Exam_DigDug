@@ -13,6 +13,8 @@ namespace dae
 		Error
 	};
 
+	class Time;
+
 	class Log final : public Singleton<Log>
 	{
 	public:
@@ -20,6 +22,9 @@ namespace dae
 
 		void Initialize();
 		void CleanUp();
+
+		void SetGlobalTime(Time* pTime);
+		void SetSceneTime(Time* pTime);
 
 		void LogFormat(LogLevel level, const std::string& caller, const char* msg, ...);
 		void LogInfo(const std::string& msg, const std::string& caller);
@@ -34,6 +39,9 @@ namespace dae
 
 	private:
 		void InternalLog(LogLevel level, const std::string& msg, const std::string& caller ="");
+
+		Time* m_pGlobalTime = nullptr;
+		Time* m_pSceneTime = nullptr;
 
 		static HANDLE m_ConsoleHandle;
 		const unsigned int m_ConvertBufferSize = 1024;

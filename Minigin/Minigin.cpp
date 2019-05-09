@@ -34,6 +34,8 @@ void dae::Minigin::Initialize()
 	InitializeSDL();
 
 	m_GameContext = GameContext();
+	m_GameContext.Time = new Time();
+	Log::GetInstance().SetGlobalTime(m_GameContext.Time);
 	m_GameContext.Scenes = new SceneManager();
 	m_GameContext.Physics = new b2World({ 0.f,0.f }); // TODO: Gravity is hardcoded
 	m_GameContext.Renderer = new Renderer(m_pWindow, m_GameContext.Physics);
@@ -41,7 +43,6 @@ void dae::Minigin::Initialize()
 	// TODO: ResourceManager Init: Don't forget to change the resource path if needed
 	m_GameContext.Resources->Init("Data/", m_GameContext.Renderer);
 	m_GameContext.Input = new InputManager();
-	m_GameContext.Time = new Time();
 }
 
 void dae::Minigin::InitializeSDL()
@@ -75,7 +76,7 @@ void dae::Minigin::InitializeSDL()
 void dae::Minigin::GameLoop()
 {
 	m_GameContext.Scenes->Initialize(m_GameContext);
-	// TODO: Currently there are quite a lot of singletons.. Create a struct and use dependency injection instead?
+
 	auto* sceneManager = m_GameContext.Scenes;
 	auto* input = m_GameContext.Input;
 	auto* time = m_GameContext.Time;

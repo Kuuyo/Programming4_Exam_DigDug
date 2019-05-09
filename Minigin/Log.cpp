@@ -1,5 +1,8 @@
 #include "MiniginPCH.h"
 #include "Log.h"
+
+#include "Time.h"
+
 #include <iostream>
 
 HANDLE dae::Log::m_ConsoleHandle = nullptr;
@@ -37,6 +40,16 @@ void dae::Log::CleanUp()
 #endif
 
 	delete[] m_ConvertBuffer;
+}
+
+void dae::Log::SetGlobalTime(Time* pTime)
+{
+	m_pGlobalTime = pTime;
+}
+
+void dae::Log::SetSceneTime(Time* pTime)
+{
+	m_pSceneTime = pTime;
 }
 
 void dae::Log::LogFormat(LogLevel level, const std::string& caller, const char* msg, ...)
@@ -83,6 +96,14 @@ void dae::Log::LogError(const std::string& msg, const std::string& caller)
 void dae::Log::InternalLog(LogLevel level, const std::string& msg, const std::string& caller)
 {
 	std::stringstream ss;
+
+	if (m_pGlobalTime != nullptr)
+	{
+		SetConsoleTextAttribute(m_ConsoleHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		ss << "[" << m_pGlobalTime->GetTotalTimeFormatted() << "] ";
+		std::cout << ss.str();
+		ss = std::stringstream();
+	}
 
 	switch (level)
 	{

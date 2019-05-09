@@ -14,6 +14,7 @@ namespace dae
 		Time();
 
 		float GetTotalTime()const;
+		std::string GetTotalTimeFormatted()const;
 		float GetDeltaTime()const;
 		unsigned int GetFPS()const;
 
