@@ -2,13 +2,18 @@
 #include "Observer.h"
 #include <map>
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
+#include "GameContext.h"
 
 namespace dae
 {
 	class GameObject;
 	class Texture2D;
 	class Renderer;
-	struct GameContext;
+
+	struct SceneContext // TODO: Finish SceneContext
+	{
+		GameContext GameContext;
+	};
 
 	class Scene : public b2ContactListener
 	{
@@ -19,6 +24,7 @@ namespace dae
 		void AddTexture(Texture2D* &pTexture);
 
 		const std::string GetName() const;
+		SceneContext GetSceneContext() const { return m_SceneContext; }
 
 		virtual ~Scene();
 		Scene(const Scene& other) = delete;
@@ -46,10 +52,12 @@ namespace dae
 		void ContactUpdate();
 		void EndContact(b2Contact* contact) override;
 
+		SceneContext m_SceneContext;
 		std::map<b2Contact*, std::pair<GameObject*, GameObject*>> m_pActiveCollisionMap;
 		std::string m_Name{};
 		std::vector<std::shared_ptr<GameObject>> m_Objects{};
 		std::vector<Texture2D*> m_pTextureVec{};
+		// TODO: Fix this vector of pointers bullshit
 	};
 
 }

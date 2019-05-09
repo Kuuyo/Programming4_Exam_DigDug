@@ -2,19 +2,18 @@
 #include "GameObject.h"
 
 #include "BaseComponent.h"
-#include "TransformComponent.h"
 
 dae::GameObject::GameObject()
 {
 	m_pTransform = new TransformComponent();
-	m_pVecComponents.push_back(m_pTransform);
+	AddComponent(m_pTransform);
 }
 
 dae::GameObject::GameObject(std::string &&tag)
 	: m_Tag(std::move(tag))
 {
 	m_pTransform = new TransformComponent();
-	m_pVecComponents.push_back(m_pTransform);
+	AddComponent(m_pTransform);
 }
 
 dae::GameObject::~GameObject()
@@ -48,9 +47,9 @@ void dae::GameObject::AddComponent(BaseComponent* component)
 	component->m_pParent = this;
 }
 
-void dae::GameObject::SetPosition(float x, float y, float z)
+void dae::GameObject::SetPosition(float x, float y, float z, Anchor anchor)
 {
-	m_pTransform->SetPosition(x, y, z);
+	m_pTransform->SetPosition(x, y, z, anchor);
 }
 
 void dae::GameObject::SetPosition(glm::vec3 pos)
@@ -58,7 +57,7 @@ void dae::GameObject::SetPosition(glm::vec3 pos)
 	m_pTransform->SetPosition(pos.x, pos.y, pos.z);
 }
 
-const glm::vec3& dae::GameObject::GetPosition() const
+const glm::vec3 dae::GameObject::GetPosition() const
 {
 	return m_pTransform->GetPosition();
 }

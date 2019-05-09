@@ -15,7 +15,7 @@ namespace dae
 
 		Texture2D* CreateTexture(const std::string &file, const glm::vec2 &pos, const SDL_Rect &sourceRect, bool isCentered);
 
-		void CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text, Texture2D* &pTexture, const glm::vec2 &pos);
+		void CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text, Texture2D* &pTexture, const glm::vec2 &pos, bool isCentered);
 		Font* LoadFont(const std::string& file, unsigned int size);
 
 	private:

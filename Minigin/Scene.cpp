@@ -19,6 +19,8 @@ void dae::Scene::RootInitialize(const GameContext &gameContext)
 {
 	gameContext.Physics->SetContactListener(this);
 
+	m_SceneContext.GameContext = gameContext;
+
 	Initialize(gameContext);
 
 	for (auto gameObject : m_Objects)

@@ -27,23 +27,18 @@ Level_1::~Level_1()
 void Level_1::Initialize(const dae::GameContext &gameContext)
 {
 	auto go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::TextureComponent("background.jpg", false));
+	go->AddComponent(new dae::TextureComponent("DigDug.png", false));
 	AddGameObject(go);
 
 	go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::TextureComponent("logo.png", false));
+	AddGameObject(go);
 	go->SetPosition(216, 180);
-	AddGameObject(go);
 
 	go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::TextComponent("Programming 4 Assignment"));
-	go->SetPosition(80, 20);
+	go->AddComponent(new dae::FPSComponent(true, 16));
 	AddGameObject(go);
-
-	go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::FPSComponent());
-	go->SetPosition(3, 3);
-	AddGameObject(go);
+	go->SetPosition(0.f, 6.f, 0.f, dae::Anchor::BottomCenter);
 
 	Prefabs::CreateDigDugCharacter(go = std::make_shared<dae::GameObject>("DigDug"));
 	AddGameObject(go);
@@ -65,13 +60,13 @@ void Level_1::Initialize(const dae::GameContext &gameContext)
 	pBody->SetBoxFixture(fixtureDesc);
 	
 	go->AddComponent(pBody);
-	go->SetPosition(float(gameContext.GameSettings.WindowResolutionW)
-		, float(gameContext.GameSettings.WindowHeight * .5f));
 	AddGameObject(go);
+	go->SetPosition(float(gameContext.GameSettings.WindowResolutionW + .1f)
+		, float(gameContext.GameSettings.WindowHeight * .5f));
 
 	Prefabs::CreateLevelBlock(go = std::make_shared<dae::GameObject>("LevelBlock"));
-	go->SetPosition(216, 180);
 	AddGameObject(go);
+	go->SetPosition(216, 180);
 }
 
 void Level_1::Update(const dae::GameContext &)

@@ -27,6 +27,6 @@ namespace dae
 		SDL_Rect m_SourceRect;
 		bool m_IsCentered;
 
-		friend void ResourceManager::CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text, Texture2D* &pTexture, const glm::vec2 &pos);
+		friend void ResourceManager::CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text, Texture2D* &pTexture, const glm::vec2 &pos, bool isCentered);
 	};
 }

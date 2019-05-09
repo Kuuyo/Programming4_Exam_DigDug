@@ -12,7 +12,7 @@ namespace dae
 	class FPSComponent final : public BaseComponent
 	{
 	public:
-		FPSComponent(unsigned int fontSize = 20, SDL_Color color = { 255,255,100 });
+		FPSComponent(bool isCentered = false, unsigned int fontSize = 20, SDL_Color color = { 255,255,100 });
 		virtual ~FPSComponent();
 
 		FPSComponent(const FPSComponent &) = delete;
@@ -29,5 +29,6 @@ namespace dae
 		std::string m_Text;
 		unsigned int m_FontSize;
 		SDL_Color m_Color;
+		bool m_IsCentered;
 	};
 }

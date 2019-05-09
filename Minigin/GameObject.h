@@ -6,6 +6,8 @@
 #include <glm/vec3.hpp>
 #pragma warning (pop)
 
+#include "TransformComponent.h"
+
 // TODO: Add possibility to add GameObject as a child to a GameObject ?
 
 namespace dae
@@ -26,9 +28,9 @@ namespace dae
 
 		void AddComponent(BaseComponent* component);
 
-		void SetPosition(float x = 0, float y = 0, float z = 0);
+		void SetPosition(float x = 0, float y = 0, float z = 0, Anchor anchor = Anchor::TopLeft);
 		void SetPosition(glm::vec3 pos);
-		const glm::vec3& GetPosition() const;
+		const glm::vec3 GetPosition() const;
 		Scene* GetScene() const;
 		std::string GetTag() const { return m_Tag; }
 

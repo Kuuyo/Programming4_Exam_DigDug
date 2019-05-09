@@ -32,7 +32,7 @@ void dae::TextComponent::SetText(const std::string& text)
 void dae::TextComponent::Initialize(const GameContext &gameContext)
 {
 	m_pFont = gameContext.Resources->LoadFont(m_Font, m_FontSize);
-	gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition());
+	gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition(), false);
 	m_pParent->GetScene()->AddTexture(m_pTexture);
 }
 
@@ -40,7 +40,7 @@ void dae::TextComponent::Update(const GameContext &gameContext)
 {
 	if (m_bNeedsUpdate)
 	{
-		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition());
+		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition(), false);
 		m_bNeedsUpdate = false;
 	}
 }

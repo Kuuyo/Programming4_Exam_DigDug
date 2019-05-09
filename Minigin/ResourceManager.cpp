@@ -36,7 +36,7 @@ dae::Texture2D* dae::ResourceManager::CreateTexture(const std::string &file, con
 	return new Texture2D(CreateSDLTexture(file), pos, sourceRect, isCentered);
 }
 
-void dae::ResourceManager::CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text, Texture2D* &pTexture, const glm::vec2 &pos)
+void dae::ResourceManager::CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text, Texture2D* &pTexture, const glm::vec2 &pos, bool isCentered)
 {
 	const auto surf = TTF_RenderText_Blended(pFont->GetFont(), text.c_str(), color);
 	if (surf == nullptr)
@@ -59,7 +59,7 @@ void dae::ResourceManager::CreateTextTexture(const SDL_Color &color, const Font*
 		return;
 	}
 
-	pTexture = new Texture2D(texture, pos, SDL_Rect(), false);
+	pTexture = new Texture2D(texture, pos, SDL_Rect(), isCentered);
 }
 
 // TODO: Create a font library

@@ -64,7 +64,7 @@ void dae::MovementComponent::Update(const GameContext &gameContext)
 
 void dae::MovementComponent::OnNotify(const Subject* subject, int, va_list args)
 {
-	if (subject->GetTag() == "InputManager")
+	if (subject->GetTag() == "InputManager") // TODO: Decide if this is necessary
 	{
 		SDL_EventType event = va_arg(args, SDL_EventType); (event);
 		SDL_KeyboardEvent kbEvent = va_arg(args, SDL_KeyboardEvent);

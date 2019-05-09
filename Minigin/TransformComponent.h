@@ -5,14 +5,25 @@
 
 namespace dae
 {
+	enum class Anchor
+	{
+		TopLeft,
+		TopRight,
+		BottomLeft,
+		BottomRight,
+		TopCenter,
+		BottomCenter,
+		Center
+	};
+
 	class TransformComponent final : public BaseComponent
 	{
 	public:
 		TransformComponent();
 		virtual ~TransformComponent();
 
-		const glm::vec3& GetPosition() const { return m_Position; }
-		void SetPosition(float x, float y, float z);
+		const glm::vec3 GetPosition(Anchor anchor = Anchor::TopLeft) const;
+		void SetPosition(float x, float y, float z, Anchor anchor = Anchor::TopLeft);
 
 		void Initialize(const GameContext &gameContext) override;
 		void Update(const GameContext &gameContext) override;
