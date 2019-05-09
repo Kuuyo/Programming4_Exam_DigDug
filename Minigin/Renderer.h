@@ -9,7 +9,7 @@ namespace dae
 	class Renderer final
 	{		
 	public:
-		Renderer(SDL_Window* window, b2World* pPhysics);		
+		Renderer(SDL_Window* window, const GameContext &gameContext);		
 		~Renderer();
 
 		void Render(const std::vector<Texture2D*> &pTextures, float extrapolate) const;

@@ -4,7 +4,7 @@
 #include "SceneManager.h"
 #include "Level_1.h"
 
-void DigDug::LoadGame(dae::GameContext gameContext) const
+void DigDug::LoadGame(const dae::GameContext &gameContext) const
 {
 	gameContext.Scenes->AddScene(new Level_1());
 }

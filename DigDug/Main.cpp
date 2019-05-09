@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 #pragma warning( pop )
 
 	DigDug* pGame = new DigDug();
-	pGame->Run();
+	pGame->Run(dae::GameSettings("DigDug", 224, 288, 2.f, 2.f));
 	delete pGame;
 
 	return 0;

@@ -16,9 +16,9 @@
 #include "TextComponent.h"
 #include "FPSComponent.h"
 
-void dae::Minigin::Run()
+void dae::Minigin::Run(const GameSettings &gameSettings)
 {
-	Initialize();
+	Initialize(gameSettings);
 
 	LoadGame(m_GameContext);
 
@@ -27,25 +27,26 @@ void dae::Minigin::Run()
 	Cleanup();
 }
 
-void dae::Minigin::Initialize()
+void dae::Minigin::Initialize(const GameSettings &gameSettings)
 {
 	Log::GetInstance().Initialize();
 
-	InitializeSDL();
+	InitializeSDL(gameSettings);
 
 	m_GameContext = GameContext();
+	m_GameContext.GameSettings = gameSettings;
 	m_GameContext.Time = new Time();
 	Log::GetInstance().SetGlobalTime(m_GameContext.Time);
 	m_GameContext.Scenes = new SceneManager();
 	m_GameContext.Physics = new b2World({ 0.f,0.f }); // TODO: Gravity is hardcoded
-	m_GameContext.Renderer = new Renderer(m_pWindow, m_GameContext.Physics);
+	m_GameContext.Renderer = new Renderer(m_pWindow, m_GameContext);
 	m_GameContext.Resources = new ResourceManager();
 	// TODO: ResourceManager Init: Don't forget to change the resource path if needed
 	m_GameContext.Resources->Init("Data/", m_GameContext.Renderer);
 	m_GameContext.Input = new InputManager();
 }
 
-void dae::Minigin::InitializeSDL()
+void dae::Minigin::InitializeSDL(const GameSettings &gameSettings)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
@@ -55,11 +56,11 @@ void dae::Minigin::InitializeSDL()
 	// TODO: Creating SDL Window properties: enable setting a custom title and resolution; Custom struct for Game Settings ?; Game Settings class for Options menu?
 	// TODO: Creating SDL Window properties: change resolution at runtime?
 	m_pWindow = SDL_CreateWindow(
-		"Programming 4 assignment",
+		gameSettings.WindowTitle.c_str(),
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
-		640,
-		480,
+		int(gameSettings.WindowWidth),
+		int(gameSettings.WindowHeight),
 		SDL_WINDOW_OPENGL
 	);
 

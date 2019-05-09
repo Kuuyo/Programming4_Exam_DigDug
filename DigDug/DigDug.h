@@ -14,6 +14,6 @@ public:
 	DigDug& operator= (const DigDug&&) = delete;
 
 protected:
-	void LoadGame(dae::GameContext gameContext) const override;
+	void LoadGame(const dae::GameContext &gameContext) const override;
 };
 

@@ -4,7 +4,7 @@
 #include "Texture2D.h"
 #include "Box2DDebugRender.h"
 
-dae::Renderer::Renderer(SDL_Window* window, b2World* pPhysics)
+dae::Renderer::Renderer(SDL_Window* window, const GameContext &gameContext)
 {
 	m_pRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (m_pRenderer == nullptr)
@@ -12,7 +12,9 @@ dae::Renderer::Renderer(SDL_Window* window, b2World* pPhysics)
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
 
-	m_pPhysics = pPhysics;
+	SDL_RenderSetScale(m_pRenderer, gameContext.GameSettings.GameScaleX, gameContext.GameSettings.GameScaleY);
+
+	m_pPhysics = gameContext.Physics;
 
 #if defined(DEBUG) | defined(_DEBUG)	
 	m_pBox2DDebugRenderer = new Box2DDebugRender(this);

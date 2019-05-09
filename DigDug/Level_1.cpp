@@ -2,6 +2,7 @@
 #include "Level_1.h"
 
 #include "GameObject.h"
+#include "GameContext.h"
 #include "TextureComponent.h"
 #include "TextComponent.h"
 #include "FPSComponent.h"
@@ -23,7 +24,7 @@ Level_1::~Level_1()
 {
 }
 
-void Level_1::Initialize(const dae::GameContext &)
+void Level_1::Initialize(const dae::GameContext &gameContext)
 {
 	auto go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::TextureComponent("background.jpg", false));
@@ -58,13 +59,14 @@ void Level_1::Initialize(const dae::GameContext &)
 	
 	go = std::make_shared<dae::GameObject>("Wall");
 	pBody = new dae::BodyComponent(b2BodyType::b2_staticBody);
-	fixtureDesc.halfWidth = 10.f;
-	fixtureDesc.halfHeight = 480.f;
+	fixtureDesc.halfWidth = .1f;
+	fixtureDesc.halfHeight = float(gameContext.GameSettings.WindowHeight * .5f);
 
 	pBody->SetBoxFixture(fixtureDesc);
 	
 	go->AddComponent(pBody);
-	go->SetPosition(300.f, 50.f);
+	go->SetPosition(float(gameContext.GameSettings.WindowResolutionW)
+		, float(gameContext.GameSettings.WindowHeight * .5f));
 	AddGameObject(go);
 
 	Prefabs::CreateLevelBlock(go = std::make_shared<dae::GameObject>("LevelBlock"));

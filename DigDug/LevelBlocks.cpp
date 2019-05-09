@@ -10,7 +10,7 @@ void Prefabs::CreateLevelBlock(std::shared_ptr<dae::GameObject> out)
 	if (out == nullptr)
 		out = std::make_shared<dae::GameObject>("LevelBlock");
 
-	dae::BodyComponent* pBody = new dae::BodyComponent();
+	dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_kinematicBody);
 
 	dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
 	fixtureDesc.halfWidth = 2.f;

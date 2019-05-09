@@ -10,14 +10,14 @@ namespace dae
 	class Minigin
 	{
 	public:
-		void Run();
+		void Run(const GameSettings &gameSettings);
 
 	protected:
-		virtual void LoadGame(GameContext gameContext) const = 0;
+		virtual void LoadGame(const GameContext &gameContext) const = 0;
 
 	private:
-		void Initialize();
-		void InitializeSDL();
+		void Initialize(const GameSettings &gameSettings);
+		void InitializeSDL(const GameSettings &gameSettings);
 		
 		void GameLoop();
 
@@ -29,5 +29,6 @@ namespace dae
 		SDL_Window* m_pWindow{};
 
 		GameContext m_GameContext;
+		GameSettings m_GameSettings;
 	};
 }
