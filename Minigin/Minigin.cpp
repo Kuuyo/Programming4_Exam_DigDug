@@ -109,8 +109,8 @@ void dae::Minigin::GameLoop()
 
 void dae::Minigin::Cleanup()
 {
-	delete m_GameContext.Physics;
 	delete m_GameContext.Scenes;
+	delete m_GameContext.Physics;
 	delete m_GameContext.Time;	
 	delete m_GameContext.Renderer;
 	delete m_GameContext.Resources;

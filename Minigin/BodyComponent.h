@@ -97,7 +97,7 @@ namespace dae
 		void CreateFixtureDef(const std::shared_ptr<b2Shape> shape, const FixtureDesc desc);
 
 		b2Body* m_pBody{ nullptr };
-		b2World* m_Physics{ nullptr };
+		b2World* m_pPhysics{ nullptr };
 		b2BodyType m_BodyType;
 		std::vector<std::shared_ptr<b2FixtureDef>> m_FixtureDefVec;
 		std::vector<std::shared_ptr<b2Shape>> m_ShapeVec;

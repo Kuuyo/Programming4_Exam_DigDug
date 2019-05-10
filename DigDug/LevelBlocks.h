@@ -8,6 +8,6 @@ namespace dae
 
 namespace Prefabs
 {
-	void CreateLevelBlock(dae::GameObject* &out);
+	void CreateLevelBlock(dae::GameObject* &out, const int blockSize = 8);
 	void CreateLevel(dae::Scene* pScene, const dae::GameSettings &gameSettings, const int blockSize = 8, const int topBorder = 38, const int bottomBorder = 16);
 }

@@ -13,8 +13,8 @@ void Prefabs::CreateDigDugCharacter(dae::GameObject* &out)
 
 	dae::BodyComponent* pBody = new dae::BodyComponent();
 	dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
-	fixtureDesc.halfWidth = 8.f;
-	fixtureDesc.halfHeight = 8.f;
+	fixtureDesc.halfWidth = 5.f;
+	fixtureDesc.halfHeight = 5.f;
 	fixtureDesc.filter.categoryBits = 0x0001;
 	// TODO: make bits not hardcoded
 
@@ -26,6 +26,6 @@ void Prefabs::CreateDigDugCharacter(dae::GameObject* &out)
 	dae::TextureComponent* pTexture = new dae::TextureComponent("DigDug.gif", true, src);
 	out->AddComponent(pTexture);
 
-	dae::MovementComponent* pMovement = new dae::MovementComponent();
+	dae::MovementComponent* pMovement = new dae::MovementComponent(40);
 	out->AddComponent(pMovement);
 }

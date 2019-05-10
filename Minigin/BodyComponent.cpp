@@ -11,13 +11,13 @@ dae::BodyComponent::BodyComponent(b2BodyType bodyType)
 
 dae::BodyComponent::~BodyComponent()
 {
-	if(m_Physics->GetBodyCount() > 0)
-		m_Physics->DestroyBody(m_pBody);
+	if(m_pPhysics->GetBodyCount() > 0)
+		m_pPhysics->DestroyBody(m_pBody);
 }
 
 void dae::BodyComponent::Initialize(const GameContext &gameContext)
 {
-	m_Physics = gameContext.Physics;
+	m_pPhysics = gameContext.Physics;
 
 	b2BodyDef def;
 	def.type = m_BodyType;
