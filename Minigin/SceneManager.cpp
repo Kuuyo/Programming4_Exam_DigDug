@@ -5,60 +5,63 @@
 #include "Renderer.h"
 #include "GameContext.h"
 
-dae::SceneManager::~SceneManager()
+namespace dae
 {
-	for (auto scene : m_pScenesMap)
+	SceneManager::~SceneManager()
 	{
-		delete scene.second;
-	} 
-}
-
-void dae::SceneManager::Initialize(const GameContext &gameContext)
-{
-	for (auto scene : m_pScenesMap)
-	{
-		scene.second->RootInitialize(gameContext);
+		for (auto scene : m_pScenesMap)
+		{
+			delete scene.second;
+		}
 	}
-}
 
-void dae::SceneManager::FixedUpdate()
-{
-	m_pActiveScene->ContactUpdate();
-}
+	void SceneManager::Initialize(const GameContext &gameContext)
+	{
+		for (auto scene : m_pScenesMap)
+		{
+			scene.second->RootInitialize(gameContext);
+		}
+	}
 
-void dae::SceneManager::Update(const GameContext &gameContext)
-{
-	m_pActiveScene->RootUpdate(gameContext);
-}
+	void SceneManager::FixedUpdate()
+	{
+		m_pActiveScene->ContactUpdate();
+	}
 
-void dae::SceneManager::Render(const GameContext &gameContext, float extrapolate)
-{
-	m_pActiveScene->Render(gameContext.Renderer, extrapolate);
-}
+	void SceneManager::Update(const GameContext &gameContext)
+	{
+		m_pActiveScene->RootUpdate(gameContext);
+	}
 
-void dae::SceneManager::AddScene(Scene* pScene)
-{
-	m_pScenesMap.insert({ pScene->GetName(),pScene });
-	if (m_pActiveScene == nullptr)
-		m_pActiveScene = pScene;
-}
+	void SceneManager::Render(const GameContext &gameContext, float extrapolate)
+	{
+		m_pActiveScene->Render(gameContext.Renderer, extrapolate);
+	}
 
-void dae::SceneManager::RemoveScene(Scene* pScene)
-{
-	m_pScenesMap.erase(pScene->GetName());
-}
+	void SceneManager::AddScene(Scene* pScene)
+	{
+		m_pScenesMap.insert({ pScene->GetName(),pScene });
+		if (m_pActiveScene == nullptr)
+			m_pActiveScene = pScene;
+	}
 
-void dae::SceneManager::RemoveScene(const std::string& sceneName)
-{
-	m_pScenesMap.erase(sceneName);
-}
+	void SceneManager::RemoveScene(Scene* pScene)
+	{
+		m_pScenesMap.erase(pScene->GetName());
+	}
 
-void dae::SceneManager::SetActiveScene(const std::string& sceneName)
-{
-	m_pActiveScene = m_pScenesMap.at(sceneName);
-}
+	void SceneManager::RemoveScene(const std::string& sceneName)
+	{
+		m_pScenesMap.erase(sceneName);
+	}
 
-dae::Scene* dae::SceneManager::GetActiveScene() const
-{
-	return m_pActiveScene;
+	void SceneManager::SetActiveScene(const std::string& sceneName)
+	{
+		m_pActiveScene = m_pScenesMap.at(sceneName);
+	}
+
+	Scene* SceneManager::GetActiveScene() const
+	{
+		return m_pActiveScene;
+	}
 }

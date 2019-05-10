@@ -3,72 +3,76 @@
 
 #include "BaseComponent.h"
 
-dae::GameObject::GameObject()
+namespace dae
 {
-	m_pTransform = new TransformComponent();
-	AddComponent(m_pTransform);
-}
 
-dae::GameObject::GameObject(std::string &&tag)
-	: m_Tag(std::move(tag))
-{
-	m_pTransform = new TransformComponent();
-	AddComponent(m_pTransform);
-}
-
-dae::GameObject::~GameObject()
-{
-	for (auto pComponent : m_pVecComponents)
+	GameObject::GameObject()
 	{
-		if(pComponent != nullptr)
-			delete pComponent;
+		m_pTransform = new TransformComponent();
+		AddComponent(m_pTransform);
 	}
-}
 
-void dae::GameObject::Initialize(const GameContext &gameContext)
-{
-	for (auto pComponent : m_pVecComponents)
+	GameObject::GameObject(std::string &&tag)
+		: m_Tag(std::move(tag))
 	{
-		pComponent->Initialize(gameContext);
+		m_pTransform = new TransformComponent();
+		AddComponent(m_pTransform);
 	}
-}
 
-void dae::GameObject::Update(const GameContext &gameContext)
-{
-	for (auto pComponent : m_pVecComponents)
+	GameObject::~GameObject()
 	{
-		pComponent->Update(gameContext);
+		for (auto pComponent : m_pVecComponents)
+		{
+			if (pComponent != nullptr)
+				delete pComponent;
+		}
 	}
-}
 
-void dae::GameObject::AddComponent(BaseComponent* component)
-{
-	m_pVecComponents.push_back(component);
-	// TODO: Is GameObject being friend with BaseComponent to set it's parent what I want to do? public SetParent()?
-	component->m_pParent = this;
-}
+	void GameObject::Initialize(const GameContext &gameContext)
+	{
+		for (auto pComponent : m_pVecComponents)
+		{
+			pComponent->Initialize(gameContext);
+		}
+	}
 
-void dae::GameObject::SetPosition(float x, float y, float z, Anchor anchor)
-{
-	m_pTransform->SetPosition(x, y, z, anchor);
-}
+	void GameObject::Update(const GameContext &gameContext)
+	{
+		for (auto pComponent : m_pVecComponents)
+		{
+			pComponent->Update(gameContext);
+		}
+	}
 
-void dae::GameObject::SetPosition(glm::vec3 pos)
-{
-	m_pTransform->SetPosition(pos.x, pos.y, pos.z);
-}
+	void GameObject::AddComponent(BaseComponent* component)
+	{
+		m_pVecComponents.push_back(component);
+		// TODO: Is GameObject being friend with BaseComponent to set it's parent what I want to do? public SetParent()?
+		component->m_pParent = this;
+	}
 
-const glm::vec3 dae::GameObject::GetPosition() const
-{
-	return m_pTransform->GetPosition();
-}
+	void GameObject::SetPosition(float x, float y, float z, Anchor anchor)
+	{
+		m_pTransform->SetPosition(x, y, z, anchor);
+	}
 
-dae::Scene* dae::GameObject::GetScene() const
-{
-	return m_pScene;
-}
+	void GameObject::SetPosition(glm::vec3 pos)
+	{
+		m_pTransform->SetPosition(pos.x, pos.y, pos.z);
+	}
 
-void dae::GameObject::SetScene(Scene* pScene)
-{
-	m_pScene = pScene;
+	const glm::vec3 GameObject::GetPosition() const
+	{
+		return m_pTransform->GetPosition();
+	}
+
+	Scene* GameObject::GetScene() const
+	{
+		return m_pScene;
+	}
+
+	void GameObject::SetScene(Scene* pScene)
+	{
+		m_pScene = pScene;
+	}
 }

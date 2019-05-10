@@ -218,6 +218,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(SolutionDir)_Build\$(Co
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GridComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="Minigin.h" />
@@ -243,6 +244,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(SolutionDir)_Build\$(Co
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Minigin.cpp" />

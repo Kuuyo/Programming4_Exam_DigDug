@@ -8,35 +8,38 @@
 #include "Font.h"
 #include "Texture2D.h"
 
-dae::FPSComponent::FPSComponent(bool isCentered, unsigned int fontSize, SDL_Color color)
-	: m_Color(color)
-	, m_FontSize(fontSize)
-	, m_pTexture(nullptr)
-	, m_pFont(nullptr)
-	, m_Text(" ")
-	, m_IsCentered(isCentered)
+namespace dae
 {
+	FPSComponent::FPSComponent(bool isCentered, unsigned int fontSize, SDL_Color color)
+		: m_Color(color)
+		, m_FontSize(fontSize)
+		, m_pTexture(nullptr)
+		, m_pFont(nullptr)
+		, m_Text(" ")
+		, m_IsCentered(isCentered)
+	{
 
-}
+	}
 
-dae::FPSComponent::~FPSComponent()
-{
-	delete m_pFont;
-	delete m_pTexture;
-}
+	FPSComponent::~FPSComponent()
+	{
+		delete m_pFont;
+		delete m_pTexture;
+	}
 
-void dae::FPSComponent::Initialize(const GameContext &gameContext)
-{
-	m_pFont = gameContext.Resources->LoadFont("Lingua.otf", m_FontSize);
-	gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition(), m_IsCentered);
-	m_pParent->GetScene()->AddTexture(m_pTexture);
-}
+	void FPSComponent::Initialize(const GameContext &gameContext)
+	{
+		m_pFont = gameContext.Resources->LoadFont("Lingua.otf", m_FontSize);
+		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition(), m_IsCentered);
+		m_pParent->GetScene()->AddTexture(m_pTexture);
+	}
 
-void dae::FPSComponent::Update(const GameContext &gameContext)
-{
-	std::string text = std::to_string(gameContext.Time->GetFPS());
-	text.append(" FPS");
-	m_Text = text;
+	void FPSComponent::Update(const GameContext &gameContext)
+	{
+		std::string text = std::to_string(gameContext.Time->GetFPS());
+		text.append(" FPS");
+		m_Text = text;
 
-	gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition(), m_IsCentered);
+		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition(), m_IsCentered);
+	}
 }

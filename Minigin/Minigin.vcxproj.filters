@@ -103,6 +103,9 @@
     <ClInclude Include="Box2DDebugRender.h">
       <Filter>Engine Files\_Debug</Filter>
     </ClInclude>
+    <ClInclude Include="GridComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
@@ -164,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="Box2DDebugRender.cpp">
       <Filter>Engine Files\_Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GridComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

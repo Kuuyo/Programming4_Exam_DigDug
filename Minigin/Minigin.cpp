@@ -16,109 +16,112 @@
 #include "TextComponent.h"
 #include "FPSComponent.h"
 
-void dae::Minigin::Run(const GameSettings &gameSettings)
+namespace dae
 {
-	Initialize(gameSettings);
-
-	LoadGame(m_GameContext);
-
-	GameLoop();
-
-	Cleanup();
-}
-
-void dae::Minigin::Initialize(const GameSettings &gameSettings)
-{
-	Log::GetInstance().Initialize();
-
-	InitializeSDL(gameSettings);
-
-	m_GameContext = GameContext();
-	m_GameContext.GameSettings = gameSettings;
-	m_GameContext.Time = new Time();
-	Log::GetInstance().SetGlobalTime(m_GameContext.Time);
-	m_GameContext.Scenes = new SceneManager();
-	m_GameContext.Physics = new b2World({ 0.f,0.f }); // TODO: Gravity is hardcoded
-	m_GameContext.Renderer = new Renderer(m_pWindow, m_GameContext);
-	m_GameContext.Resources = new ResourceManager();
-	// TODO: ResourceManager Init: Don't forget to change the resource path if needed
-	m_GameContext.Resources->Init("Data/", m_GameContext.Renderer);
-	m_GameContext.Input = new InputManager();
-}
-
-void dae::Minigin::InitializeSDL(const GameSettings &gameSettings)
-{
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	void Minigin::Run(const GameSettings &gameSettings)
 	{
-		LogErrorC(std::string("SDL_Init Error: ") + SDL_GetError());
+		Initialize(gameSettings);
+
+		LoadGame(m_GameContext);
+
+		GameLoop();
+
+		Cleanup();
 	}
 
-	// TODO: Creating SDL Window properties: change resolution at runtime?
-	m_pWindow = SDL_CreateWindow(
-		gameSettings.WindowTitle.c_str(),
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
-		int(gameSettings.WindowWidth),
-		int(gameSettings.WindowHeight),
-		SDL_WINDOW_OPENGL
-	);
-
-	if (m_pWindow == nullptr)
+	void Minigin::Initialize(const GameSettings &gameSettings)
 	{
-		LogErrorC(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
+		Log::GetInstance().Initialize();
+
+		InitializeSDL(gameSettings);
+
+		m_GameContext = GameContext();
+		m_GameContext.GameSettings = gameSettings;
+		m_GameContext.Time = new Time();
+		Log::GetInstance().SetGlobalTime(m_GameContext.Time);
+		m_GameContext.Scenes = new SceneManager();
+		m_GameContext.Physics = new b2World({ 0.f,0.f }); // TODO: Gravity is hardcoded
+		m_GameContext.Renderer = new Renderer(m_pWindow, m_GameContext);
+		m_GameContext.Resources = new ResourceManager();
+		// TODO: ResourceManager Init: Don't forget to change the resource path if needed
+		m_GameContext.Resources->Init("Data/", m_GameContext.Renderer);
+		m_GameContext.Input = new InputManager();
 	}
 
-	LogInfoC("Window created!");
-}
-
-// References: http://gameprogrammingpatterns.com/game-loop.html
-// Another view of the same deal: https://bell0bytes.eu/the-game-loop/
-void dae::Minigin::GameLoop()
-{
-	m_GameContext.Scenes->Initialize(m_GameContext);
-
-	auto* sceneManager = m_GameContext.Scenes;
-	auto* input = m_GameContext.Input;
-	auto* time = m_GameContext.Time;
-	auto* physics = m_GameContext.Physics;
-
-	float accumulatedTime{ 0.f };
-	bool doContinue = true;
-	while (doContinue)
+	void Minigin::InitializeSDL(const GameSettings &gameSettings)
 	{
-		time->Tick();
-		time->CalculateFrameStats();
-
-		doContinue = input->ProcessInput();
-
-		accumulatedTime += time->GetDeltaTime();	
-
-		unsigned int nrLoops{ 0 };
-		while (accumulatedTime >= m_MsPerFrame && nrLoops < m_MaxUpdates)
+		if (SDL_Init(SDL_INIT_VIDEO) != 0)
 		{
-			physics->Step(m_MsPerFrame, 8, 3);
-			sceneManager->FixedUpdate();
-			accumulatedTime -= m_MsPerFrame;
-			++nrLoops;
+			LogErrorC(std::string("SDL_Init Error: ") + SDL_GetError());
 		}
 
-		sceneManager->Update(m_GameContext);
-		sceneManager->Render(m_GameContext, accumulatedTime / m_MsPerFrame);
+		// TODO: Creating SDL Window properties: change resolution at runtime?
+		m_pWindow = SDL_CreateWindow(
+			gameSettings.WindowTitle.c_str(),
+			SDL_WINDOWPOS_UNDEFINED,
+			SDL_WINDOWPOS_UNDEFINED,
+			int(gameSettings.WindowWidth),
+			int(gameSettings.WindowHeight),
+			SDL_WINDOW_OPENGL
+		);
+
+		if (m_pWindow == nullptr)
+		{
+			LogErrorC(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
+		}
+
+		LogInfoC("Window created!");
 	}
-}
 
-void dae::Minigin::Cleanup()
-{
-	delete m_GameContext.Scenes;
-	delete m_GameContext.Physics;
-	delete m_GameContext.Time;	
-	delete m_GameContext.Renderer;
-	delete m_GameContext.Resources;
-	delete m_GameContext.Input;
+	// References: http://gameprogrammingpatterns.com/game-loop.html
+	// Another view of the same deal: https://bell0bytes.eu/the-game-loop/
+	void Minigin::GameLoop()
+	{
+		m_GameContext.Scenes->Initialize(m_GameContext);
 
-	Log::GetInstance().CleanUp();
+		auto* sceneManager = m_GameContext.Scenes;
+		auto* input = m_GameContext.Input;
+		auto* time = m_GameContext.Time;
+		auto* physics = m_GameContext.Physics;
 
-	SDL_DestroyWindow(m_pWindow);
-	m_pWindow = nullptr;
-	SDL_Quit();
+		float accumulatedTime{ 0.f };
+		bool doContinue = true;
+		while (doContinue)
+		{
+			time->Tick();
+			time->CalculateFrameStats();
+
+			doContinue = input->ProcessInput();
+
+			accumulatedTime += time->GetDeltaTime();
+
+			unsigned int nrLoops{ 0 };
+			while (accumulatedTime >= m_MsPerFrame && nrLoops < m_MaxUpdates)
+			{
+				physics->Step(m_MsPerFrame, 8, 3);
+				sceneManager->FixedUpdate();
+				accumulatedTime -= m_MsPerFrame;
+				++nrLoops;
+			}
+
+			sceneManager->Update(m_GameContext);
+			sceneManager->Render(m_GameContext, accumulatedTime / m_MsPerFrame);
+		}
+	}
+
+	void Minigin::Cleanup()
+	{
+		delete m_GameContext.Scenes;
+		delete m_GameContext.Physics;
+		delete m_GameContext.Time;
+		delete m_GameContext.Renderer;
+		delete m_GameContext.Resources;
+		delete m_GameContext.Input;
+
+		Log::GetInstance().CleanUp();
+
+		SDL_DestroyWindow(m_pWindow);
+		m_pWindow = nullptr;
+		SDL_Quit();
+	}
 }

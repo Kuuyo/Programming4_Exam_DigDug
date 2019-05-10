@@ -41,6 +41,7 @@ void Level_1::Initialize(const dae::GameContext &gameContext)
 	AddGameObject(m_pDigDug);
 	m_pDigDug->SetPosition(10.f, 10.f, 0.f, dae::Anchor::TopRight);
 	
+	// TODO: Make Wall prefab
 	go = new dae::GameObject("Wall");
 	dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
 	auto pBody = new dae::BodyComponent(b2BodyType::b2_staticBody);
