@@ -1,12 +1,13 @@
 #pragma once
 #include "BaseComponent.h"
+#include "Structs.h"
 
 namespace dae
 {
 	class GridComponent final : public BaseComponent
 	{
 	public:
-		GridComponent();
+		GridComponent(const float sectionSize);
 		virtual ~GridComponent();
 
 		GridComponent(const GridComponent &) = delete;
@@ -17,7 +18,10 @@ namespace dae
 		void Initialize(const GameContext &gameContext) override;
 		void Update(const GameContext &gameContext) override;
 
-	private:
+		glm::vec2 GetClosestGridPoint(float x, float y, Direction direction) const;
+		glm::vec2 GetClosestGridPoint(Direction direction) const;
 
+	private:
+		const float m_SectionSize;
 	};
 }

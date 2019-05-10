@@ -1,5 +1,9 @@
 #pragma once
 #include "BaseComponent.h"
+#pragma warning(push)
+#pragma warning (disable:4201)
+#include <glm/vec2.hpp>
+#pragma warning(pop)
 
 // TODO: Update TransformComponent to have more than just a SetPosition!
 
@@ -22,8 +26,8 @@ namespace dae
 		TransformComponent();
 		virtual ~TransformComponent();
 
-		const glm::vec3 GetPosition(Anchor anchor = Anchor::TopLeft) const;
-		void SetPosition(float x, float y, float z, Anchor anchor = Anchor::TopLeft);
+		const glm::vec2 GetPosition(Anchor anchor = Anchor::TopLeft) const;
+		void SetPosition(float x, float y, Anchor anchor = Anchor::TopLeft);
 
 		void Initialize(const GameContext &gameContext) override;
 		void Update(const GameContext &gameContext) override;
@@ -34,6 +38,6 @@ namespace dae
 		TransformComponent & operator= (const TransformComponent &&) = delete;
 
 	private:
-		glm::vec3 m_Position;
+		glm::vec2 m_Position;
 	};
 }

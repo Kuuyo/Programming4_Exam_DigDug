@@ -51,17 +51,17 @@ namespace dae
 		component->m_pParent = this;
 	}
 
-	void GameObject::SetPosition(float x, float y, float z, Anchor anchor)
+	void GameObject::SetPosition(float x, float y, Anchor anchor)
 	{
-		m_pTransform->SetPosition(x, y, z, anchor);
+		m_pTransform->SetPosition(x, y, anchor);
 	}
 
-	void GameObject::SetPosition(glm::vec3 pos)
+	void GameObject::SetPosition(glm::vec2 pos)
 	{
-		m_pTransform->SetPosition(pos.x, pos.y, pos.z);
+		m_pTransform->SetPosition(pos.x, pos.y);
 	}
 
-	const glm::vec3 GameObject::GetPosition() const
+	const glm::vec2 GameObject::GetPosition() const
 	{
 		return m_pTransform->GetPosition();
 	}

@@ -13,9 +13,9 @@ namespace dae
 	{
 	}
 
-	const glm::vec3 TransformComponent::GetPosition(Anchor anchor) const
+	const glm::vec2 TransformComponent::GetPosition(Anchor anchor) const
 	{
-		glm::vec3 newPos{ m_Position };
+		glm::vec2 newPos{ m_Position };
 
 		// TODO: Fix Scene not being accessible before after the GO is added to it
 		auto gC = m_pParent->GetScene()->GetSceneContext().GameContext;
@@ -53,9 +53,9 @@ namespace dae
 		return newPos;
 	}
 
-	void TransformComponent::SetPosition(float x, float y, float z, Anchor anchor)
+	void TransformComponent::SetPosition(float x, float y, Anchor anchor)
 	{
-		glm::vec3 newPos{ x,y,z };
+		glm::vec2 newPos{ x,y };
 
 		// TODO: Fix Scene not being accessible before after the GO is added to it
 		auto gC = m_pParent->GetScene()->GetSceneContext().GameContext;

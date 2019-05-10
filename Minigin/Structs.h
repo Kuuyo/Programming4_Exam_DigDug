@@ -13,4 +13,12 @@ namespace dae
 		bool HasGamePadSupport;
 		unsigned short GamePadButton;
 	};
+
+	enum class Direction
+	{
+		Up,
+		Down,
+		Left,
+		Right
+	};
 }

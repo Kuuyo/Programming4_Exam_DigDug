@@ -11,7 +11,9 @@ namespace dae
 	class MovementComponent final : public BaseComponent, public Observer
 	{
 	public:
-		MovementComponent(float speed = 100, bool lockDiagonal = true, int playerIndex = 0);
+		MovementComponent(float speed, bool lockDiagonal = true, int playerIndex = 0);
+		MovementComponent(float speed, bool lockDiagonal, bool lockToGrid, int playerIndex = 0);
+
 		virtual ~MovementComponent();
 
 		MovementComponent(const MovementComponent &) = delete;
@@ -25,12 +27,13 @@ namespace dae
 	private:
 		bool m_bHasBody = false;
 		bool m_IsDiagonalLocked;
+		bool m_IsLockedToGrid;
 
 		InputManager* m_pInput;
 		UINT m_PlayerIndex;
 		float m_Speed;
-		std::map<SDL_Scancode, InputMapping> m_InputMappingMap;
-		std::map<std::string, glm::vec3> m_Direction;
+		std::map<SDL_Scancode, std::pair<Direction, bool>> m_InputMappingMap;
+		std::map<Direction, glm::vec2> m_Direction;
 
 		std::vector<SDL_Scancode> m_LatestKeys;
 

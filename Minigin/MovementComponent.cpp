@@ -4,20 +4,27 @@
 #include "Time.h"
 #include "InputManager.h"
 #include "BodyComponent.h"
+#include "GridComponent.h"
 
 namespace dae
 {
 	MovementComponent::MovementComponent(float speed, bool lockDiagonal, int playerIndex)
-		:m_PlayerIndex(playerIndex)
-		, m_Speed(speed)
-		, m_IsDiagonalLocked(lockDiagonal)
+		: MovementComponent(speed, lockDiagonal, false, playerIndex)
 	{
-		m_Direction.insert({ "Up",glm::vec3(0.f,-1.f,0.f) });
-		m_Direction.insert({ "Down",glm::vec3(0.f,1.f,0.f) });
-		m_Direction.insert({ "Left",glm::vec3(-1.f,0.f,0.f) });
-		m_Direction.insert({ "Right",glm::vec3(1.f,0.f,0.f) });
+
 	}
 
+	MovementComponent::MovementComponent(float speed, bool lockDiagonal, bool lockToGrid, int playerIndex)
+		: m_PlayerIndex(playerIndex)
+		, m_Speed(speed)
+		, m_IsDiagonalLocked(lockDiagonal)
+		, m_IsLockedToGrid(lockToGrid)
+	{
+		m_Direction.insert({ Direction::Up, glm::vec2(0.f,-1.f) });
+		m_Direction.insert({ Direction::Down, glm::vec2(0.f,1.f) });
+		m_Direction.insert({ Direction::Left, glm::vec2(-1.f,0.f) });
+		m_Direction.insert({ Direction::Right, glm::vec2(1.f,0.f) });
+	}
 
 	MovementComponent::~MovementComponent()
 	{
@@ -32,15 +39,10 @@ namespace dae
 		m_bHasBody = m_pParent->HasComponent<BodyComponent>();
 
 		// TODO: Make Input in MovementComponent not hardcoded
-		InputMapping im = InputMapping();
-		im.Name = "Up";
-		m_InputMappingMap.insert({ SDL_SCANCODE_W, im });
-		im.Name = "Down";
-		m_InputMappingMap.insert({ SDL_SCANCODE_S, im });
-		im.Name = "Left";
-		m_InputMappingMap.insert({ SDL_SCANCODE_A, im });
-		im.Name = "Right";
-		m_InputMappingMap.insert({ SDL_SCANCODE_D, im });
+		m_InputMappingMap.insert({ SDL_SCANCODE_W, { Direction::Up, false } });
+		m_InputMappingMap.insert({ SDL_SCANCODE_S, { Direction::Down, false } });
+		m_InputMappingMap.insert({ SDL_SCANCODE_A, { Direction::Left, false } });
+		m_InputMappingMap.insert({ SDL_SCANCODE_D, { Direction::Right, false } });
 	}
 
 	void MovementComponent::Update(const GameContext &gameContext)
@@ -48,32 +50,55 @@ namespace dae
 		if (!m_bHasBody)
 		{
 			for (auto im : m_InputMappingMap)
-				if (im.second.IsPressed)
+				if (im.second.second)
 					m_pParent->SetPosition(
 						m_pParent->GetPosition() +
-						(m_Direction.at(im.second.Name) * gameContext.Time->GetDeltaTime() * m_Speed)
+						(m_Direction.at(im.second.first) * gameContext.Time->GetDeltaTime() * m_Speed)
 					);
 		}
-		else if (m_IsDiagonalLocked)
+		else if (m_IsLockedToGrid)
 		{
-			glm::vec3 mov{ 0,0,0 };
+			glm::vec2 mov{ 0,0 };
 
 			if (!m_LatestKeys.empty() && m_LatestKeys.back())
 			{
-				dae::InputMapping im = m_InputMappingMap.at(m_LatestKeys.back());
+				auto im = m_InputMappingMap.at(m_LatestKeys.back());
 
-				if (im.IsPressed)
-					mov += (m_Direction.at(im.Name) * m_Speed);
+				auto pos = m_pParent->GetPosition();
+
+				if (im.second)
+					mov += m_Direction.at(im.first);
+
+				auto dest = pos + mov;
+
+				auto gPoint = m_pParent->GetComponent<GridComponent>()->GetClosestGridPoint(dest.x, dest.y, im.first);
+
+				mov = glm::normalize(gPoint - pos);
+				mov *= m_Speed;
+			}
+
+			m_pParent->GetComponent<BodyComponent>()->SetLinearVelocity(mov.x, mov.y);
+		}
+		else if (m_IsDiagonalLocked)
+		{
+			glm::vec2 mov{ 0,0 };
+
+			if (!m_LatestKeys.empty() && m_LatestKeys.back())
+			{
+				auto im = m_InputMappingMap.at(m_LatestKeys.back());
+
+				if (im.second)
+					mov += (m_Direction.at(im.first) * m_Speed);
 			}
 
 			m_pParent->GetComponent<BodyComponent>()->SetLinearVelocity(mov.x, mov.y);
 		}
 		else
 		{
-			glm::vec3 mov{ 0,0,0 };
+			glm::vec2 mov{ 0,0 };
 			for (auto im : m_InputMappingMap)
-				if (im.second.IsPressed)
-					mov += (m_Direction.at(im.second.Name) * m_Speed);
+				if (im.second.second)
+					mov += (m_Direction.at(im.second.first) * m_Speed);
 			m_pParent->GetComponent<BodyComponent>()->SetLinearVelocity(mov.x, mov.y);
 		}
 
@@ -89,7 +114,7 @@ namespace dae
 
 			if (m_InputMappingMap.find(kbEvent.keysym.scancode) != m_InputMappingMap.end())
 			{
-				m_InputMappingMap.at(kbEvent.keysym.scancode).IsPressed = kbEvent.state && SDL_PRESSED;
+				m_InputMappingMap.at(kbEvent.keysym.scancode).second = kbEvent.state && SDL_PRESSED;
 
 				if (event == SDL_KEYDOWN)
 					m_LatestKeys.push_back(kbEvent.keysym.scancode);

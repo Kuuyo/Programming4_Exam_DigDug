@@ -37,7 +37,7 @@ namespace dae
 	void BodyComponent::Update(const GameContext &)
 	{
 		auto pos = m_pBody->GetPosition();
-		m_pParent->SetPosition(pos.x, pos.y, 0.f);
+		m_pParent->SetPosition(pos.x, pos.y);
 	}
 
 	void BodyComponent::SetBoxFixture(BoxFixtureDesc desc)

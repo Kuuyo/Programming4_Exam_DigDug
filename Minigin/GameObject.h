@@ -28,9 +28,9 @@ namespace dae
 
 		void AddComponent(BaseComponent* component);
 
-		void SetPosition(float x = 0, float y = 0, float z = 0, Anchor anchor = Anchor::TopLeft);
-		void SetPosition(glm::vec3 pos);
-		const glm::vec3 GetPosition() const;
+		void SetPosition(float x = 0, float y = 0, Anchor anchor = Anchor::TopLeft);
+		void SetPosition(glm::vec2 pos);
+		const glm::vec2 GetPosition() const;
 		Scene* GetScene() const;
 		std::string GetTag() const { return m_Tag; }
 
