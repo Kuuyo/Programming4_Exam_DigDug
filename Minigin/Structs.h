@@ -117,13 +117,13 @@ namespace dae
 		{}
 
 		std::string Name;
+		bool HasGamePadButton;
+		bool HasGamePadAxis;
 		SDL_Scancode PositiveKey;
 		SDL_Scancode NegativeKey;
 		SDL_Keymod Mods;
 		KeyState State;
 		float Axis;
-		bool HasGamePadButton;
-		bool HasGamePadAxis;
 		unsigned short GamePadButton;
 		GamePadAxis GamePadAxis;
 	};

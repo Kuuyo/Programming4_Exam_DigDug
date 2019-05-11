@@ -10,7 +10,6 @@
 // https://docs.microsoft.com/en-us/windows/desktop/xinput/getting-started-with-xinput
 // https://wiki.libsdl.org/
 
-// TODO: Make InputManager a subject (instead of holding arrays of states ?)
 namespace dae
 {
 	InputManager::InputManager()

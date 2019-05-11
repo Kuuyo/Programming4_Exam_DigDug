@@ -8,7 +8,6 @@
 #include "Observer.h"
 #include "Structs.h"
 
-// TODO: Make it so you can actually add inputs to the InputManager..
 // TODO: Make more than 1 controller available
 
 namespace dae

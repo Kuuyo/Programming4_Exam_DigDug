@@ -3,6 +3,8 @@
 
 #include "GameContext.h"
 #include "InputManager.h"
+#include "GameObject.h"
+#include "BodyComponent.h"
 
 namespace Characters
 {
@@ -61,9 +63,13 @@ namespace Characters
 		void MovingState::Update(const dae::GameContext &gameContext)
 		{
 			LogDebugC("");
-			if (gameContext.Input->GetInputMappingAxis("P1Horizontal") == 0.f)
-				ChangeState<IdleState>();
-		}
+
+			float horizontal = gameContext.Input->GetInputMappingAxis("P1Horizontal");
+
+			if (horizontal == 0.f) ChangeState<IdleState>();
+
+			GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(horizontal*40.f, 0.f);
+		} // TODO: Easier access to BodyComponent?
 
 		void MovingState::OnExit(const dae::GameContext &)
 		{

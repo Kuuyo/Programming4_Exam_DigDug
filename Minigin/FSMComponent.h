@@ -33,6 +33,8 @@ namespace dae
 			m_pFSM->ChangeState<T>(*m_pGameContext);
 		}
 
+		GameObject* GetGameObject();
+
 	private:
 		friend FSMComponent;
 

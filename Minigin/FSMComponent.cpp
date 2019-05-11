@@ -9,6 +9,11 @@ namespace dae
 	{
 	}
 
+	GameObject* State::GetGameObject()
+	{
+		return m_pFSM->GetGameObject();
+	}
+
 	void State::RootInitialize(const GameContext &gameContext, FSMComponent* pParentFSM)
 	{
 		m_pInput = gameContext.Input;
