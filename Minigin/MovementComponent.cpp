@@ -65,6 +65,7 @@ namespace dae
 				auto im = m_InputMappingMap.at(m_LatestKeys.back());
 
 				auto pos = m_pParent->GetPosition();
+				LogDebugC(std::to_string(pos.x) + " " + std::to_string(pos.y));
 
 				if (im.second)
 					mov += m_Direction.at(im.first);
@@ -73,7 +74,28 @@ namespace dae
 
 				auto gPoint = m_pParent->GetComponent<GridComponent>()->GetClosestGridPoint(dest.x, dest.y, im.first);
 
+				LogDebugC(std::to_string(gPoint.x) + " " + std::to_string(gPoint.y));
+
 				mov = glm::normalize(gPoint - pos);
+
+				LogDebugC(std::to_string(mov.x) + " " + std::to_string(mov.y));
+
+				if (mov.x != 0.f && mov.y != 0.f)
+				{
+					if (abs(mov.x) > abs(mov.y))
+					{
+						mov.x = 0.f;
+					}
+					else
+					{
+						mov.y = 0.f;
+					}
+				}
+
+				LogDebugC(std::to_string(mov.x) + " " + std::to_string(mov.y));
+
+				std::cout << std::endl;
+
 				mov *= m_Speed;
 			}
 

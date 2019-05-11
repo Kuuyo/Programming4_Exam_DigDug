@@ -46,9 +46,10 @@ namespace dae
 
 		return glm::vec2();
 	}
+
 	glm::vec2 GridComponent::GetClosestGridPoint(Direction direction) const
 	{
 		auto pos = m_pParent->GetPosition();
-		GetClosestGridPoint(pos.x, pos.y, direction);
+		return GetClosestGridPoint(pos.x, pos.y, direction);
 	}
 }

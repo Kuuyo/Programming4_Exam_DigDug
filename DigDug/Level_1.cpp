@@ -39,7 +39,7 @@ void Level_1::Initialize(const dae::GameContext &gameContext)
 
 	Prefabs::CreateDigDugCharacter(m_pDigDug);
 	AddGameObject(m_pDigDug);
-	m_pDigDug->SetPosition(10.f, 10.f, dae::Anchor::TopRight);
+	m_pDigDug->SetPosition(8.f, 8.f);
 	
 	// TODO: Make Wall prefab
 	go = new dae::GameObject("Wall");
