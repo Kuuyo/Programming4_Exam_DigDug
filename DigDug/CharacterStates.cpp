@@ -2,6 +2,7 @@
 #include "CharacterStates.h"
 
 #include "GameContext.h"
+#include "InputManager.h"
 
 namespace Characters
 {
@@ -21,9 +22,11 @@ namespace Characters
 			LogDebugC("");
 		}
 
-		void IdleState::Update(const dae::GameContext &)
+		void IdleState::Update(const dae::GameContext &gameContext)
 		{
 			LogDebugC("");
+			if (gameContext.Input->GetInputMappingState("Right") == dae::KeyState::Triggered)
+				ChangeState<MovingState>();
 		}
 
 		void IdleState::OnExit(const dae::GameContext &gameContext)
@@ -47,9 +50,11 @@ namespace Characters
 			LogDebugC("");
 		}
 
-		void MovingState::Update(const dae::GameContext &)
+		void MovingState::Update(const dae::GameContext &gameContext)
 		{
 			LogDebugC("");
+			if (gameContext.Input->GetInputMappingState("Right") == dae::KeyState::Released)
+				ChangeState<IdleState>();
 		}
 
 		void MovingState::OnExit(const dae::GameContext &)

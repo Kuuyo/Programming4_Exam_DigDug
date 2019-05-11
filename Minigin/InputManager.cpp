@@ -27,19 +27,8 @@ namespace dae
 
 	bool InputManager::ProcessInput()
 	{
-		// XInput
-		m_PreviousState = m_CurrentState;
-
-		ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
-		if (!XInputGetState(0, &m_CurrentState) == ERROR_SUCCESS && !m_bControllerIsDisconnected)
-		{
-			LogWarningC("No controller found.");
-			m_bControllerIsDisconnected = true;
-		}
-
 		// Keyboard
 		memcpy(m_pPreviousKeyboardState, m_pCurrentKeyboardState, SDL_NUM_SCANCODES);
-		m_PreviousKeyMods = m_CurrentKeyMods;
 
 		SDL_Event e;
 		while (SDL_PollEvent(&e))
@@ -52,9 +41,67 @@ namespace dae
 				Notify(this, 2, e.type, e.key);
 		}
 
+		m_PreviousKeyMods = m_CurrentKeyMods;
 		m_CurrentKeyMods = SDL_GetModState();
 
+		// XInput
+		m_PreviousState = m_CurrentState;
+
+		ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
+		if (!XInputGetState(0, &m_CurrentState) == ERROR_SUCCESS && !m_bControllerIsDisconnected)
+		{
+			LogWarningC("No controller found.");
+			m_bControllerIsDisconnected = true;
+		}
+
+		// InputMappings
+		for (auto& im : m_InputMappingsVec)
+		{
+			// TODO: Controller support
+			im.State = GetKeyState(im.Key);
+		}
+
 		return true;
+	}
+
+	void InputManager::AddInputMapping(const InputMapping &inputMapping)
+	{
+		m_InputMappingsVec.push_back(inputMapping);
+	}
+
+	void InputManager::RemoveInputMapping(const std::string &inputMapping)
+	{
+		auto it = std::find_if(m_InputMappingsVec.begin(), m_InputMappingsVec.end(),
+			[inputMapping](InputMapping im) { return im.Name == inputMapping; });
+
+		if (it != m_InputMappingsVec.end())
+			m_InputMappingsVec.erase(it);
+	}
+
+	const InputMapping InputManager::GetInputMapping(const std::string &inputMapping) const
+	{
+		auto it = std::find_if(m_InputMappingsVec.begin(), m_InputMappingsVec.end(),
+			[inputMapping](InputMapping im) { return im.Name == inputMapping; });
+
+		if (it != m_InputMappingsVec.end())
+			return *it;
+		else
+			LogWarningC(inputMapping + std::string(" not found."));
+
+		return InputMapping();
+	}
+
+	const KeyState InputManager::GetInputMappingState(const std::string & inputMapping) const
+	{
+		auto it = std::find_if(m_InputMappingsVec.begin(), m_InputMappingsVec.end(),
+			[inputMapping](InputMapping im) { return im.Name == inputMapping; });
+
+		if (it != m_InputMappingsVec.end())
+			return (*it).State;
+		else
+			LogWarningC(inputMapping + std::string(" not found."));
+
+		return KeyState::Default;
 	}
 
 #pragma region XInput

@@ -6,20 +6,13 @@
 #include <glm/vec2.hpp>
 #pragma warning(pop)
 #include "Observer.h"
+#include "Structs.h"
 
 // TODO: Make it so you can actually add inputs to the InputManager..
 // TODO: Make more than 1 controller available
 
 namespace dae
 {
-	enum class KeyState
-	{
-		Default,
-		Triggered,
-		Held,
-		Released		
-	};
-
 	class InputManager final : public Subject
 	{
 	public:
@@ -27,6 +20,12 @@ namespace dae
 		~InputManager();
 
 		bool ProcessInput();
+
+		// InputMapping
+		void AddInputMapping(const InputMapping &inputMapping);
+		void RemoveInputMapping(const std::string &inputMapping);
+		const InputMapping GetInputMapping(const std::string &inputMapping) const;
+		const KeyState GetInputMappingState(const std::string &inputMapping) const;
 
 		// XInput
 		const bool IsPressed(const WORD button) const;
@@ -72,5 +71,8 @@ namespace dae
 		const UINT8* m_pCurrentKeyboardState;
 		SDL_Keymod m_PreviousKeyMods;
 		SDL_Keymod m_CurrentKeyMods;
+
+		// Mappings
+		std::vector<InputMapping> m_InputMappingsVec;
 	};
 }

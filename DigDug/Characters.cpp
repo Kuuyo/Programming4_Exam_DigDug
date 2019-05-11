@@ -4,7 +4,6 @@
 
 #include "GameObject.h"
 #include "TextureComponent.h"
-#include "MovementComponent.h"
 #include "BodyComponent.h"
 #include "GridComponent.h"
 #include "FSMComponent.h"
@@ -30,8 +29,6 @@ namespace Characters
 		SDL_Rect src{};
 		src.h = src.w = 16;
 		out->AddComponent(new dae::TextureComponent("DigDug.gif", true, src));
-
-		out->AddComponent(new dae::MovementComponent(40, false));
 
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
 		pFSM->AddState(new DigDug_States::IdleState());

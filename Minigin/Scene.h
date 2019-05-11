@@ -3,6 +3,7 @@
 #include <map>
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
 #include "GameContext.h"
+#include "Structs.h"
 
 namespace dae
 {
@@ -13,6 +14,8 @@ namespace dae
 	struct SceneContext // TODO: Finish SceneContext
 	{
 		GameContext GameContext;
+		std::vector<InputMapping> InputMappings;
+		// Time
 	};
 
 	class Scene : public b2ContactListener
