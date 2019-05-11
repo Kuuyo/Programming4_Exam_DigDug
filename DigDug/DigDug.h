@@ -1,6 +1,7 @@
 #pragma once
 #include "Minigin.h"
 #include "GameContext.h"
+#include "Characters.h"
 
 class DigDug final : public dae::Minigin
 {

@@ -5,7 +5,46 @@
 
 namespace dae
 {
-	class State;
+	class FSMComponent;
+	class InputManager;
+
+	class State
+	{
+	public:
+		State() = default;
+
+		State(const State&) = delete;
+		State(State&&) = delete;
+		State &operator= (const State&) = delete;
+		State &operator= (const State&&) = delete;
+
+	protected:
+		virtual ~State();
+
+		virtual void Initialize(const GameContext &gameContext) = 0;
+
+		virtual void OnEnter(const GameContext &gameContext) = 0;
+		virtual void Update(const GameContext &gameContext) = 0;
+		virtual void OnExit(const GameContext &gameContext) = 0;
+
+		template <class T>
+		void ChangeState()
+		{
+			m_pFSM->ChangeState<T>(*m_pGameContext);
+		}
+
+	private:
+		friend FSMComponent;
+
+		void RootInitialize(const GameContext &gameContext, FSMComponent* pParentFSM);
+
+		void RootOnEnter(const GameContext &gameContext);
+		void RootOnExit(const GameContext &gameContext);
+
+		FSMComponent* m_pFSM{ nullptr };
+		InputManager* m_pInput{ nullptr };
+		const GameContext* m_pGameContext{ nullptr };
+	};
 
 	class FSMComponent final : public BaseComponent
 	{
@@ -32,51 +71,22 @@ namespace dae
 			{
 				if (state.first && typeid(*state.first) == ti)
 				{
-					m_pActiveState->OnExit(gameContext);
+					m_pActiveState->RootOnExit(gameContext);
 
 					m_pActiveState = state.first;
 
-					m_pActiveState->OnEnter(gameContext)
-				}				
+					m_pActiveState->RootOnEnter(gameContext);
+
+					return;
+				}
 			}
 
 			LogErrorC(std::string("Failed to find a matching State in the StateMap: ")
-				+ std::string(ti.name));
+				+ std::string(ti.name()));
 		}
 
 	private:
 		std::map<State*, bool> m_pStateMap{};
 		State* m_pActiveState{ nullptr };
-	};
-
-	class State : public Observer
-	{
-	public:
-		State() = default;
-
-		State(const State&) = delete;
-		State(State&&) = delete;
-		State &operator= (const State&) = delete;
-		State &operator= (const State&&) = delete;
-
-	protected:
-		virtual ~State();
-
-		virtual void Initialize(const GameContext &gameContext) = 0;
-
-		virtual void OnEnter(const GameContext &gameContext) = 0;
-		virtual void Update(const GameContext &gameContext) = 0;
-		virtual void OnExit(const GameContext &gameContext) = 0;
-
-		virtual void OnNotify(const Subject* entity, int nrArgs, va_list args) override = 0;
-
-		FSMComponent* m_pFSM{ nullptr };
-
-	private:
-		friend FSMComponent;
-
-		void RootInitialize(const GameContext &gameContext, FSMComponent* pParentFSM);
-
-		InputManager* m_pInput{ nullptr };
 	};
 }

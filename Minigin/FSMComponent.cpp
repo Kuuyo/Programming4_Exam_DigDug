@@ -7,17 +7,25 @@ namespace dae
 {
 	State::~State()
 	{
-		m_pInput->RemoveObserver(this);
 	}
 
 	void State::RootInitialize(const GameContext &gameContext, FSMComponent* pParentFSM)
 	{
-		gameContext.Input->AddObserver(this);
 		m_pInput = gameContext.Input;
 
 		m_pFSM = pParentFSM;
+		m_pGameContext = &gameContext;
 
 		Initialize(gameContext);
+	}
+
+	void State::RootOnEnter(const GameContext &gameContext)
+	{
+		OnEnter(gameContext);
+	}
+	void State::RootOnExit(const GameContext &gameContext)
+	{
+		OnExit(gameContext);
 	}
 }
 
@@ -43,7 +51,7 @@ namespace dae
 			it.first->RootInitialize(gameContext, this);
 		}
 
-		m_pActiveState->OnEnter(gameContext);
+		m_pActiveState->RootOnEnter(gameContext);
 	}
 
 	void FSMComponent::Update(const GameContext &gameContext)
@@ -53,8 +61,9 @@ namespace dae
 
 	void FSMComponent::AddState(State* pState)
 	{
-		if (m_pActiveState == nullptr)
+		if (m_pActiveState == nullptr) // TODO: Use a starting state instead
 			m_pActiveState = pState;
+
 		m_pStateMap.insert({ pState, false });
 	}
 

@@ -37,7 +37,7 @@ void Level_1::Initialize(const dae::GameContext &gameContext)
 	AddGameObject(go);
 	go->SetPosition(0.f, 6.f, dae::Anchor::BottomCenter);
 
-	Prefabs::CreateDigDugCharacter(m_pDigDug);
+	Characters::DigDug::CreateDigDugCharacter(m_pDigDug);
 	AddGameObject(m_pDigDug);
 	m_pDigDug->SetPosition(8.f, 8.f);
 	

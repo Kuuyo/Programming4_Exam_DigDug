@@ -106,6 +106,8 @@ namespace dae
 
 			sceneManager->Update(m_GameContext);
 			sceneManager->Render(m_GameContext, accumulatedTime / m_MsPerFrame);
+			// TODO: I REEEAAALLY don't like how the Render is locking the loop to framerate
+			// As it creates behaviour I REEEAAALLY hated in Unity -> Input is also tied to FPS now
 		}
 	}
 

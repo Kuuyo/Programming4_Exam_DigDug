@@ -1,31 +1,41 @@
 #include "pch.h"
 #include "Characters.h"
+#include "CharacterStates.h"
 
 #include "GameObject.h"
 #include "TextureComponent.h"
 #include "MovementComponent.h"
 #include "BodyComponent.h"
 #include "GridComponent.h"
+#include "FSMComponent.h"
 
-void Prefabs::CreateDigDugCharacter(dae::GameObject* &out)
+namespace Characters
 {
-	if (out == nullptr)
-		out = new dae::GameObject("DigDug");
-	
-	dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
-	fixtureDesc.halfWidth = 5.f;
-	fixtureDesc.halfHeight = 5.f;
-	fixtureDesc.filter.categoryBits = 0x0001;
-	// TODO: make bits not hardcoded
-	dae::BodyComponent* pBody = new dae::BodyComponent();
-	pBody->SetBoxFixture(fixtureDesc);
-	out->AddComponent(pBody);
+	unsigned short DigDug::m_CategoryBits = 0x001;
 
-	SDL_Rect src{};
-	src.h = src.w = 16;
-	out->AddComponent(new dae::TextureComponent("DigDug.gif", true, src));
+	void DigDug::CreateDigDugCharacter(dae::GameObject* &out)
+	{
+		if (out == nullptr)
+			out = new dae::GameObject("DigDug");
 
-	out->AddComponent(new dae::MovementComponent(40,false,true));
+		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
+		fixtureDesc.halfWidth = 5.f;
+		fixtureDesc.halfHeight = 5.f;
+		fixtureDesc.filter.categoryBits = m_CategoryBits;
+		// TODO: make bits not hardcoded
+		dae::BodyComponent* pBody = new dae::BodyComponent();
+		pBody->SetBoxFixture(fixtureDesc);
+		out->AddComponent(pBody);
 
-	out->AddComponent(new dae::GridComponent(8));
+		SDL_Rect src{};
+		src.h = src.w = 16;
+		out->AddComponent(new dae::TextureComponent("DigDug.gif", true, src));
+
+		out->AddComponent(new dae::MovementComponent(40, false));
+
+		dae::FSMComponent* pFSM = new dae::FSMComponent();
+		pFSM->AddState(new DigDug_States::IdleState());
+		pFSM->AddState(new DigDug_States::MovingState());
+		out->AddComponent(pFSM);
+	}
 }

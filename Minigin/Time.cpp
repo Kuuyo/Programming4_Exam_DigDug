@@ -35,7 +35,7 @@ namespace dae
 	{
 		std::ios_base::fmtflags f(std::cout.flags());
 
-		float seconds = GetTotalTime();
+		float seconds = glm::max(GetTotalTime(), 0.f);
 
 		int secs = int(seconds);
 		int hour = secs / 3600;
