@@ -24,13 +24,16 @@ namespace dae
 		// InputMapping
 		void AddInputMapping(const InputMapping &inputMapping);
 		void RemoveInputMapping(const std::string &inputMapping);
-		const InputMapping GetInputMapping(const std::string &inputMapping) const;
+		const InputMapping GetInputMappingStruct(const std::string &inputMapping) const;
 		const KeyState GetInputMappingState(const std::string &inputMapping) const;
+		const float GetInputMappingAxis(const std::string &inputMapping) const;
 
 		// XInput
 		const bool IsPressed(const WORD button) const;
 		const bool WasPressed(const WORD button) const;
 		const KeyState GetButtonState(const WORD button) const;
+
+		const float GetAxis(const GamePadAxis axis) const;
 
 		const float GetLeftTrigger() const;
 		const float GetRightTrigger() const;
@@ -45,6 +48,8 @@ namespace dae
 		const bool WasPressed(const SDL_Scancode key) const;
 		const KeyState GetKeyState(const SDL_Scancode key) const;
 		const bool AreKeyModsPressed(const SDL_Keymod mod) const;
+
+		const float GetKeyAxis(const SDL_Scancode positiveKey, const SDL_Scancode negativeKey) const;
 
 		InputManager(const InputManager&) = delete;
 		InputManager(InputManager&&) = delete;

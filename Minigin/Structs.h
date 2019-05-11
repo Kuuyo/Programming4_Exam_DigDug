@@ -20,51 +20,111 @@ namespace dae
 		Released
 	};
 
+	enum class GamePadAxis
+	{
+		None,
+		LeftStickHorizontal,
+		LeftStickVertical,
+		RightStickHorizontal,
+		RightStickVertical,
+		LeftTrigger,
+		RightTrigger
+	};
+
 	struct InputMapping
 	{
 		InputMapping()
 			: Name("")
-			, Key(SDL_SCANCODE_UNKNOWN)
+			, PositiveKey(SDL_SCANCODE_UNKNOWN)
+			, NegativeKey(SDL_SCANCODE_UNKNOWN)
 			, Mods(SDL_Keymod())
 			, State(KeyState::Default)
-			, HasGamePadSupport(false)
+			, Axis(0.f)
+			, HasGamePadButton(false)
+			, HasGamePadAxis(false)
+			, GamePadAxis(GamePadAxis::None)
 		{}
 
 		InputMapping(std::string&& name,
 			const SDL_Scancode &key)
 			: Name(std::move(name))
-			, Key(key)
+			, PositiveKey(key)
+			, NegativeKey(SDL_SCANCODE_UNKNOWN)
 			, Mods(SDL_Keymod())
 			, State(KeyState::Default)
-			, HasGamePadSupport(false)
+			, Axis(0.f)
+			, HasGamePadButton(false)
+			, HasGamePadAxis(false)
+			, GamePadAxis(GamePadAxis::None)
 		{}
 
 		InputMapping(std::string&& name,
 			const unsigned short &gamePadButton)
 			: Name(std::move(name))
-			, Key(SDL_SCANCODE_UNKNOWN)
+			, PositiveKey(SDL_SCANCODE_UNKNOWN)
+			, NegativeKey(SDL_SCANCODE_UNKNOWN)
 			, Mods(SDL_Keymod())
 			, State(KeyState::Default)
-			, HasGamePadSupport(true)
+			, Axis(0.f)
+			, HasGamePadButton(true)
+			, HasGamePadAxis(false)
 			, GamePadButton(gamePadButton)
+			, GamePadAxis(GamePadAxis::None)
 		{}
 
 		InputMapping(std::string&& name,
 			const SDL_Scancode &key,
 			const unsigned short &gamePadButton)
 			: Name(std::move(name))
-			, Key(key)
+			, PositiveKey(key)
+			, NegativeKey(SDL_SCANCODE_UNKNOWN)
 			, Mods(SDL_Keymod())
 			, State(KeyState::Default)
-			, HasGamePadSupport(true)
+			, Axis(0.f)
+			, HasGamePadButton(true)
+			, HasGamePadAxis(false)
 			, GamePadButton(gamePadButton)
+			, GamePadAxis(GamePadAxis::None)
+		{}
+
+		InputMapping(std::string&& name,
+			const SDL_Scancode &positiveKey,
+			const SDL_Scancode &negativeKey )
+			: Name(std::move(name))
+			, PositiveKey(positiveKey)
+			, NegativeKey(negativeKey)
+			, Mods(SDL_Keymod())
+			, State(KeyState::Default)
+			, Axis(0.f)
+			, HasGamePadButton(false)
+			, HasGamePadAxis(false)
+			, GamePadAxis(GamePadAxis::None)
+		{}
+
+		InputMapping(std::string&& name,
+			const SDL_Scancode &positiveKey,
+			const SDL_Scancode &negativeKey,
+			const GamePadAxis gamePadAxis)
+			: Name(std::move(name))
+			, PositiveKey(positiveKey)
+			, NegativeKey(negativeKey)
+			, Mods(SDL_Keymod())
+			, State(KeyState::Default)
+			, Axis(0.f)
+			, HasGamePadButton(false)
+			, HasGamePadAxis(true)
+			, GamePadAxis(gamePadAxis)
 		{}
 
 		std::string Name;
-		SDL_Scancode Key;
+		SDL_Scancode PositiveKey;
+		SDL_Scancode NegativeKey;
 		SDL_Keymod Mods;
 		KeyState State;
-		bool HasGamePadSupport;
+		float Axis;
+		bool HasGamePadButton;
+		bool HasGamePadAxis;
 		unsigned short GamePadButton;
+		GamePadAxis GamePadAxis;
 	};
 }

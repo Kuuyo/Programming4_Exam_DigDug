@@ -57,8 +57,17 @@ namespace dae
 		// InputMappings
 		for (auto& im : m_InputMappingsVec)
 		{
-			// TODO: Controller support
-			im.State = GetKeyState(im.Key);
+			// TODO: Handle cases where keyboard and controller used at same time
+			// TODO: Keymods
+			im.State = GetKeyState(im.PositiveKey);
+
+			im.Axis = GetKeyAxis(im.PositiveKey, im.NegativeKey);
+
+			if (im.HasGamePadButton && im.State == KeyState::Default)
+				im.State = GetButtonState(im.GamePadButton);
+
+			if (im.HasGamePadAxis && im.Axis == 0.f)
+				im.Axis = GetAxis(im.GamePadAxis);
 		}
 
 		return true;
@@ -68,7 +77,7 @@ namespace dae
 	{
 		m_InputMappingsVec.push_back(inputMapping);
 	}
-
+	// TODO: Lots of copying going on, make some functions
 	void InputManager::RemoveInputMapping(const std::string &inputMapping)
 	{
 		auto it = std::find_if(m_InputMappingsVec.begin(), m_InputMappingsVec.end(),
@@ -78,20 +87,20 @@ namespace dae
 			m_InputMappingsVec.erase(it);
 	}
 
-	const InputMapping InputManager::GetInputMapping(const std::string &inputMapping) const
+	const InputMapping InputManager::GetInputMappingStruct(const std::string &inputMapping) const
 	{
 		auto it = std::find_if(m_InputMappingsVec.begin(), m_InputMappingsVec.end(),
 			[inputMapping](InputMapping im) { return im.Name == inputMapping; });
 
 		if (it != m_InputMappingsVec.end())
-			return *it;
+			return (*it);
 		else
 			LogWarningC(inputMapping + std::string(" not found."));
 
 		return InputMapping();
 	}
 
-	const KeyState InputManager::GetInputMappingState(const std::string & inputMapping) const
+	const KeyState InputManager::GetInputMappingState(const std::string &inputMapping) const
 	{
 		auto it = std::find_if(m_InputMappingsVec.begin(), m_InputMappingsVec.end(),
 			[inputMapping](InputMapping im) { return im.Name == inputMapping; });
@@ -102,6 +111,19 @@ namespace dae
 			LogWarningC(inputMapping + std::string(" not found."));
 
 		return KeyState::Default;
+	}
+
+	const float InputManager::GetInputMappingAxis(const std::string & inputMapping) const
+	{
+		auto it = std::find_if(m_InputMappingsVec.begin(), m_InputMappingsVec.end(),
+			[inputMapping](InputMapping im) { return im.Name == inputMapping; });
+
+		if (it != m_InputMappingsVec.end())
+			return (*it).Axis;
+		else
+			LogWarningC(inputMapping + std::string(" not found."));
+
+		return 0.f;
 	}
 
 #pragma region XInput
@@ -128,6 +150,37 @@ namespace dae
 				return KeyState::Triggered;
 			else
 				return KeyState::Default;
+	}
+
+	const float InputManager::GetAxis(const GamePadAxis axis) const
+	{
+		switch (axis)
+		{
+		case dae::GamePadAxis::None:
+			return 0.f;
+			break;
+		case dae::GamePadAxis::LeftStickHorizontal:
+			return GetLeftStickX();
+			break;
+		case dae::GamePadAxis::LeftStickVertical:
+			return GetLeftStickY();
+			break;
+		case dae::GamePadAxis::RightStickHorizontal:
+			return GetRightStickX();
+			break;
+		case dae::GamePadAxis::RightStickVertical:
+			return GetRightStickY();
+			break;
+		case dae::GamePadAxis::LeftTrigger:
+			return GetLeftTrigger();
+			break;
+		case dae::GamePadAxis::RightTrigger:
+			return GetRightTrigger();
+			break;
+		default:
+			return 0.f;
+			break;
+		}
 	}
 
 	const float InputManager::GetLeftTrigger() const
@@ -226,6 +279,19 @@ namespace dae
 	const bool InputManager::AreKeyModsPressed(const SDL_Keymod mod) const
 	{
 		return (m_CurrentKeyMods & mod) != 0;
+	}
+
+	const float InputManager::GetKeyAxis(const SDL_Scancode positiveKey, const SDL_Scancode negativeKey) const
+	{
+		float axis{ 0.f };
+
+		if (positiveKey != SDL_SCANCODE_UNKNOWN)
+			axis += IsPressed(positiveKey) ? 1.f : 0.f;
+
+		if (negativeKey != SDL_SCANCODE_UNKNOWN)
+			axis -= IsPressed(negativeKey) ? 1.f : 0.f;
+
+		return axis;
 	}
 
 #pragma endregion
