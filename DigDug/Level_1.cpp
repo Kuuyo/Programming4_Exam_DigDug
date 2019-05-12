@@ -39,23 +39,23 @@ void Level_1::Initialize(const dae::GameContext &gameContext)
 
 	Characters::DigDug::CreateDigDugCharacter(m_pDigDug);
 	AddGameObject(m_pDigDug);
-	m_pDigDug->SetPosition(8.f, 28.f);
+	m_pDigDug->SetPosition(8.f, 30.f);
 	
 	// TODO: Make Wall prefab
-	go = new dae::GameObject("Wall");
-	dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
-	auto pBody = new dae::BodyComponent(b2BodyType::b2_staticBody);
-	fixtureDesc.halfWidth = .1f;
-	fixtureDesc.halfHeight = float(gameContext.GameSettings.WindowHeight * .5f);
+	//go = new dae::GameObject("Wall");
+	//dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
+	//auto pBody = new dae::BodyComponent(b2BodyType::b2_staticBody);
+	//fixtureDesc.halfWidth = .1f;
+	//fixtureDesc.halfHeight = float(gameContext.GameSettings.WindowHeight * .5f);
+	//
+	//pBody->SetBoxFixture(fixtureDesc);
+	//
+	//go->AddComponent(pBody);
+	//AddGameObject(go);
+	//go->SetPosition(float(gameContext.GameSettings.WindowResolutionW + .1f)
+	//	, float(gameContext.GameSettings.WindowHeight * .5f));
 
-	pBody->SetBoxFixture(fixtureDesc);
-	
-	go->AddComponent(pBody);
-	AddGameObject(go);
-	go->SetPosition(float(gameContext.GameSettings.WindowResolutionW + .1f)
-		, float(gameContext.GameSettings.WindowHeight * .5f));
-
-	// Prefabs::CreateLevel(this, gameContext.GameSettings, 8);
+	Prefabs::CreateLevel(this, gameContext.GameSettings, 8);
 }
 
 void Level_1::Update(const dae::GameContext &)

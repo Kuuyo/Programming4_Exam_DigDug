@@ -19,8 +19,8 @@ namespace Characters
 			out = new dae::GameObject("DigDug");
 
 		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
-		fixtureDesc.halfWidth = 8.f;
-		fixtureDesc.halfHeight = 8.f;
+		fixtureDesc.halfWidth = 6.f;
+		fixtureDesc.halfHeight = 6.f;
 		fixtureDesc.filter.categoryBits = m_CategoryBits;
 		// TODO: make bits not hardcoded
 		dae::BodyComponent* pBody = new dae::BodyComponent();
@@ -31,7 +31,8 @@ namespace Characters
 		src.h = src.w = 16;
 		out->AddComponent(new dae::TextureComponent("DigDug.gif", true, src));
 
-		out->AddComponent(new dae::GridComponent(16, { 8.f,28.f }, 200, 300, true));
+		// TODO: Make grid not hardcoded
+		out->AddComponent(new dae::GridComponent(16, { 8.f,30.f }, 224, 256, true));
 
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
 		pFSM->AddState(new DigDug_States::IdleState());
