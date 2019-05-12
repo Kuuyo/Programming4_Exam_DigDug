@@ -13,6 +13,7 @@ namespace dae
 		~Renderer();
 
 		void Render(const std::vector<Texture2D*> &pTextures, float extrapolate) const;
+		void AddDebugDrawPoint(const SDL_Point &point);
 
 		SDL_Renderer* GetSDLRenderer() const { return m_pRenderer; }
 
@@ -24,6 +25,8 @@ namespace dae
 		b2World* m_pPhysics{ nullptr };
 		SDL_Renderer* m_pRenderer{ nullptr };
 		Box2DDebugRender* m_pBox2DDebugRenderer{ nullptr };
+
+		std::vector<SDL_Point> m_DebugDrawPoints{};
 	};
 }
 

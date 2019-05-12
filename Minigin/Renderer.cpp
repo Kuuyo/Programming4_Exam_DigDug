@@ -44,9 +44,16 @@ namespace dae
 
 #if defined(DEBUG) | defined(_DEBUG)
 		m_pPhysics->DrawDebugData();
+
+		SDL_RenderDrawPoints(m_pRenderer, m_DebugDrawPoints.data(), m_DebugDrawPoints.size());
 #endif
 
 		SDL_RenderPresent(m_pRenderer);
+	}
+
+	void Renderer::AddDebugDrawPoint(const SDL_Point &point)
+	{
+		m_DebugDrawPoints.push_back(point);
 	}
 
 	void Renderer::RenderTexture(const Texture2D& texture, float) const

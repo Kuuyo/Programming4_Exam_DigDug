@@ -147,7 +147,7 @@ namespace dae
 	void BodyComponent::MoveToTarget(const glm::vec2 &target, float speed)
 	{
 		auto vector = target - m_pParent->GetPosition();
-		auto direction = glm::normalize(vector);
+		auto direction = (glm::length(vector) != 0.f) ? glm::normalize(vector) : vector;
 		direction *= speed;
 
 		SetLinearVelocity(direction.x, direction.y);

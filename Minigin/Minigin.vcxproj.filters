@@ -109,6 +109,9 @@
     <ClInclude Include="InfiniteGridComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="GridComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
@@ -175,6 +178,9 @@
       <Filter>Engine Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="InfiniteGridComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GridComponent.cpp">
       <Filter>Engine Files\Components</Filter>
     </ClCompile>
   </ItemGroup>

@@ -65,12 +65,6 @@ namespace dae
 
 			return nullptr;
 		}
-#pragma endregion
-
-	private:
-		friend void Scene::AddGameObject(GameObject* object);
-
-		void SetScene(Scene* pScene);
 
 		template <class T>
 		T* GetComponentNoError()
@@ -84,6 +78,12 @@ namespace dae
 
 			return nullptr;
 		}
+#pragma endregion
+
+	private:
+		friend void Scene::AddGameObject(GameObject* object);
+
+		void SetScene(Scene* pScene);
 
 		std::string m_Tag;
 		bool m_IsInitialized;

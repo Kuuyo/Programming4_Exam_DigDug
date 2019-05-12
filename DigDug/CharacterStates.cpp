@@ -5,6 +5,12 @@
 #include "InputManager.h"
 #include "GameObject.h"
 #include "BodyComponent.h"
+#include "GridComponent.h"
+
+#pragma warning(push)
+#pragma warning (disable:4201)
+#include <glm/detail/func_common.hpp>
+#pragma warning(pop)
 
 namespace Characters
 {
@@ -75,7 +81,38 @@ namespace Characters
 				return;
 			}
 
+			glm::vec2 direction{ horizontal,vertical };
 
+			if (direction.x != 0.f && direction.y != 0.f)
+			{
+				if (glm::abs(direction.x) < glm::abs(direction.y))
+					direction.y = 0;
+				else
+					direction.x = 0;
+			}
+
+			auto gameObject = GetGameObject();
+
+			auto pos = gameObject->GetPosition();
+			auto target = gameObject->GetComponent<dae::GridComponent>()->GetNextGridPoint(pos, direction);
+
+			auto vector = target - pos;
+
+			if (vector.x != 0.f && vector.y != 0.f)
+			{
+				if (glm::abs(vector.x) < glm::abs(vector.y))
+					vector.y = 0;
+				else
+					vector.x = 0;
+			}
+
+			vector += pos;
+
+			LogFormatC(dae::LogLevel::Debug, "Pos: %f, %f", pos.x, pos.y);
+			LogFormatC(dae::LogLevel::Debug, "Target: %f, %f", target.x, target.y);
+			LogFormatC(dae::LogLevel::Debug, "MoveToTarget: %f, %f", vector.x, vector.y);
+
+			gameObject->GetComponent<dae::BodyComponent>()->MoveToTarget(vector, 24.f);			
 		} // TODO: Easier access to BodyComponent?
 
 		void MovingState::OnExit(const dae::GameContext &)
