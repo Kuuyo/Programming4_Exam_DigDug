@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "TextureComponent.h"
 #include "BodyComponent.h"
-#include "GridComponent.h"
+
 #include "FSMComponent.h"
 
 namespace Characters
@@ -30,7 +30,6 @@ namespace Characters
 		src.h = src.w = 16;
 		out->AddComponent(new dae::TextureComponent("DigDug.gif", true, src));
 
-		out->AddComponent(new dae::GridComponent(8.f, true));
 
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
 		pFSM->AddState(new DigDug_States::IdleState());

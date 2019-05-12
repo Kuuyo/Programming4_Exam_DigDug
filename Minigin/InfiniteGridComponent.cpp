@@ -1,5 +1,5 @@
 #include "MiniginPCH.h"
-#include "GridComponent.h"
+#include "InfiniteGridComponent.h"
 
 #include "GameObject.h"
 #include "BodyComponent.h"
@@ -8,21 +8,21 @@
 
 namespace dae
 {
-	GridComponent::GridComponent(const float sectionSize, bool constrain)
+	InfiniteGridComponent::InfiniteGridComponent(const float sectionSize, bool constrain)
 		: m_SectionSize(sectionSize)
 		, m_bConstrain(constrain)
 	{
 	}
 
-	GridComponent::~GridComponent()
+	InfiniteGridComponent::~InfiniteGridComponent()
 	{
 	}
 
-	void GridComponent::Initialize(const GameContext &)
+	void InfiniteGridComponent::Initialize(const GameContext &)
 	{
 	}
 
-	void GridComponent::LateUpdate(const GameContext &)
+	void InfiniteGridComponent::LateUpdate(const GameContext &)
 	{
 		if (m_bConstrain) // TODO: Kind of ugly, this whole component needs some refining
 		{
@@ -50,7 +50,7 @@ namespace dae
 		}
 	}
 
-	glm::vec2 GridComponent::GetClosestGridPointConstrained(Direction direction) const
+	glm::vec2 InfiniteGridComponent::GetClosestGridPointConstrained(Direction direction) const
 	{
 		glm::vec2 x, y, z;
 
@@ -101,7 +101,7 @@ namespace dae
 		return map.at(glm::min(xDist, glm::min(yDist, zDist)));
 	}
 
-	glm::vec2 GridComponent::GetClosestGridPoint(float x, float y, Direction direction) const
+	glm::vec2 InfiniteGridComponent::GetClosestGridPoint(float x, float y, Direction direction) const
 	{
 		switch (direction)
 		{
@@ -124,7 +124,7 @@ namespace dae
 		return glm::vec2();
 	}
 
-	glm::vec2 GridComponent::GetClosestGridPoint(Direction direction) const
+	glm::vec2 InfiniteGridComponent::GetClosestGridPoint(Direction direction) const
 	{
 		auto pos = m_pParent->GetPosition();
 		switch (direction)
@@ -147,7 +147,7 @@ namespace dae
 		return GetClosestGridPoint(pos.x, pos.y, direction);
 	}
 
-	glm::vec2 GridComponent::GetClosestGridPoint() const
+	glm::vec2 InfiniteGridComponent::GetClosestGridPoint() const
 	{
 		const auto pos = m_pParent->GetPosition();
 		return glm::vec2(m_SectionSize * (glm::floor)(pos.x / m_SectionSize), m_SectionSize * (glm::floor)(pos.y / m_SectionSize));

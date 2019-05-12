@@ -4,15 +4,15 @@
 
 namespace dae
 {
-	class GridComponent final : public BaseComponent
+	class InfiniteGridComponent final : public BaseComponent
 	{
 	public:
-		GridComponent(const float sectionSize, bool constrain);
+		InfiniteGridComponent(const float sectionSize, bool constrain);
 
-		GridComponent(const GridComponent &) = delete;
-		GridComponent(GridComponent &&) = delete;
-		GridComponent & operator= (const GridComponent &) = delete;
-		GridComponent & operator= (const GridComponent &&) = delete;
+		InfiniteGridComponent(const InfiniteGridComponent &) = delete;
+		InfiniteGridComponent(InfiniteGridComponent &&) = delete;
+		InfiniteGridComponent & operator= (const InfiniteGridComponent &) = delete;
+		InfiniteGridComponent & operator= (const InfiniteGridComponent &&) = delete;
 
 		glm::vec2 GetClosestGridPointConstrained(Direction direction) const;
 		glm::vec2 GetClosestGridPoint(float x, float y, Direction direction) const;
@@ -24,7 +24,7 @@ namespace dae
 		void Update(const GameContext &) override {}
 		void LateUpdate(const GameContext &gameContext) override;
 
-		virtual ~GridComponent();
+		virtual ~InfiniteGridComponent();
 
 	private:
 		const float m_SectionSize;

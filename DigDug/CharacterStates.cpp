@@ -5,7 +5,6 @@
 #include "InputManager.h"
 #include "GameObject.h"
 #include "BodyComponent.h"
-#include "GridComponent.h"
 
 namespace Characters
 {
@@ -76,14 +75,7 @@ namespace Characters
 				return;
 			}
 
-			dae::Direction direction = (horizontal != 0.f)
-				? (horizontal > 0.f) ? dae::Direction::Right : dae::Direction::Left
-				: (vertical > 0.f) ? dae::Direction::Down : dae::Direction::Up;
 
-			auto target = GetGameObject()->GetComponent<dae::GridComponent>()->GetClosestGridPointConstrained(direction);
-			auto pos = GetGameObject()->GetPosition();
-
-			GetGameObject()->GetComponent<dae::BodyComponent>()->MoveToTarget(target, 16.f);
 		} // TODO: Easier access to BodyComponent?
 
 		void MovingState::OnExit(const dae::GameContext &)

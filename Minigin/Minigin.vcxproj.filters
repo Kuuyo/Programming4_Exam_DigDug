@@ -103,10 +103,10 @@
     <ClInclude Include="Box2DDebugRender.h">
       <Filter>Engine Files\_Debug</Filter>
     </ClInclude>
-    <ClInclude Include="GridComponent.h">
+    <ClInclude Include="FSMComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="FSMComponent.h">
+    <ClInclude Include="InfiniteGridComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -171,10 +171,10 @@
     <ClCompile Include="Box2DDebugRender.cpp">
       <Filter>Engine Files\_Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GridComponent.cpp">
+    <ClCompile Include="FSMComponent.cpp">
       <Filter>Engine Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="FSMComponent.cpp">
+    <ClCompile Include="InfiniteGridComponent.cpp">
       <Filter>Engine Files\Components</Filter>
     </ClCompile>
   </ItemGroup>

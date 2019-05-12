@@ -4,7 +4,7 @@
 #include "Time.h"
 #include "InputManager.h"
 #include "BodyComponent.h"
-#include "GridComponent.h"
+#include "InfiniteGridComponent.h"
 
 namespace dae
 {
@@ -72,7 +72,7 @@ namespace dae
 
 				auto dest = pos + mov;
 
-				auto gPoint = m_pParent->GetComponent<GridComponent>()->GetClosestGridPoint(dest.x, dest.y, im.first);
+				auto gPoint = m_pParent->GetComponent<InfiniteGridComponent>()->GetClosestGridPoint(dest.x, dest.y, im.first);
 
 				LogDebugC(std::to_string(gPoint.x) + " " + std::to_string(gPoint.y));
 
