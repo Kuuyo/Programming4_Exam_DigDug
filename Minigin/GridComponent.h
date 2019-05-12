@@ -21,8 +21,8 @@ namespace dae
 
 	protected:
 		void Initialize(const GameContext &gameContext) override;
-		void Update(const GameContext &gameContext) override;
-		void LateUpdate(const GameContext &) override {}
+		void Update(const GameContext &) override {}
+		void LateUpdate(const GameContext &gameContext) override;
 
 		virtual ~GridComponent();
 

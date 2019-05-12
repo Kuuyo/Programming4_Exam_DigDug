@@ -74,7 +74,7 @@ namespace dae
 
 	void GameObject::SetPosition(glm::vec2 pos)
 	{
-		m_pTransform->SetPosition(pos.x, pos.y);
+		SetPosition(pos.x, pos.y, Anchor::TopLeft);
 	}
 
 	const glm::vec2 GameObject::GetPosition() const

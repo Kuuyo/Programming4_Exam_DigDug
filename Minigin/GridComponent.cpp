@@ -22,15 +22,31 @@ namespace dae
 	{
 	}
 
-	void GridComponent::Update(const GameContext &)
+	void GridComponent::LateUpdate(const GameContext &)
 	{
-		if (m_bConstrain && glm::abs(glm::distance(GetClosestGridPoint(), m_pParent->GetPosition())) < .001f)
+		if (m_bConstrain) // TODO: Kind of ugly, this whole component needs some refining
 		{
-			auto pos = m_pParent->GetPosition();
-			auto correction = GetClosestGridPoint() - pos;
-			auto newPos = pos + correction;
+			if (glm::abs(GetClosestGridPoint().x - m_pParent->GetPosition().x) < 0.01f
+				&& glm::abs(GetClosestGridPoint().x - m_pParent->GetPosition().x) > FLT_EPSILON)
+			{
+				const auto pos = m_pParent->GetPosition();
+				auto correction = GetClosestGridPoint() - pos;
+				auto newPos = pos;
+				newPos.x += correction.x;
+		
+				m_pParent->SetPosition(newPos);
+			}
 
-			m_pParent->SetPosition(newPos);
+			if (glm::abs(GetClosestGridPoint().y - m_pParent->GetPosition().y) < 0.01f
+				&& glm::abs(GetClosestGridPoint().y - m_pParent->GetPosition().y) > FLT_EPSILON)
+			{	
+				const auto pos = m_pParent->GetPosition();
+				auto correction = GetClosestGridPoint() - pos;
+				auto newPos = pos;
+				newPos.y += correction.y;
+		
+				m_pParent->SetPosition(newPos);
+			}
 		}
 	}
 
@@ -40,10 +56,7 @@ namespace dae
 
 		const auto pos = m_pParent->GetPosition();
 
-		//if(glm::abs(glm::distance(pos, GetClosestGridPoint())) < .001f)
-		//	return GetClosestGridPoint(direction);
-
-		if(glm::abs(glm::distance(pos, GetClosestGridPoint(direction))) - .0015f <= 8.f)
+		if(glm::abs(glm::distance(pos, GetClosestGridPoint(direction))) - .009f <= m_SectionSize)
 			return GetClosestGridPoint(direction);
 
 		switch (direction)

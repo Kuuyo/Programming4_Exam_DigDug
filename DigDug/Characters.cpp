@@ -18,8 +18,8 @@ namespace Characters
 			out = new dae::GameObject("DigDug");
 
 		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
-		fixtureDesc.halfWidth = 5.f;
-		fixtureDesc.halfHeight = 5.f;
+		fixtureDesc.halfWidth = 8.f;
+		fixtureDesc.halfHeight = 8.f;
 		fixtureDesc.filter.categoryBits = m_CategoryBits;
 		// TODO: make bits not hardcoded
 		dae::BodyComponent* pBody = new dae::BodyComponent();

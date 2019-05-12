@@ -82,10 +82,8 @@ namespace Characters
 
 			auto target = GetGameObject()->GetComponent<dae::GridComponent>()->GetClosestGridPointConstrained(direction);
 			auto pos = GetGameObject()->GetPosition();
-			LogFormatC(dae::LogLevel::Debug, "px:%f py:%f", pos.x, pos.y);
-			LogFormatC(dae::LogLevel::Debug, "x:%f y:%f", target.x, target.y);
 
-			GetGameObject()->GetComponent<dae::BodyComponent>()->MoveToTarget(target, 8.f);
+			GetGameObject()->GetComponent<dae::BodyComponent>()->MoveToTarget(target, 16.f);
 		} // TODO: Easier access to BodyComponent?
 
 		void MovingState::OnExit(const dae::GameContext &)
