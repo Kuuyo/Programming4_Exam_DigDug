@@ -42,6 +42,11 @@ namespace dae
 		const float GetRightStickX() const;
 		const float GetRightStickY() const;
 
+		const float GetLeftStickXAnalog() const;
+		const float GetLeftStickYAnalog() const;
+		const float GetRightStickXAnalog() const;
+		const float GetRightStickYAnalog() const;
+
 		// Keyboard
 		const bool IsPressed(const SDL_Scancode key) const;
 		const bool WasPressed(const SDL_Scancode key) const;

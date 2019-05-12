@@ -28,7 +28,11 @@ namespace dae
 		RightStickHorizontal,
 		RightStickVertical,
 		LeftTrigger,
-		RightTrigger
+		RightTrigger,
+		LeftStickHorizontalAnalog,
+		LeftStickVerticalAnalog,
+		RightStickHorizontalAnalog,
+		RightStickVerticalAnalog,
 	};
 
 	struct InputMapping

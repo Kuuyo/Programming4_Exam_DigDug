@@ -176,6 +176,18 @@ namespace dae
 		case dae::GamePadAxis::RightTrigger:
 			return GetRightTrigger();
 			break;
+		case dae::GamePadAxis::LeftStickHorizontalAnalog:
+			return GetLeftStickXAnalog();
+			break;
+		case dae::GamePadAxis::LeftStickVerticalAnalog:
+			return GetLeftStickYAnalog();
+			break;
+		case dae::GamePadAxis::RightStickHorizontalAnalog:
+			return GetRightStickXAnalog();
+			break;
+		case dae::GamePadAxis::RightStickVerticalAnalog:
+			return GetRightStickYAnalog();
+			break;
 		default:
 			return 0.f;
 			break;
@@ -210,6 +222,30 @@ namespace dae
 	const float InputManager::GetRightStickY() const
 	{
 		return HandleStickAxis(ThumbStick::RightY);
+	}
+
+	const float InputManager::GetLeftStickXAnalog() const
+	{
+		float value = HandleStickAxis(ThumbStick::LeftX);
+		return (value > 0.f) ? glm::ceil(value) : glm::floor(value);
+	}
+
+	const float InputManager::GetLeftStickYAnalog() const
+	{
+		float value = HandleStickAxis(ThumbStick::LeftY);
+		return (value > 0.f) ? glm::ceil(value) : glm::floor(value);
+	}
+
+	const float InputManager::GetRightStickXAnalog() const
+	{
+		float value = HandleStickAxis(ThumbStick::RightX);
+		return (value > 0.f) ? glm::ceil(value) : glm::floor(value);
+	}
+
+	const float InputManager::GetRightStickYAnalog() const
+	{
+		float value = HandleStickAxis(ThumbStick::RightY);
+		return (value > 0.f) ? glm::ceil(value) : glm::floor(value);
 	}
 
 	const float InputManager::HandleStickAxis(const ThumbStick thumbstick) const
