@@ -194,57 +194,63 @@ namespace dae
 
 	const float InputManager::GetLeftStickX() const
 	{
-		return HandleStick(ThumbStick::Left).x;
+		return HandleStickAxis(ThumbStick::LeftX);
 	}
-
+	
 	const float InputManager::GetLeftStickY() const
 	{
-		return HandleStick(ThumbStick::Left).y;
+		return HandleStickAxis(ThumbStick::LeftY);
 	}
-
+	
 	const float InputManager::GetRightStickX() const
 	{
-		return HandleStick(ThumbStick::Right).x;
+		return HandleStickAxis(ThumbStick::RightX);
 	}
-
+	
 	const float InputManager::GetRightStickY() const
 	{
-		return HandleStick(ThumbStick::Right).y;
+		return HandleStickAxis(ThumbStick::RightY);
 	}
 
-	const glm::vec2 InputManager::HandleStick(ThumbStick thumbstick) const
+	const float InputManager::HandleStickAxis(const ThumbStick thumbstick) const
 	{
-		glm::vec2 stick;
+		float stickAxis{};
 		float deadzone{};
 
 		switch (thumbstick)
 		{
-		case dae::InputManager::ThumbStick::Left:
-			stick.x = m_CurrentState.Gamepad.sThumbLX;
-			stick.y = m_CurrentState.Gamepad.sThumbLY;
+		case dae::InputManager::ThumbStick::LeftX:
+			stickAxis = m_CurrentState.Gamepad.sThumbLX;
 			deadzone = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
 			break;
-		case dae::InputManager::ThumbStick::Right:
-			stick.x = m_CurrentState.Gamepad.sThumbRX;
-			stick.y = m_CurrentState.Gamepad.sThumbRY;
+		case dae::InputManager::ThumbStick::LeftY:
+			stickAxis = float(-m_CurrentState.Gamepad.sThumbLY);
+			deadzone = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
+			break;
+		case dae::InputManager::ThumbStick::RightX:
+			stickAxis = m_CurrentState.Gamepad.sThumbRX;
+			deadzone = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
+			break;
+		case dae::InputManager::ThumbStick::RightY:
+			stickAxis = float(-m_CurrentState.Gamepad.sThumbRY);
 			deadzone = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
 			break;
 		default:
 			break;
 		}
 
-		if (glm::length2(stick) < glm::pow(deadzone, 2))
-			stick.x = stick.y = 0.f;
+		if (glm::abs(stickAxis) < deadzone)
+			stickAxis = 0.f;
 		else
 		{
-			float percentage = (glm::length(stick) - deadzone) / (m_MaxAxisValue - deadzone);
-			stick = stick / glm::length(stick);
-			stick *= percentage;
-			glm::clamp(stick.x, -1.f, 1.f);
-			glm::clamp(stick.y, -1.f, 1.f);
+			float percentage = (glm::abs(stickAxis) - deadzone) / (m_MaxAxisValue - deadzone);
+			LogErrorC(std::to_string(percentage));
+			stickAxis /= m_MaxAxisValue;
+			stickAxis *= percentage;
+			stickAxis = glm::clamp(stickAxis, -1.f, 1.f);
 		}
 
-		return stick;
+		return stickAxis;
 	}
 
 #pragma endregion

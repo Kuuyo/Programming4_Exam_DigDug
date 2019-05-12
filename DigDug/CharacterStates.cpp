@@ -83,6 +83,8 @@ namespace Characters
 
 			glm::vec2 direction{ horizontal,vertical };
 
+			LogFormatC(dae::LogLevel::Warning, "Direction: %f, %f", direction.x, direction.y);
+
 			if (direction.x != 0.f && direction.y != 0.f)
 			{
 				if (glm::abs(direction.x) < glm::abs(direction.y))
@@ -90,6 +92,8 @@ namespace Characters
 				else
 					direction.x = 0;
 			}
+
+			LogFormatC(dae::LogLevel::Warning, "Direction2: %f, %f", direction.x, direction.y);
 
 			auto gameObject = GetGameObject();
 

@@ -59,8 +59,10 @@ namespace dae
 		// XInput
 		enum class ThumbStick
 		{
-			Left,
-			Right
+			LeftX,
+			LeftY,
+			RightX,
+			RightY
 		};
 
 		XINPUT_STATE m_CurrentState{};
@@ -68,7 +70,7 @@ namespace dae
 		const float m_MaxAxisValue = 32767;
 		bool m_bControllerIsDisconnected{ false };
 
-		const glm::vec2 HandleStick(ThumbStick thumbstick) const;
+		const float HandleStickAxis(const ThumbStick thumbstick) const;
 
 		// Keyboard
 		UINT8* m_pPreviousKeyboardState;
