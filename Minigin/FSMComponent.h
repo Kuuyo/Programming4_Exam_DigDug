@@ -40,9 +40,6 @@ namespace dae
 
 		void RootInitialize(const GameContext &gameContext, FSMComponent* pParentFSM);
 
-		void RootOnEnter(const GameContext &gameContext);
-		void RootOnExit(const GameContext &gameContext);
-
 		FSMComponent* m_pFSM{ nullptr };
 		InputManager* m_pInput{ nullptr };
 		const GameContext* m_pGameContext{ nullptr };
@@ -73,11 +70,11 @@ namespace dae
 			{
 				if (state.first && typeid(*state.first) == ti)
 				{
-					m_pActiveState->RootOnExit(gameContext);
+					m_pActiveState->OnExit(gameContext);
 
 					m_pActiveState = state.first;
 
-					m_pActiveState->RootOnEnter(gameContext);
+					m_pActiveState->OnEnter(gameContext);
 
 					return;
 				}

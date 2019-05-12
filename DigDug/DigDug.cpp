@@ -13,5 +13,10 @@ void DigDug::LoadGame(const dae::GameContext &gameContext) const
 			, SDL_SCANCODE_D, SDL_SCANCODE_A
 			, dae::GamePadAxis::LeftStickHorizontal));
 
+	gameContext.Input->AddInputMapping(
+		dae::InputMapping("P1Vertical"
+			, SDL_SCANCODE_W, SDL_SCANCODE_S
+			, dae::GamePadAxis::LeftStickVertical));
+
 	gameContext.Scenes->AddScene(new Level_1());
 }

@@ -55,11 +55,12 @@ void Level_1::Initialize(const dae::GameContext &gameContext)
 	go->SetPosition(float(gameContext.GameSettings.WindowResolutionW + .1f)
 		, float(gameContext.GameSettings.WindowHeight * .5f));
 
-	Prefabs::CreateLevel(this, gameContext.GameSettings, 4);
+	// Prefabs::CreateLevel(this, gameContext.GameSettings, 4);
 }
 
 void Level_1::Update(const dae::GameContext &)
 {
+
 }
 
 void Level_1::OnCollisionEnter(b2Contact* contact, dae::GameObject* gameObject)

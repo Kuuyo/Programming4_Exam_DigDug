@@ -144,6 +144,25 @@ namespace dae
 		m_pBody->SetAngularVelocity(aVel);
 	}
 
+	void BodyComponent::MoveToTarget(const glm::vec2 &target, float speed)
+	{
+		auto vector = target - m_pParent->GetPosition();
+		auto direction = glm::normalize(vector);
+		direction *= speed;
+
+		SetLinearVelocity(direction.x, direction.y);
+	}
+
+	void BodyComponent::SetPosition(float x, float y)
+	{
+		m_pBody->SetTransform({ x,y }, m_pBody->GetAngle());
+	}
+
+	void BodyComponent::SetPosition(const glm::vec2 &pos)
+	{
+		SetPosition(pos.x, pos.y);
+	}
+
 	void BodyComponent::SetLinearDamping(float d)
 	{
 		m_pBody->SetLinearDamping(d);

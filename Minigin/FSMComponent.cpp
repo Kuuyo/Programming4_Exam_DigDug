@@ -23,15 +23,6 @@ namespace dae
 
 		Initialize(gameContext);
 	}
-
-	void State::RootOnEnter(const GameContext &gameContext)
-	{
-		OnEnter(gameContext);
-	}
-	void State::RootOnExit(const GameContext &gameContext)
-	{
-		OnExit(gameContext);
-	}
 }
 
 namespace dae
@@ -56,7 +47,7 @@ namespace dae
 			it.first->RootInitialize(gameContext, this);
 		}
 
-		m_pActiveState->RootOnEnter(gameContext);
+		m_pActiveState->OnEnter(gameContext);
 	}
 
 	void FSMComponent::Update(const GameContext &gameContext)

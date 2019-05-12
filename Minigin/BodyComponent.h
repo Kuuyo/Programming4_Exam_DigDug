@@ -78,16 +78,25 @@ namespace dae
 		void SetPolygonFixtures(std::vector<PolygonFixtureDesc> descVec);
 		void SetEdgeFixtures(std::vector<EdgeFixtureDesc> descVec);
 
-		void SetLinearVelocity(const b2Vec2 lVel);
+		void SetLinearVelocity(const b2Vec2 lVel);// TODO: Fix the mixing between b2Vec2 and glm::vec2
 		void SetLinearVelocity(float lVelx, float lVely);
 		void ApplyForce(float lVelx, float lVely);
 		b2Vec2 GetLinearVelocity() const { return m_pBody->GetLinearVelocity(); }
 		void SetAngularVelocity(float aVel);
 
+		void MoveToTarget(const glm::vec2 &target, float speed);
+		void SetPosition(float x, float y);
+		void SetPosition(const glm::vec2 &pos);
+
 		void SetLinearDamping(float d);
 
 		bool HasContactList() const;
 		b2ContactEdge* GetContactList();
+
+		BodyComponent(const BodyComponent &) = delete;
+		BodyComponent(BodyComponent &&) = delete;
+		BodyComponent & operator= (const BodyComponent &) = delete;
+		BodyComponent & operator= (const BodyComponent &&) = delete;
 
 	protected:
 		void Initialize(const GameContext &gameContext) override;

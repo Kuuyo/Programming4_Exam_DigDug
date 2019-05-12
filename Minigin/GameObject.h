@@ -59,6 +59,9 @@ namespace dae
 					return static_cast<T*>(component);
 			}
 
+			LogErrorC(std::string("Component not found: ")
+				+ std::string(ti.name()));
+
 			return nullptr;
 		}
 #pragma endregion
@@ -69,6 +72,7 @@ namespace dae
 		void SetScene(Scene* pScene);
 
 		std::string m_Tag;
+		bool m_IsInitialized;
 		std::vector<BaseComponent*> m_pVecComponents;
 		TransformComponent* m_pTransform;
 		Scene* m_pScene;

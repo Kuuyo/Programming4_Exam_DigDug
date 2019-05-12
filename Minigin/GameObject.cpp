@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 #include "BaseComponent.h"
+#include "BodyComponent.h"
 
 namespace dae
 {
@@ -34,6 +35,8 @@ namespace dae
 		{
 			pComponent->Initialize(gameContext);
 		}
+
+		m_IsInitialized = true;
 	}
 
 	void GameObject::Update(const GameContext &gameContext)
@@ -54,6 +57,11 @@ namespace dae
 	void GameObject::SetPosition(float x, float y, Anchor anchor)
 	{
 		m_pTransform->SetPosition(x, y, anchor);
+
+		auto body = GetComponent<BodyComponent>();
+
+		if (body != nullptr && m_IsInitialized) // TODO: Bool for components to check if initialized ?
+			body->SetPosition(m_pTransform->GetPosition());
 	}
 
 	void GameObject::SetPosition(glm::vec2 pos)

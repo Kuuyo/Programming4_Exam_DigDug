@@ -5,6 +5,7 @@
 #include "InputManager.h"
 #include "GameObject.h"
 #include "BodyComponent.h"
+#include "GridComponent.h"
 
 namespace Characters
 {
@@ -34,9 +35,13 @@ namespace Characters
 
 		void IdleState::Update(const dae::GameContext &gameContext)
 		{
-			LogDebugC("");
-			if (gameContext.Input->GetInputMappingAxis("P1Horizontal") != 0.f)
+			if (gameContext.Input->GetInputMappingAxis("P1Horizontal") != 0.f
+				|| gameContext.Input->GetInputMappingAxis("P1Vertical") != 0.f)
+			{
 				ChangeState<MovingState>();
+				return;
+			}
+
 		}
 
 		void IdleState::OnExit(const dae::GameContext &gameContext)
@@ -62,18 +67,31 @@ namespace Characters
 
 		void MovingState::Update(const dae::GameContext &gameContext)
 		{
-			LogDebugC("");
-
 			float horizontal = gameContext.Input->GetInputMappingAxis("P1Horizontal");
+			float vertical = gameContext.Input->GetInputMappingAxis("P1Vertical");
 
-			if (horizontal == 0.f) ChangeState<IdleState>();
+			if (horizontal == 0.f && vertical == 0.f)
+			{
+				ChangeState<IdleState>();
+				return;
+			}
 
-			GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(horizontal*40.f, 0.f);
+			dae::Direction direction = (horizontal != 0.f)
+				? (horizontal > 0.f) ? dae::Direction::Right : dae::Direction::Left
+				: (vertical > 0.f) ? dae::Direction::Down : dae::Direction::Up;
+
+			auto target = GetGameObject()->GetComponent<dae::GridComponent>()->GetClosestGridPointConstrained(direction);
+			auto pos = GetGameObject()->GetPosition();
+			LogFormatC(dae::LogLevel::Debug, "px:%f py:%f", pos.x, pos.y);
+			LogFormatC(dae::LogLevel::Debug, "x:%f y:%f", target.x, target.y);
+
+			GetGameObject()->GetComponent<dae::BodyComponent>()->MoveToTarget(target, 8.f);
 		} // TODO: Easier access to BodyComponent?
 
 		void MovingState::OnExit(const dae::GameContext &)
 		{
 			LogDebugC("");
+			GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 0.f);
 		}
 	}
 }

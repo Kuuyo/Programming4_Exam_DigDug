@@ -49,7 +49,7 @@ namespace dae
 	};
 
 	// The C stands for it returns the caller
-#define LogFormatC(lvl, msg, ...) dae::Log::GetInstance().LogFormat(lvl, __FUNCTION__, msg, ...)
+#define LogFormatC(lvl, msg, ...) dae::Log::GetInstance().LogFormat(lvl, __FUNCTION__, msg, __VA_ARGS__)
 #define LogInfoC(msg) dae::Log::GetInstance().LogInfo(msg, __FUNCTION__)
 #define LogDebugC(msg)  dae::Log::GetInstance().LogDebug(msg, __FUNCTION__)
 #define LogWarningC(msg) dae::Log::GetInstance().LogWarning(msg, __FUNCTION__)

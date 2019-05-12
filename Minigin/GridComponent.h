@@ -7,7 +7,7 @@ namespace dae
 	class GridComponent final : public BaseComponent
 	{
 	public:
-		GridComponent(const float sectionSize);
+		GridComponent(const float sectionSize, bool constrain);
 		virtual ~GridComponent();
 
 		GridComponent(const GridComponent &) = delete;
@@ -18,10 +18,13 @@ namespace dae
 		void Initialize(const GameContext &gameContext) override;
 		void Update(const GameContext &gameContext) override;
 
+		glm::vec2 GetClosestGridPointConstrained(Direction direction) const;
 		glm::vec2 GetClosestGridPoint(float x, float y, Direction direction) const;
 		glm::vec2 GetClosestGridPoint(Direction direction) const;
+		glm::vec2 GetClosestGridPoint() const;
 
 	private:
 		const float m_SectionSize;
+		bool m_bConstrain;
 	};
 }
