@@ -24,18 +24,21 @@ namespace dae
 	{
 	public:
 		TransformComponent();
-		virtual ~TransformComponent();
 
 		const glm::vec2 GetPosition(Anchor anchor = Anchor::TopLeft) const;
 		void SetPosition(float x, float y, Anchor anchor = Anchor::TopLeft);
-
-		void Initialize(const GameContext &gameContext) override;
-		void Update(const GameContext &gameContext) override;
 
 		TransformComponent(const TransformComponent &) = delete;
 		TransformComponent(TransformComponent &&) = delete;
 		TransformComponent & operator= (const TransformComponent &) = delete;
 		TransformComponent & operator= (const TransformComponent &&) = delete;
+
+	protected:
+		void Initialize(const GameContext &gameContext) override;
+		void Update(const GameContext &gameContext) override;
+		void LateUpdate(const GameContext &) override {}
+
+		virtual ~TransformComponent();
 
 	private:
 		glm::vec2 m_Position;

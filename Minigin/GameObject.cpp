@@ -47,6 +47,14 @@ namespace dae
 		}
 	}
 
+	void GameObject::LateUpdate(const GameContext & gameContext)
+	{
+		for (auto pComponent : m_pVecComponents)
+		{
+			pComponent->LateUpdate(gameContext);
+		}
+	}
+
 	void GameObject::AddComponent(BaseComponent* component)
 	{
 		m_pVecComponents.push_back(component);
@@ -58,7 +66,7 @@ namespace dae
 	{
 		m_pTransform->SetPosition(x, y, anchor);
 
-		auto body = GetComponent<BodyComponent>();
+		auto body = GetComponentNoError<BodyComponent>();
 
 		if (body != nullptr && m_IsInitialized) // TODO: Bool for components to check if initialized ?
 			body->SetPosition(m_pTransform->GetPosition());

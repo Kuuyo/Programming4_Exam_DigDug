@@ -13,15 +13,18 @@ namespace dae
 	{
 	public:
 		FPSComponent(bool isCentered = false, unsigned int fontSize = 20, SDL_Color color = { 255,255,100 });
-		virtual ~FPSComponent();
 
 		FPSComponent(const FPSComponent &) = delete;
 		FPSComponent(FPSComponent &&) = delete;
 		FPSComponent & operator= (const FPSComponent &) = delete;
 		FPSComponent & operator= (const FPSComponent &&) = delete;
 
+	protected:
 		void Initialize(const GameContext &gameContext) override;
 		void Update(const GameContext &gameContext) override;
+		void LateUpdate(const GameContext &) override {}
+
+		virtual ~FPSComponent();
 
 	private:
 		Texture2D* m_pTexture;

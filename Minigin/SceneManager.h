@@ -15,6 +15,8 @@ namespace dae
 
 		void FixedUpdate();
 		void Update(const GameContext &gameContext);
+		void LateUpdate(const GameContext &gameContext);
+		void DestroyUpdate();
 		void Render(const GameContext &gameContext, float extrapolate);		
 
 		void AddScene(Scene* pScene);

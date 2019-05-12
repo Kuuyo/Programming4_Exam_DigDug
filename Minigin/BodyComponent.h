@@ -66,7 +66,6 @@ namespace dae
 		};
 
 		BodyComponent(b2BodyType bodyType = b2BodyType::b2_dynamicBody);
-		virtual ~BodyComponent();
 
 		void SetBoxFixture(BoxFixtureDesc desc);
 		void SetCircleFixture(CircleFixtureDesc desc);
@@ -101,6 +100,9 @@ namespace dae
 	protected:
 		void Initialize(const GameContext &gameContext) override;
 		void Update(const GameContext &gameContext) override;
+		void LateUpdate(const GameContext &) override {}
+
+		virtual ~BodyComponent();
 
 	private:
 		void CreateFixtureDef(const std::shared_ptr<b2Shape> shape, const FixtureDesc desc);

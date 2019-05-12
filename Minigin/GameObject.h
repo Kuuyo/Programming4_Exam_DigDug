@@ -25,6 +25,7 @@ namespace dae
 
 		void Initialize(const GameContext &gameContext);
 		void Update(const GameContext &gameContext);
+		void LateUpdate(const GameContext &gameContext);
 
 		void AddComponent(BaseComponent* component);
 
@@ -70,6 +71,19 @@ namespace dae
 		friend void Scene::AddGameObject(GameObject* object);
 
 		void SetScene(Scene* pScene);
+
+		template <class T>
+		T* GetComponentNoError()
+		{
+			const type_info& ti = typeid(T);
+			for (auto* component : m_pVecComponents)
+			{
+				if (component && typeid(*component) == ti)
+					return static_cast<T*>(component);
+			}
+
+			return nullptr;
+		}
 
 		std::string m_Tag;
 		bool m_IsInitialized;

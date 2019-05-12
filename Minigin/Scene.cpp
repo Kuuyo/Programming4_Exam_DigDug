@@ -44,7 +44,20 @@ namespace dae
 		{
 			gameObject->Update(gameContext);
 		}
+	}
 
+	void Scene::RootLateUpdate(const GameContext & gameContext)
+	{
+		LateUpdate(gameContext);
+
+		for (auto gameObject : m_Objects)
+		{
+			gameObject->LateUpdate(gameContext);
+		}
+	}
+
+	void Scene::DestroyUpdate()
+	{
 		// TODO: Maybe find a prettier way to do this
 		for (auto gO : m_ObjectsToRemove)
 		{

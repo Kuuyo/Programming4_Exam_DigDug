@@ -11,7 +11,6 @@ namespace dae
 	{
 	public:
 		TextComponent(const std::string& text = " ", unsigned int fontSize = 36, SDL_Color color = { 255,255,255 }, const std::string& font = "Lingua.otf");
-		virtual ~TextComponent();
 
 		void SetText(const std::string& text);
 
@@ -20,8 +19,12 @@ namespace dae
 		TextComponent & operator= (const TextComponent &) = delete;
 		TextComponent & operator= (const TextComponent &&) = delete;
 
+	protected:
 		void Initialize(const GameContext &gameContext) override;
 		void Update(const GameContext &gameContext) override;
+		void LateUpdate(const GameContext &) override {}
+
+		virtual ~TextComponent();
 
 	private:
 		Texture2D* m_pTexture;

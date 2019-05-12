@@ -9,7 +9,6 @@ namespace dae
 	{
 	public:
 		BaseComponent() = default;
-		virtual ~BaseComponent() = default;
 
 		GameObject* GetGameObject() { return m_pParent; }
 
@@ -19,8 +18,11 @@ namespace dae
 		BaseComponent & operator= (const BaseComponent &&) = delete;
 
 	protected:
+		virtual ~BaseComponent() = default;
+
 		virtual void Initialize(const GameContext &gameContext) = 0;
 		virtual void Update(const GameContext &gameContext) = 0;
+		virtual void LateUpdate(const GameContext &gameContext) = 0;
 
 		GameObject* m_pParent;
 

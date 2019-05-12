@@ -49,15 +49,11 @@ namespace dae
 	{
 	public:
 		FSMComponent();
-		virtual ~FSMComponent();
 
 		FSMComponent(const FSMComponent&) = delete;
 		FSMComponent(FSMComponent&&) = delete;
 		FSMComponent &operator= (const FSMComponent&) = delete;
 		FSMComponent &operator= (const FSMComponent&&) = delete;
-
-		void Initialize(const GameContext &gameContext) override;
-		void Update(const GameContext &gameContext) override;
 
 		void AddState(State* pState);
 		void RemoveState(State* pState);
@@ -83,6 +79,13 @@ namespace dae
 			LogErrorC(std::string("Failed to find a matching State in the StateMap: ")
 				+ std::string(ti.name()));
 		}
+
+	protected:
+		void Initialize(const GameContext &gameContext) override;
+		void Update(const GameContext &gameContext) override;
+		void LateUpdate(const GameContext &) override {}
+
+		virtual ~FSMComponent();
 
 	private:
 		std::map<State*, bool> m_pStateMap{};

@@ -43,6 +43,7 @@ namespace dae
 		// without having to override every single function
 		virtual void Initialize(const GameContext &) {}
 		virtual void Update(const GameContext &) {}
+		virtual void LateUpdate(const GameContext &) {}
 		virtual void OnCollisionEnter(b2Contact* , GameObject* ) {}
 		virtual void OnCollisionStay(b2Contact*, GameObject*) {}
 		virtual void OnCollisionExit(b2Contact* , GameObject* ) {}
@@ -52,6 +53,9 @@ namespace dae
 
 		void RootInitialize(const GameContext &gameContext);
 		void RootUpdate(const GameContext &gameContext);
+		void RootLateUpdate(const GameContext &gameContext);
+		void DestroyUpdate();
+
 		void Render(Renderer* pRenderer, float extrapolate) const;
 
 		void BeginContact(b2Contact* contact) override;

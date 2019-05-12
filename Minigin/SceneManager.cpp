@@ -33,6 +33,16 @@ namespace dae
 		m_pActiveScene->RootUpdate(gameContext);
 	}
 
+	void SceneManager::LateUpdate(const GameContext & gameContext)
+	{
+		m_pActiveScene->RootLateUpdate(gameContext);
+	}
+
+	void SceneManager::DestroyUpdate()
+	{
+		m_pActiveScene->DestroyUpdate();
+	}
+
 	void SceneManager::Render(const GameContext &gameContext, float extrapolate)
 	{
 		m_pActiveScene->Render(gameContext.Renderer, extrapolate);

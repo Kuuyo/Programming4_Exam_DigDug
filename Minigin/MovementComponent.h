@@ -14,15 +14,17 @@ namespace dae
 		MovementComponent(float speed, bool lockDiagonal = true, int playerIndex = 0);
 		MovementComponent(float speed, bool lockDiagonal, bool lockToGrid, int playerIndex = 0);
 
-		virtual ~MovementComponent();
-
 		MovementComponent(const MovementComponent &) = delete;
 		MovementComponent(MovementComponent &&) = delete;
 		MovementComponent & operator= (const MovementComponent &) = delete;
 		MovementComponent & operator= (const MovementComponent &&) = delete;
 
+	protected:
 		void Initialize(const GameContext &gameContext) override;
 		void Update(const GameContext &gameContext) override;
+		void LateUpdate(const GameContext &) override {}
+
+		virtual ~MovementComponent();
 
 	private:
 		bool m_bHasBody = false;
