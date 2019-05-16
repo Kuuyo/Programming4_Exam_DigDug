@@ -16,9 +16,9 @@ protected:
 	void Initialize(const dae::GameContext &gameContext) override;
 	void Update(const dae::GameContext &gameContext) override;
 
-	void OnCollisionEnter(b2Contact* contact, dae::GameObject* gameObject) override;
-	void OnCollisionStay(b2Contact* contact, dae::GameObject* gameObject) override;
-	void OnCollisionExit(b2Contact* contact, dae::GameObject* gameObject) override;
+	void OnCollisionEnter(const dae::Contact &contact, dae::GameObject* gameObject) override;
+	void OnCollisionStay(const dae::Contact &contact, dae::GameObject* gameObject) override;
+	void OnCollisionExit(const dae::Contact &contact, dae::GameObject* gameObject) override;
 
 private:
 	dae::GameObject* m_pDigDug{ nullptr };

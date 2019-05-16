@@ -92,9 +92,10 @@ namespace dae
 	void Scene::BeginContact(b2Contact* contact)
 	{
 		auto goA = static_cast<BodyComponent*>(contact->GetFixtureA()->GetUserData())->GetGameObject();
-		OnCollisionEnter(contact, goA);
 		auto goB = static_cast<BodyComponent*>(contact->GetFixtureB()->GetUserData())->GetGameObject();
-		OnCollisionEnter(contact, goB);
+
+		OnCollisionEnter({ contact, goB }, goA);
+		OnCollisionEnter({ contact, goA }, goB);
 
 		m_pActiveCollisionMap.insert({ contact,{ goA,goB } });
 	}
@@ -103,17 +104,18 @@ namespace dae
 	{
 		for (auto col : m_pActiveCollisionMap)
 		{
-			OnCollisionStay(col.first, col.second.first);
-			OnCollisionStay(col.first, col.second.second);
+			OnCollisionStay({ col.first, col.second.second }, col.second.first);
+			OnCollisionStay({ col.first, col.second.first }, col.second.second);
 		}
 	}
 
 	void Scene::EndContact(b2Contact* contact)
 	{
-		auto go = static_cast<BodyComponent*>(contact->GetFixtureA()->GetUserData())->GetGameObject();
-		OnCollisionExit(contact, go);
-		go = static_cast<BodyComponent*>(contact->GetFixtureB()->GetUserData())->GetGameObject();
-		OnCollisionExit(contact, go);
+		auto goA = static_cast<BodyComponent*>(contact->GetFixtureA()->GetUserData())->GetGameObject();
+		auto goB = static_cast<BodyComponent*>(contact->GetFixtureB()->GetUserData())->GetGameObject();
+
+		OnCollisionExit({ contact, goB }, goA);
+		OnCollisionExit({ contact, goA }, goB);
 
 		m_pActiveCollisionMap.erase(contact);
 	}

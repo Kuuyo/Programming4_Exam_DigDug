@@ -63,22 +63,19 @@ void Level_1::Update(const dae::GameContext &)
 
 }
 
-void Level_1::OnCollisionEnter(b2Contact* contact, dae::GameObject* gameObject)
+void Level_1::OnCollisionEnter(const dae::Contact &contact, dae::GameObject* gameObject)
 {
 	// TODO: Predefine tags pls
-	if (gameObject->GetTag() == "DigDug" &&
-		static_cast<dae::BodyComponent*>( // TODO: wtf, fix this
-			contact->GetFixtureB()->GetUserData())->GetGameObject()->GetTag() == "LevelBlock")
+	if (gameObject->GetTag() == "DigDug" && contact.Other->GetTag() == "LevelBlock")
 	{
-		RemoveGameObject(static_cast<dae::BodyComponent*>( // TODO: wtf, fix this
-			contact->GetFixtureB()->GetUserData())->GetGameObject());
+		RemoveGameObject(contact.Other);
 	}
 }
 
-void Level_1::OnCollisionStay(b2Contact*, dae::GameObject* )
+void Level_1::OnCollisionStay(const dae::Contact &, dae::GameObject* )
 {
 }
 
-void Level_1::OnCollisionExit(b2Contact*, dae::GameObject* )
+void Level_1::OnCollisionExit(const dae::Contact &, dae::GameObject* )
 {
 }

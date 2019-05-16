@@ -18,6 +18,17 @@ namespace dae
 		// Time
 	};
 
+	struct Contact
+	{
+		Contact(b2Contact* b2Contact, GameObject* other)
+			: B2Contact(b2Contact)
+			, Other(other)
+		{}
+
+		b2Contact* B2Contact;
+		GameObject* Other;
+	};
+
 	class Scene : public b2ContactListener
 	{
 	public:
@@ -44,9 +55,9 @@ namespace dae
 		virtual void Initialize(const GameContext &) {}
 		virtual void Update(const GameContext &) {}
 		virtual void LateUpdate(const GameContext &) {}
-		virtual void OnCollisionEnter(b2Contact* , GameObject* ) {}
-		virtual void OnCollisionStay(b2Contact*, GameObject*) {}
-		virtual void OnCollisionExit(b2Contact* , GameObject* ) {}
+		virtual void OnCollisionEnter(const Contact &, GameObject* ) {}
+		virtual void OnCollisionStay(const Contact &, GameObject* ) {}
+		virtual void OnCollisionExit(const Contact &, GameObject* ) {}
 
 	private:
 		friend class SceneManager;
