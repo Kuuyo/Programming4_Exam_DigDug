@@ -29,7 +29,7 @@ Level_1::~Level_1()
 void Level_1::Initialize(const dae::GameContext &gameContext)
 {
 	auto go = new dae::GameObject();
-	go->AddComponent(new dae::TextureComponent("DigDug.png", false));
+	go->AddComponent(new dae::TextureComponent("LevelBackground.png", false));
 	AddGameObject(go);
 
 	go = new dae::GameObject();
@@ -39,23 +39,9 @@ void Level_1::Initialize(const dae::GameContext &gameContext)
 
 	Characters::DigDug::CreateDigDugCharacter(m_pDigDug);
 	AddGameObject(m_pDigDug);
-	m_pDigDug->SetPosition(8.f, 30.f);
-	
-	// TODO: Make Wall prefab
-	//go = new dae::GameObject("Wall");
-	//dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
-	//auto pBody = new dae::BodyComponent(b2BodyType::b2_staticBody);
-	//fixtureDesc.halfWidth = .1f;
-	//fixtureDesc.halfHeight = float(gameContext.GameSettings.WindowHeight * .5f);
-	//
-	//pBody->SetBoxFixture(fixtureDesc);
-	//
-	//go->AddComponent(pBody);
-	//AddGameObject(go);
-	//go->SetPosition(float(gameContext.GameSettings.WindowResolutionW + .1f)
-	//	, float(gameContext.GameSettings.WindowHeight * .5f));
+	m_pDigDug->SetPosition(8.f, 24.f);
 
-	Prefabs::CreateLevel(this, gameContext.GameSettings, 8);
+	Prefabs::CreateLevel("Level1.json", this, gameContext.GameSettings, gameContext);
 }
 
 void Level_1::Update(const dae::GameContext &)

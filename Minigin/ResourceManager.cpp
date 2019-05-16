@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <fstream>
 
 #include "Renderer.h"
 #include "Texture2D.h"
@@ -65,12 +66,21 @@ namespace dae
 	}
 
 	// TODO: Create a font library
-	Font* ResourceManager::LoadFont(const std::string& file, unsigned int size)
+	Font* ResourceManager::LoadFont(const std::string &file, unsigned int size)
 	{
 		return new Font(m_DataPath + file, size);
 	}
 
-	SDL_Texture* ResourceManager::CreateSDLTexture(const std::string & file)
+	nlohmann::json ResourceManager::LoadJson(const std::string &file)
+	{
+		const std::string fullPath = m_DataPath + file;
+
+		std::ifstream ifile{ fullPath };
+
+		return nlohmann::json::parse(ifile);
+	}
+
+	SDL_Texture* ResourceManager::CreateSDLTexture(const std::string &file)
 	{
 		std::string fullPath = m_DataPath + file;
 		SDL_Texture *texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());

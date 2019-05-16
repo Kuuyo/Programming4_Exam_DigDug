@@ -222,6 +222,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(SolutionDir)_Build\$(Co
     <ClInclude Include="GridComponent.h" />
     <ClInclude Include="InfiniteGridComponent.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MiniginPCH.h" />

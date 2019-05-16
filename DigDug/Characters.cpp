@@ -32,7 +32,7 @@ namespace Characters
 		out->AddComponent(new dae::TextureComponent("DigDug.gif", true, src));
 
 		// TODO: Make grid not hardcoded
-		out->AddComponent(new dae::GridComponent(16, { 8.f,30.f }, 224, 256, true));
+		out->AddComponent(new dae::GridComponent(16, { 8.f,24.f }, 224, 240, true));
 
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
 		pFSM->AddState(new DigDug_States::IdleState());

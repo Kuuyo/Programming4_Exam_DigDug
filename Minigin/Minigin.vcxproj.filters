@@ -26,6 +26,9 @@
     <Filter Include="Engine Files\_Debug">
       <UniqueIdentifier>{eb1a2829-c9f7-42ed-a571-e5fece403d69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine Files\Utility">
+      <UniqueIdentifier>{33ec5d57-8c9c-4683-8667-3fb4e8ddbd84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputManager.h">
@@ -111,6 +114,9 @@
     </ClInclude>
     <ClInclude Include="GridComponent.h">
       <Filter>Engine Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Engine Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

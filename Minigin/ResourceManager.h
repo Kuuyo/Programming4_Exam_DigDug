@@ -1,4 +1,5 @@
 #pragma once
+#include "json.hpp"
 
 namespace dae
 {
@@ -17,6 +18,8 @@ namespace dae
 
 		void CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text, Texture2D* &pTexture, const glm::vec2 &pos, bool isCentered);
 		Font* LoadFont(const std::string& file, unsigned int size);
+
+		nlohmann::json LoadJson(const std::string& file);
 
 	private:
 		SDL_Texture* CreateSDLTexture(const std::string &file);
