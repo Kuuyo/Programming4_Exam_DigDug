@@ -73,6 +73,8 @@ namespace dae
 
 	nlohmann::json ResourceManager::LoadJson(const std::string &file)
 	{
+		// TODO: WRITE ERROR LOGGING
+		// CHECK IF IT HAS .json EXTENSION
 		const std::string fullPath = m_DataPath + file;
 
 		std::ifstream ifile{ fullPath };

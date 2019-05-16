@@ -45,7 +45,9 @@ namespace dae
 #if defined(DEBUG) | defined(_DEBUG)
 		m_pPhysics->DrawDebugData();
 
+		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
 		SDL_RenderDrawPoints(m_pRenderer, m_DebugDrawPoints.data(), m_DebugDrawPoints.size());
+		SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 0);
 #endif
 
 		SDL_RenderPresent(m_pRenderer);

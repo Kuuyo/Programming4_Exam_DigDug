@@ -24,13 +24,13 @@
     <ClInclude Include="Characters.h">
       <Filter>Prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="LevelBlocks.h">
+    <ClInclude Include="CharacterStates.h">
       <Filter>Prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="Level_1.h">
+    <ClInclude Include="DigDugLevel.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterStates.h">
+    <ClInclude Include="Prefabs.h">
       <Filter>Prefabs</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,13 +47,13 @@
     <ClCompile Include="Characters.cpp">
       <Filter>Prefabs</Filter>
     </ClCompile>
-    <ClCompile Include="LevelBlocks.cpp">
+    <ClCompile Include="CharacterStates.cpp">
       <Filter>Prefabs</Filter>
     </ClCompile>
-    <ClCompile Include="Level_1.cpp">
+    <ClCompile Include="DigDugLevel.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterStates.cpp">
+    <ClCompile Include="Prefabs.cpp">
       <Filter>Prefabs</Filter>
     </ClCompile>
   </ItemGroup>

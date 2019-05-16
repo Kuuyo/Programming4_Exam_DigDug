@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "DigDug.h"
 
-#include "SceneManager.h"
-#include "InputManager.h"
+#include <SceneManager.h>
+#include <InputManager.h>
 
-#include "Level_1.h"
+#include "DigDugLevel.h"
 
 void DigDug::LoadGame(const dae::GameContext &gameContext) const
 {
@@ -18,5 +18,5 @@ void DigDug::LoadGame(const dae::GameContext &gameContext) const
 			, SDL_SCANCODE_S, SDL_SCANCODE_W
 			, dae::GamePadAxis::LeftStickVerticalAnalog));
 
-	gameContext.Scenes->AddScene(new Level_1());
+	gameContext.Scenes->AddScene(new DigDugLevel("Level1"));
 }

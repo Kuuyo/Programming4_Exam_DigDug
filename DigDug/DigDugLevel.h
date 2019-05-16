@@ -1,16 +1,16 @@
 #pragma once
-#include "Scene.h"
+#include <Scene.h>
 
 namespace dae
 {
 	class GameObject;
 }
 
-class Level_1 final : public dae::Scene
+class DigDugLevel final : public dae::Scene
 {
 public:
-	Level_1();
-	~Level_1();
+	DigDugLevel(std::string &&levelName);
+	~DigDugLevel();
 
 protected:
 	void Initialize(const dae::GameContext &gameContext) override;
@@ -21,6 +21,17 @@ protected:
 	void OnCollisionExit(const dae::Contact &contact, dae::GameObject* gameObject) override;
 
 private:
+	enum class LevelSectionType : int
+	{
+		Empty = 0,
+		Block = 1,
+		Rock = 2,
+		DigDug = 3,
+		Pooka = 4,
+		Fygar = 5
+	};
+
 	dae::GameObject* m_pDigDug{ nullptr };
+	const std::string m_LevelName{};
 };
 
