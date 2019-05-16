@@ -85,7 +85,7 @@ namespace dae
 
 		void SetScene(Scene* pScene);
 
-		std::string m_Tag;
+		std::string m_Tag; // TODO: Is a string really what I want for tagging ?
 		bool m_IsInitialized;
 		std::vector<BaseComponent*> m_pVecComponents;
 		TransformComponent* m_pTransform;

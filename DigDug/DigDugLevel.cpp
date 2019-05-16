@@ -63,6 +63,7 @@ void DigDugLevel::Initialize(const dae::GameContext &gameContext)
 
 	int index = 0;
 
+	// TODO: Figure out a prettier way to do this ?
 	for (int i = 0; i < height; ++i)
 	{
 		x = halfSize;
@@ -73,11 +74,14 @@ void DigDugLevel::Initialize(const dae::GameContext &gameContext)
 			case DigDugLevel::LevelSectionType::Empty:
 				break;
 			case DigDugLevel::LevelSectionType::Block:
-				Prefabs::CreateLevelBlock(go = new dae::GameObject("LevelBlock"), blockSize);
+				Prefabs::LevelBlock::CreateLevelBlock(go = new dae::GameObject("LevelBlock"), blockSize);
 				AddGameObject(go);
 				go->SetPosition(x, y);
 				break;
 			case DigDugLevel::LevelSectionType::Rock:
+				Prefabs::Rock::CreateRock(go = new dae::GameObject("Rock"), blockSize);
+				AddGameObject(go);
+				go->SetPosition(x, y);
 				break;
 			case DigDugLevel::LevelSectionType::DigDug:
 				Characters::DigDug::CreateDigDugCharacter(m_pDigDug);

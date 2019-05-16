@@ -150,6 +150,8 @@ namespace dae
 		auto direction = (glm::length(vector) != 0.f) ? glm::normalize(vector) : vector;
 		direction *= speed;
 
+		// TODO: Check wheter the body would have passed the point between frames !!!
+
 		SetLinearVelocity(direction.x, direction.y);
 	}
 

@@ -116,7 +116,7 @@ namespace Characters
 			LogFormatC(dae::LogLevel::Debug, "Target: %f, %f", target.x, target.y);
 			LogFormatC(dae::LogLevel::Debug, "MoveToTarget: %f, %f", vector.x, vector.y);
 
-			gameObject->GetComponent<dae::BodyComponent>()->MoveToTarget(vector, 40.f);			
+			gameObject->GetComponent<dae::BodyComponent>()->MoveToTarget(vector, 32.f);			
 		} // TODO: Easier access to BodyComponent?
 
 		void MovingState::OnExit(const dae::GameContext &)
