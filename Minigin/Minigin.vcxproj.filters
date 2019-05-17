@@ -118,6 +118,9 @@
     <ClInclude Include="json.hpp">
       <Filter>Engine Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Box2DRaycastCallback.h">
+      <Filter>Engine Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
@@ -188,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="GridComponent.cpp">
       <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Box2DRaycastCallback.cpp">
+      <Filter>Engine Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -27,16 +27,16 @@ namespace Characters
 		pBody->SetBoxFixture(fixtureDesc);
 		out->AddComponent(pBody);
 
-		SDL_Rect src{};
-		src.h = src.w = 16;
-		out->AddComponent(new dae::TextureComponent("DigDug.gif", true, src));
-
 		// TODO: Make grid not hardcoded
 		out->AddComponent(new dae::GridComponent(16, { 8.f,24.f }, 224, 256, true));
 
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
-		pFSM->AddState(new DigDug_States::IdleState());
-		pFSM->AddState(new DigDug_States::MovingState());
+		pFSM->AddState(new DigDugEx::States::IdleState());
+		pFSM->AddState(new DigDugEx::States::MovingState());
 		out->AddComponent(pFSM);
+
+		SDL_Rect src{};
+		src.h = src.w = 16;
+		out->AddComponent(new dae::TextureComponent("DigDug.gif", true, src));
 	}
 }

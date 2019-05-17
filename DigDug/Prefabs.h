@@ -7,7 +7,7 @@ namespace dae
 	struct GameContext;
 }
 
-namespace Prefabs
+namespace Level
 {
 	// TODO: Make a baseclass for this kind or find another structure
 	// As this is mainly to keep the filter bits, maybe make an enum or something

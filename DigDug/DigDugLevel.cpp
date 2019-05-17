@@ -74,12 +74,12 @@ void DigDugLevel::Initialize(const dae::GameContext &gameContext)
 			case DigDugLevel::LevelSectionType::Empty:
 				break;
 			case DigDugLevel::LevelSectionType::Block:
-				Prefabs::LevelBlock::CreateLevelBlock(go = new dae::GameObject("LevelBlock"), blockSize);
+				Level::LevelBlock::CreateLevelBlock(go = new dae::GameObject("LevelBlock"), blockSize);
 				AddGameObject(go);
 				go->SetPosition(x, y);
 				break;
 			case DigDugLevel::LevelSectionType::Rock:
-				Prefabs::Rock::CreateRock(go = new dae::GameObject("Rock"), blockSize);
+				Level::Rock::CreateRock(go = new dae::GameObject("Rock"), blockSize);
 				AddGameObject(go);
 				go->SetPosition(x, y);
 				break;

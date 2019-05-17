@@ -7,11 +7,14 @@
     <Filter Include="Core">
       <UniqueIdentifier>{3dba8613-9018-45cc-8695-37839f70a6f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Prefabs">
-      <UniqueIdentifier>{78222119-2cb1-4ebf-8e97-7425ff2107b3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{9a40d7ff-9dc3-4aaf-9fd6-9f7ac37b4b0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{bdf658e0-31b1-4612-9588-583bbe5334c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Characters">
+      <UniqueIdentifier>{78222119-2cb1-4ebf-8e97-7425ff2107b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -22,16 +25,19 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Characters.h">
-      <Filter>Prefabs</Filter>
+      <Filter>Characters</Filter>
     </ClInclude>
     <ClInclude Include="CharacterStates.h">
-      <Filter>Prefabs</Filter>
+      <Filter>Characters</Filter>
     </ClInclude>
     <ClInclude Include="DigDugLevel.h">
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Prefabs.h">
-      <Filter>Prefabs</Filter>
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="RockStates.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -45,16 +51,19 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Characters.cpp">
-      <Filter>Prefabs</Filter>
+      <Filter>Characters</Filter>
     </ClCompile>
     <ClCompile Include="CharacterStates.cpp">
-      <Filter>Prefabs</Filter>
+      <Filter>Characters</Filter>
     </ClCompile>
     <ClCompile Include="DigDugLevel.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Prefabs.cpp">
-      <Filter>Prefabs</Filter>
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="RockStates.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -22,7 +22,6 @@ namespace dae
 		m_pBox2DDebugRenderer = new Box2DDebugRender(this);
 		m_pPhysics->SetDebugDraw(m_pBox2DDebugRenderer);
 		m_pBox2DDebugRenderer->SetFlags(b2Draw::e_shapeBit);
-		m_pBox2DDebugRenderer->AppendFlags(b2Draw::e_centerOfMassBit);
 #endif
 	}
 

@@ -92,6 +92,9 @@ namespace dae
 		bool HasContactList() const;
 		b2ContactEdge* GetContactList();
 
+		bool Raycast(b2RayCastOutput* output, const b2RayCastInput &input, int32 childIndex) const;
+		bool Raycast(b2RayCastOutput* output, const b2Vec2 &direction, float multiplier, int32 childIndex) const;
+
 		BodyComponent(const BodyComponent &) = delete;
 		BodyComponent(BodyComponent &&) = delete;
 		BodyComponent & operator= (const BodyComponent &) = delete;

@@ -29,8 +29,8 @@ namespace dae
 		m_pParent->GetScene()->AddTexture(m_pTexture);
 	}
 
-	void TextureComponent::Update(const GameContext &)
-	{
+	void TextureComponent::LateUpdate(const GameContext &)
+	{ // TODO: Maybe make a pre-render final update for this? -> or dos this for the textures only
 		auto pos = m_pParent->GetPosition();
 		m_pTexture->SetPosition(pos.x, pos.y);
 	}

@@ -1,9 +1,9 @@
 #pragma once
 #include <FSMComponent.h>
 
-namespace Characters
+namespace Level
 {
-	namespace DigDugEx
+	namespace RockEx
 	{
 		namespace States
 		{
@@ -20,10 +20,26 @@ namespace Characters
 				void OnExit(const dae::GameContext &gameContext) override;
 			};
 
-			class MovingState final : public dae::State
+			class WigglingState final : public dae::State
 			{
 			public:
-				~MovingState();
+				~WigglingState();
+
+			private:
+				void Initialize(const dae::GameContext &gameContext) override;
+
+				void OnEnter(const dae::GameContext &gameContext) override;
+				void Update(const dae::GameContext &gameContext) override;
+				void OnExit(const dae::GameContext &gameContext) override;
+
+				float m_Timer{};
+				float m_TimerMax{ 1.f };
+			};
+
+			class FallingState final : public dae::State
+			{
+			public:
+				~FallingState();
 
 			private:
 				void Initialize(const dae::GameContext &gameContext) override;

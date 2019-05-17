@@ -180,6 +180,24 @@ namespace dae
 		return m_pBody->GetContactList();
 	}
 
+	bool BodyComponent::Raycast(b2RayCastOutput* output, const b2RayCastInput &input, int32 childIndex) const
+	{
+		// TODO: What if there's multiple fixtures ?
+		return m_pBody->GetFixtureList()->RayCast(output, input, childIndex);
+	}
+
+	bool BodyComponent::Raycast(b2RayCastOutput* output, const b2Vec2 &direction, float multiplier, int32 childIndex) const
+	{
+		const auto pos = m_pParent->GetPosition();
+
+		b2RayCastInput input;
+		input.maxFraction = multiplier;
+		input.p1 = { pos.x,pos.y };
+		input.p2 = { pos.x + direction.x,pos.y + direction.y };
+
+		return m_pBody->GetFixtureList()->RayCast(output, input, childIndex);
+	}
+
 	void BodyComponent::CreateFixtureDef(const std::shared_ptr<b2Shape> shape, const FixtureDesc desc)
 	{
 		auto fixtureDef = std::make_shared<b2FixtureDef>();
