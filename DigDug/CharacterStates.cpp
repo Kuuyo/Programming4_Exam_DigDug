@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "CharacterStates.h"
 
-#include "GameContext.h"
-#include "InputManager.h"
-#include "GameObject.h"
-#include "BodyComponent.h"
-#include "GridComponent.h"
+#include <GameContext.h>
+#include <InputManager.h>
+#include <GameObject.h>
+#include <BodyComponent.h>
+#include <GridComponent.h>
+#include <AnimatedSpriteComponent.h>
 
 #pragma warning(push)
 #pragma warning (disable:4201)
@@ -37,7 +38,6 @@ namespace Characters
 
 			void IdleState::OnEnter(const dae::GameContext &)
 			{
-
 			}
 
 			void IdleState::Update(const dae::GameContext &gameContext)
@@ -80,7 +80,7 @@ namespace Characters
 
 			void MovingState::OnEnter(const dae::GameContext &)
 			{
-
+				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Play();
 			}
 
 			void MovingState::Update(const dae::GameContext &gameContext)
@@ -138,6 +138,7 @@ namespace Characters
 			void MovingState::OnExit(const dae::GameContext &)
 			{
 				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 0.f);
+				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Stop();
 			} 
 
 

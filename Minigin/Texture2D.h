@@ -14,6 +14,8 @@ namespace dae
 		SDL_Texture* GetSDLTexture() const;
 		SDL_Rect GetSourceRect() const;
 
+		void SetSourceRect(const SDL_Rect &src);
+
 		glm::vec2 GetPosition() const;
 
 		bool GetIsCentered() const;

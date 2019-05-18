@@ -17,7 +17,6 @@ namespace dae
 	{
 		glm::vec2 newPos{ m_Position };
 
-		// TODO: Fix Scene not being accessible before after the GO is added to it
 		auto gC = m_pParent->GetScene()->GetSceneContext().GameContext;
 
 		// TODO: Fix this, it's garbage
@@ -57,7 +56,6 @@ namespace dae
 	{
 		glm::vec2 newPos{ x,y };
 
-		// TODO: Fix Scene not being accessible before after the GO is added to it
 		auto gC = m_pParent->GetScene()->GetSceneContext().GameContext;
 
 		// TODO: Fix this, it's garbage

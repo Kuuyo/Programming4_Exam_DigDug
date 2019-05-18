@@ -3,7 +3,7 @@
 #include "CharacterStates.h"
 
 #include <GameObject.h>
-#include <TextureComponent.h>
+#include <AnimatedSpriteComponent.h>
 #include <BodyComponent.h>
 #include <GridComponent.h>
 
@@ -22,7 +22,6 @@ namespace Characters
 		fixtureDesc.halfWidth = 7.95f;
 		fixtureDesc.halfHeight = 7.95f;
 		fixtureDesc.filter.categoryBits = m_CategoryBits;
-		// TODO: make bits not hardcoded
 		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
 		pBody->SetBoxFixture(fixtureDesc);
 		out->AddComponent(pBody);
@@ -38,6 +37,6 @@ namespace Characters
 
 		SDL_Rect src{};
 		src.h = src.w = 16;
-		out->AddComponent(new dae::TextureComponent("DigDug.gif", true, src));
+		out->AddComponent(new dae::AnimatedSpriteComponent("DigDug.gif", true, src, 1, 2, 1.f / 10.f, false));
 	}
 }

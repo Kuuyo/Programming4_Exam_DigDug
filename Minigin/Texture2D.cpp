@@ -27,6 +27,11 @@ namespace dae
 		return m_SourceRect;
 	}
 
+	void Texture2D::SetSourceRect(const SDL_Rect &src)
+	{
+		m_SourceRect = src;
+	}
+
 	glm::vec2 Texture2D::GetPosition() const
 	{
 		return m_pTransform->GetPosition();
