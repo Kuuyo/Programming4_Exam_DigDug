@@ -37,6 +37,20 @@ namespace dae
 		return m_pTransform->GetPosition();
 	}
 
+	SDL_RendererFlip Texture2D::GetOrientation() const
+	{
+		auto orientation = m_pTransform->GetOrentation();
+
+		if (orientation.x > 0)
+		{
+			return SDL_RendererFlip::SDL_FLIP_NONE;
+		}
+		else
+		{
+			return SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+		}
+	}
+
 	bool Texture2D::GetIsCentered() const
 	{
 		return m_IsCentered;

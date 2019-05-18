@@ -130,6 +130,8 @@ namespace Characters
 						vector.x = 0;
 				}
 
+				gameObject->GetComponent<dae::TransformComponent>()->SetOrientationX(vector.x);
+
 				vector += pos;
 
 				gameObject->GetComponent<dae::BodyComponent>()->MoveToTarget(vector, 32.f);

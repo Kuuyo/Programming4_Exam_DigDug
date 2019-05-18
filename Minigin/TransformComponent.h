@@ -28,6 +28,12 @@ namespace dae
 		const glm::vec2 GetPosition(Anchor anchor = Anchor::TopLeft) const;
 		void SetPosition(float x, float y, Anchor anchor = Anchor::TopLeft);
 
+		const glm::vec2 GetOrentation() const;
+		void SetOrientation(const glm::vec2 &orientation);
+		void SetOrientation(float x, float y);
+		void SetOrientationX(float x);
+		void SetOrientationY(float y);
+
 		TransformComponent(const TransformComponent &) = delete;
 		TransformComponent(TransformComponent &&) = delete;
 		TransformComponent & operator= (const TransformComponent &) = delete;
@@ -42,5 +48,6 @@ namespace dae
 
 	private:
 		glm::vec2 m_Position;
+		glm::vec2 m_Orientation;
 	};
 }

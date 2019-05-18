@@ -5,6 +5,8 @@
 namespace dae
 {
 	TransformComponent::TransformComponent()
+		: m_Position(0.f, 0.f)
+		, m_Orientation(1.f, 1.f)
 	{
 	}
 
@@ -89,6 +91,34 @@ namespace dae
 		}
 
 		m_Position = newPos;
+	}
+
+	const glm::vec2 TransformComponent::GetOrentation() const
+	{
+		return m_Orientation;
+	}
+
+	void TransformComponent::SetOrientation(const glm::vec2 &orientation)
+	{
+		SetOrientationX(orientation.x);
+		SetOrientationY(orientation.y);
+	}
+
+	void TransformComponent::SetOrientation(float x, float y)
+	{
+		SetOrientation(glm::vec2(x, y));
+	}
+
+	void TransformComponent::SetOrientationX(float x)
+	{
+		if(x != 0.f)
+			m_Orientation.x = x > 0 ? 1.f : -1.f;
+	}
+
+	void TransformComponent::SetOrientationY(float y)
+	{
+		if (y != 0.f)
+			m_Orientation.y = y > 0 ? 1.f : -1.f;
 	}
 
 	void TransformComponent::Initialize(const GameContext &)

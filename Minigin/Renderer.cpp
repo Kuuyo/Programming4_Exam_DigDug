@@ -87,7 +87,8 @@ namespace dae
 		dst.w = width;
 		dst.h = height;
 
-		SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst, 0.0, NULL,
+			texture.GetOrientation());
 	}
 
 	void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const

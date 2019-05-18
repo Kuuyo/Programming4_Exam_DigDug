@@ -17,6 +17,7 @@ namespace dae
 		void SetSourceRect(const SDL_Rect &src);
 
 		glm::vec2 GetPosition() const;
+		SDL_RendererFlip GetOrientation() const;
 
 		bool GetIsCentered() const;
 
