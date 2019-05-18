@@ -1,20 +1,20 @@
 #include "MiniginPCH.h"
 #include "Texture2D.h"
 
+#include "TransformComponent.h"
+
 namespace dae
 {
-	Texture2D::Texture2D(SDL_Texture* texture, const glm::vec2 &pos, const SDL_Rect &sourceRect, bool isCentered)
-		: m_Position(pos)
-		, m_SourceRect(sourceRect)
+	Texture2D::Texture2D(SDL_Texture* pTexture, TransformComponent* pTransform, const SDL_Rect &sourceRect, bool isCentered)
+		: m_SourceRect(sourceRect)
 		, m_IsCentered(isCentered)
 	{
-		m_pTexture = texture;
+		m_pTexture = pTexture;
+		m_pTransform = pTransform;
 	}
 
 	Texture2D::~Texture2D()
 	{
-		// TODO: FIX DESTROYING TEXTURES
-		// SDL_DestroyTexture(m_pTexture);
 	}
 
 	SDL_Texture* Texture2D::GetSDLTexture() const
@@ -29,12 +29,7 @@ namespace dae
 
 	glm::vec2 Texture2D::GetPosition() const
 	{
-		return m_Position;
-	}
-
-	void Texture2D::SetPosition(float x, float y)
-	{
-		m_Position = { x,y };
+		return m_pTransform->GetPosition();
 	}
 
 	bool Texture2D::GetIsCentered() const

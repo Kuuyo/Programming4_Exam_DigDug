@@ -211,6 +211,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(SolutionDir)_Build\$(Co
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedSpriteComponent.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="BodyComponent.h" />
     <ClInclude Include="Box2DDebugRender.h" />
@@ -243,6 +244,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(SolutionDir)_Build\$(Co
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatedSpriteComponent.cpp" />
     <ClCompile Include="BodyComponent.cpp" />
     <ClCompile Include="Box2DDebugRender.cpp" />
     <ClCompile Include="Box2DRaycastCallback.cpp" />

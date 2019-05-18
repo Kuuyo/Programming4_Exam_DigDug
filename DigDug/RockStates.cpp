@@ -47,7 +47,7 @@ namespace Level
 
 			void WigglingState::Initialize(const dae::GameContext &)
 			{
-
+				m_ShakeElapsed = m_Duration / m_NumberOfShakes;
 			}
 
 			void WigglingState::OnEnter(const dae::GameContext &)
@@ -60,10 +60,19 @@ namespace Level
 				m_Timer += gameContext.Time->GetDeltaTime();
 
 				const auto pos = GetGameObject()->GetPosition();
+				
+				if (m_Timer > m_ShakeElapsed)
+				{
+					GetGameObject()->SetPosition(pos.x +
+						((m_CurrentAmountOfShakes % 2 == 0) ? m_ShakeOffset : -m_ShakeOffset)
+						, pos.y);
 
-				GetGameObject()->GetComponent<dae::BodyComponent>()->SetAngularVelocity(m_Timer);
-			
-				if (m_Timer > m_TimerMax)
+					++m_CurrentAmountOfShakes;
+
+					m_Timer -= m_ShakeElapsed;
+				}
+
+				if (m_CurrentAmountOfShakes == m_NumberOfShakes)
 					ChangeState<FallingState>();
 			}
 
@@ -86,15 +95,58 @@ namespace Level
 
 			void FallingState::OnEnter(const dae::GameContext &)
 			{
+				GetGameObject()->GetComponent<dae::BodyComponent>()->SetType(b2BodyType::b2_dynamicBody);
 				LogDebugC("");
 			}
 
 			void FallingState::Update(const dae::GameContext &)
 			{
-				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 5.f);
+				auto pBody = GetGameObject()->GetComponent<dae::BodyComponent>();
+				pBody->SetLinearVelocity(0.f, 48.f);
+
+				auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
+				if (contactList != nullptr)
+				{
+					auto tag = reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject()->GetTag();
+					if (tag == "DigDug" || tag == "LevelBlock")
+					{
+						ChangeState<BreakingState>();
+						return;
+					}
+				}
 			}
 
 			void FallingState::OnExit(const dae::GameContext &)
+			{
+
+			}
+
+
+
+			BreakingState::~BreakingState()
+			{
+
+			}
+
+			void BreakingState::Initialize(const dae::GameContext &)
+			{
+
+			}
+
+			void BreakingState::OnEnter(const dae::GameContext &)
+			{
+				auto pBody = GetGameObject()->GetComponent<dae::BodyComponent>();
+				pBody->SetLinearVelocity(0.f, 0.f);
+			}
+
+			void BreakingState::Update(const dae::GameContext &)
+			{
+				// Do animation
+
+				GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
+			}
+
+			void BreakingState::OnExit(const dae::GameContext &)
 			{
 
 			}

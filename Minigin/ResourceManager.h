@@ -6,6 +6,7 @@ namespace dae
 	class Texture2D;
 	class Font;
 	class Renderer;
+	class TransformComponent;
 
 	class ResourceManager final
 	{		
@@ -14,9 +15,11 @@ namespace dae
 
 		void Init(std::string&& data, Renderer* pRenderer);
 
-		Texture2D* CreateTexture(const std::string &file, const glm::vec2 &pos, const SDL_Rect &sourceRect, bool isCentered);
+		Texture2D* CreateTexture(const std::string &file, TransformComponent* pTransform,
+			const SDL_Rect &sourceRect, bool isCentered);
 
-		void CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text, Texture2D* &pTexture, const glm::vec2 &pos, bool isCentered);
+		void CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text,
+			Texture2D* &pTexture, TransformComponent* pTransform, bool isCentered);
 		Font* LoadFont(const std::string& file, unsigned int size);
 
 		nlohmann::json LoadJson(const std::string& file);
@@ -26,6 +29,7 @@ namespace dae
 
 		Renderer* m_pRenderer{ nullptr };
 		std::string m_DataPath;
+		std::map<std::string, SDL_Texture*> m_pSDLTextureMap;
 	};
 
 }

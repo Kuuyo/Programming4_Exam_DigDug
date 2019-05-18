@@ -25,7 +25,7 @@ namespace Level
 		boxFixtureDesc.halfHeight = blockSize * .5f;
 		boxFixtureDesc.isSensor = true;
 		boxFixtureDesc.filter.categoryBits = m_CategoryBits;
-		boxFixtureDesc.filter.maskBits = Characters::DigDug::GetCategoryBits();
+		boxFixtureDesc.filter.maskBits = Characters::DigDug::GetCategoryBits() | Rock::GetCategoryBits();
 
 		pBody->SetBoxFixture(boxFixtureDesc);
 
@@ -47,11 +47,11 @@ namespace Level
 		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_kinematicBody);
 
 		dae::BodyComponent::BoxFixtureDesc boxFixtureDesc{};
-		boxFixtureDesc.halfWidth = blockSize * .5f;
-		boxFixtureDesc.halfHeight = blockSize * .5f;
+		boxFixtureDesc.halfWidth = blockSize * .45f;
+		boxFixtureDesc.halfHeight = blockSize * .45f;
 		boxFixtureDesc.isSensor = false;
 		boxFixtureDesc.filter.categoryBits = m_CategoryBits;
-		boxFixtureDesc.filter.maskBits = Characters::DigDug::GetCategoryBits();
+		boxFixtureDesc.filter.maskBits = Characters::DigDug::GetCategoryBits() | LevelBlock::GetCategoryBits();
 
 		pBody->SetBoxFixture(boxFixtureDesc);
 
@@ -66,6 +66,7 @@ namespace Level
 		pFSM->AddState(new RockEx::States::IdleState());
 		pFSM->AddState(new RockEx::States::WigglingState());
 		pFSM->AddState(new RockEx::States::FallingState());
+		pFSM->AddState(new RockEx::States::BreakingState());
 		out->AddComponent(pFSM);
 	}
 }

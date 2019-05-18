@@ -121,6 +121,9 @@
     <ClInclude Include="Box2DRaycastCallback.h">
       <Filter>Engine Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="AnimatedSpriteComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
@@ -194,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="Box2DRaycastCallback.cpp">
       <Filter>Engine Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedSpriteComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

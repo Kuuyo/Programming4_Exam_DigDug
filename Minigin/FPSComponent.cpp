@@ -24,13 +24,15 @@ namespace dae
 	FPSComponent::~FPSComponent()
 	{
 		delete m_pFont;
+		m_pParent->GetScene()->RemoveTexture(m_pTexture);
 		delete m_pTexture;
 	}
 
 	void FPSComponent::Initialize(const GameContext &gameContext)
 	{
 		m_pFont = gameContext.Resources->LoadFont("Lingua.otf", m_FontSize);
-		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition(), m_IsCentered);
+		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
+			m_pParent->GetComponent<TransformComponent>(), m_IsCentered);
 		m_pParent->GetScene()->AddTexture(m_pTexture);
 	}
 
@@ -40,6 +42,7 @@ namespace dae
 		text.append(" FPS");
 		m_Text = text;
 
-		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition(), m_IsCentered);
+		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
+			m_pParent->GetComponent<TransformComponent>(), m_IsCentered);
 	}
 }

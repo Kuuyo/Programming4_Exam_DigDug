@@ -32,16 +32,27 @@ namespace Characters
 
 			void IdleState::Initialize(const dae::GameContext &)
 			{
-				LogDebugC("");
+
 			}
 
 			void IdleState::OnEnter(const dae::GameContext &)
 			{
-				LogDebugC("");
+
 			}
 
 			void IdleState::Update(const dae::GameContext &gameContext)
 			{
+				auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
+				if (contactList != nullptr)
+				{
+					if (reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject()->GetTag()
+						== "Rock")
+					{
+						ChangeState<DeathState>();
+						return;
+					}
+				}
+
 				if (gameContext.Input->GetInputMappingAxis("P1Horizontal") != 0.f
 					|| gameContext.Input->GetInputMappingAxis("P1Vertical") != 0.f)
 				{
@@ -51,9 +62,9 @@ namespace Characters
 
 			}
 
-			void IdleState::OnExit(const dae::GameContext &gameContext)
+			void IdleState::OnExit(const dae::GameContext &)
 			{
-				LogDebugC(gameContext.GameSettings.WindowTitle);
+
 			}
 
 
@@ -64,16 +75,27 @@ namespace Characters
 
 			void MovingState::Initialize(const dae::GameContext &)
 			{
-				LogDebugC("");
+
 			}
 
 			void MovingState::OnEnter(const dae::GameContext &)
 			{
-				LogDebugC("");
+
 			}
 
 			void MovingState::Update(const dae::GameContext &gameContext)
 			{
+				auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
+				if (contactList != nullptr)
+				{
+					if (reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject()->GetTag()
+						== "Rock")
+					{
+						ChangeState<DeathState>();
+						return;
+					}
+				}
+
 				float horizontal = gameContext.Input->GetInputMappingAxis("P1Horizontal");
 				float vertical = gameContext.Input->GetInputMappingAxis("P1Vertical");
 
@@ -85,8 +107,6 @@ namespace Characters
 
 				glm::vec2 direction{ horizontal,vertical };
 
-				LogFormatC(dae::LogLevel::Warning, "Direction: %f, %f", direction.x, direction.y);
-
 				if (direction.x != 0.f && direction.y != 0.f)
 				{
 					if (glm::abs(direction.x) < glm::abs(direction.y))
@@ -94,8 +114,6 @@ namespace Characters
 					else
 						direction.x = 0;
 				}
-
-				LogFormatC(dae::LogLevel::Warning, "Direction2: %f, %f", direction.x, direction.y);
 
 				auto gameObject = GetGameObject();
 
@@ -114,18 +132,35 @@ namespace Characters
 
 				vector += pos;
 
-				LogFormatC(dae::LogLevel::Debug, "Pos: %f, %f", pos.x, pos.y);
-				LogFormatC(dae::LogLevel::Debug, "Target: %f, %f", target.x, target.y);
-				LogFormatC(dae::LogLevel::Debug, "MoveToTarget: %f, %f", vector.x, vector.y);
-
 				gameObject->GetComponent<dae::BodyComponent>()->MoveToTarget(vector, 32.f);
-			} // TODO: Easier access to BodyComponent?
+			}
 
 			void MovingState::OnExit(const dae::GameContext &)
 			{
-				LogDebugC("");
 				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 0.f);
 			} 
-		}
+
+
+
+			void DeathState::Initialize(const dae::GameContext &)
+			{
+
+			}
+
+			void DeathState::OnEnter(const dae::GameContext &)
+			{
+
+			}
+
+			void DeathState::Update(const dae::GameContext &)
+			{
+				GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
+			}
+
+			void DeathState::OnExit(const dae::GameContext &)
+			{
+
+			}
+}
 	}
 }

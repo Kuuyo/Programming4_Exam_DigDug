@@ -105,9 +105,7 @@ namespace dae
 	glm::vec2 GridComponent::GetNextGridPoint(const glm::vec2 &position, const glm::vec2 &direction) const
 	{
 		auto closestPoint = GetClosestGridPoint(position + direction);
-		LogFormatC(dae::LogLevel::Debug, "ClosestPoint: %f, %f", closestPoint.x, closestPoint.y);
 		auto projectedPoint = closestPoint + direction * float(m_SectionSize);
-		LogFormatC(dae::LogLevel::Debug, "ProjectedPoint: %f, %f", projectedPoint.x, projectedPoint.y);
 		return  IsValidGridPoint(projectedPoint) ? projectedPoint : closestPoint;
 	}
 

@@ -32,6 +32,19 @@ namespace Characters
 				void Update(const dae::GameContext &gameContext) override;
 				void OnExit(const dae::GameContext &gameContext) override;
 			};
+
+			class DeathState final : public dae::State
+			{
+			public:
+				~DeathState() = default;
+
+			private:
+				void Initialize(const dae::GameContext &gameContext) override;
+
+				void OnEnter(const dae::GameContext &gameContext) override;
+				void Update(const dae::GameContext &gameContext) override;
+				void OnExit(const dae::GameContext &gameContext) override;
+			};
 		}
 	}
 }

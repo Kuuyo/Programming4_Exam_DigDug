@@ -26,6 +26,7 @@ namespace dae
 		def.angle = 0;
 		auto pos = m_pParent->GetPosition();
 		def.position.Set(pos.x, pos.y);
+		def.userData = this;
 		m_pBody = gameContext.Physics->CreateBody(&def);
 
 		for (auto fxtDef : m_FixtureDefVec)
@@ -163,6 +164,11 @@ namespace dae
 	void BodyComponent::SetPosition(const glm::vec2 &pos)
 	{
 		SetPosition(pos.x, pos.y);
+	}
+
+	void BodyComponent::SetType(b2BodyType bodyType)
+	{
+		m_pBody->SetType(bodyType);
 	}
 
 	void BodyComponent::SetLinearDamping(float d)

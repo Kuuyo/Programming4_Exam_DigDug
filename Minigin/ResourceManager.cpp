@@ -34,12 +34,13 @@ namespace dae
 	}
 
 	// TODO: Texture library
-	Texture2D* ResourceManager::CreateTexture(const std::string &file, const glm::vec2 &pos, const SDL_Rect &sourceRect, bool isCentered)
+	Texture2D* ResourceManager::CreateTexture(const std::string &file, TransformComponent* pTransform, const SDL_Rect &sourceRect, bool isCentered)
 	{
-		return new Texture2D(CreateSDLTexture(file), pos, sourceRect, isCentered);
+		return new Texture2D(CreateSDLTexture(file), pTransform, sourceRect, isCentered);
 	}
 
-	void ResourceManager::CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text, Texture2D* &pTexture, const glm::vec2 &pos, bool isCentered)
+	void ResourceManager::CreateTextTexture(const SDL_Color &color, const Font* pFont,
+		const std::string &text, Texture2D* &pTexture, TransformComponent* pTransform, bool isCentered)
 	{
 		const auto surf = TTF_RenderText_Blended(pFont->GetFont(), text.c_str(), color);
 		if (surf == nullptr)
@@ -62,7 +63,7 @@ namespace dae
 			return;
 		}
 
-		pTexture = new Texture2D(texture, pos, SDL_Rect(), isCentered);
+		pTexture = new Texture2D(texture, pTransform, SDL_Rect(), isCentered);
 	}
 
 	// TODO: Create a font library
@@ -84,12 +85,20 @@ namespace dae
 
 	SDL_Texture* ResourceManager::CreateSDLTexture(const std::string &file)
 	{
-		std::string fullPath = m_DataPath + file;
-		SDL_Texture *texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());
+		const std::string fullPath = m_DataPath + file;
+
+		if (std::find_if(m_pSDLTextureMap.begin(), m_pSDLTextureMap.end(),
+			[fullPath](std::pair<std::string, SDL_Texture*> p){ return p.first == fullPath; })
+			!= m_pSDLTextureMap.end())
+			return m_pSDLTextureMap.at(fullPath);
+
+		SDL_Texture* texture = IMG_LoadTexture(m_pRenderer->GetSDLRenderer(), fullPath.c_str());
 		if (texture == nullptr)
 		{
 			LogErrorC(std::string("Failed to load texture: ") + SDL_GetError());
 		}
+
+		m_pSDLTextureMap.insert({ fullPath,texture });
 
 		return texture;
 	}

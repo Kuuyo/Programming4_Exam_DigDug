@@ -115,6 +115,8 @@ void DigDugLevel::OnCollisionEnter(const dae::Contact &contact, dae::GameObject*
 	{
 		RemoveGameObject(contact.Other);
 	}
+
+	LogErrorC(gameObject->GetTag());
 }
 
 void DigDugLevel::OnCollisionStay(const dae::Contact &, dae::GameObject* )

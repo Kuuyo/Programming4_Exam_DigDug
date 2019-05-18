@@ -22,6 +22,7 @@ namespace dae
 	TextComponent::~TextComponent()
 	{
 		delete m_pFont;
+		m_pParent->GetScene()->RemoveTexture(m_pTexture);
 		delete m_pTexture;
 	}
 
@@ -34,7 +35,8 @@ namespace dae
 	void TextComponent::Initialize(const GameContext &gameContext)
 	{
 		m_pFont = gameContext.Resources->LoadFont(m_Font, m_FontSize);
-		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition(), false);
+		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
+			m_pParent->GetComponent<TransformComponent>(), false);
 		m_pParent->GetScene()->AddTexture(m_pTexture);
 	}
 
@@ -42,7 +44,8 @@ namespace dae
 	{
 		if (m_bNeedsUpdate)
 		{
-			gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture, m_pParent->GetPosition(), false);
+			gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
+				m_pParent->GetComponent<TransformComponent>(), false);
 			m_bNeedsUpdate = false;
 		}
 	}

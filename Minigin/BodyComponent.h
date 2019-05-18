@@ -87,6 +87,8 @@ namespace dae
 		void SetPosition(float x, float y);
 		void SetPosition(const glm::vec2 &pos);
 
+		void SetType(b2BodyType bodyType);
+
 		void SetLinearDamping(float d);
 
 		bool HasContactList() const;
@@ -94,6 +96,8 @@ namespace dae
 
 		bool Raycast(b2RayCastOutput* output, const b2RayCastInput &input, int32 childIndex) const;
 		bool Raycast(b2RayCastOutput* output, const b2Vec2 &direction, float multiplier, int32 childIndex) const;
+
+
 
 		BodyComponent(const BodyComponent &) = delete;
 		BodyComponent(BodyComponent &&) = delete;

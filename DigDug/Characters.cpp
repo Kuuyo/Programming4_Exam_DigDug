@@ -23,7 +23,7 @@ namespace Characters
 		fixtureDesc.halfHeight = 7.95f;
 		fixtureDesc.filter.categoryBits = m_CategoryBits;
 		// TODO: make bits not hardcoded
-		dae::BodyComponent* pBody = new dae::BodyComponent();
+		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
 		pBody->SetBoxFixture(fixtureDesc);
 		out->AddComponent(pBody);
 
@@ -33,6 +33,7 @@ namespace Characters
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
 		pFSM->AddState(new DigDugEx::States::IdleState());
 		pFSM->AddState(new DigDugEx::States::MovingState());
+		pFSM->AddState(new DigDugEx::States::DeathState());
 		out->AddComponent(pFSM);
 
 		SDL_Rect src{};
