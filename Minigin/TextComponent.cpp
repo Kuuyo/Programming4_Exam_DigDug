@@ -21,7 +21,6 @@ namespace dae
 
 	TextComponent::~TextComponent()
 	{
-		delete m_pFont;
 		m_pParent->GetScene()->RemoveTexture(m_pTexture);
 		delete m_pTexture;
 	}

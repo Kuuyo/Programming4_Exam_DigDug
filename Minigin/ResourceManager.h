@@ -12,6 +12,7 @@ namespace dae
 	{		
 	public:
 		ResourceManager() = default;
+		~ResourceManager();
 
 		void Init(std::string&& data, Renderer* pRenderer);
 
@@ -20,6 +21,7 @@ namespace dae
 
 		void CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text,
 			Texture2D* &pTexture, TransformComponent* pTransform, bool isCentered);
+
 		Font* LoadFont(const std::string& file, unsigned int size);
 
 		nlohmann::json LoadJson(const std::string& file);
@@ -30,6 +32,7 @@ namespace dae
 		Renderer* m_pRenderer{ nullptr };
 		std::string m_DataPath;
 		std::map<std::string, SDL_Texture*> m_pSDLTextureMap;
+		std::map<std::pair<std::string, unsigned int>, Font*> m_pFontMap;
 	};
 
 }

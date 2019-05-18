@@ -10,6 +10,19 @@
 
 namespace dae
 {
+	ResourceManager::~ResourceManager()
+	{
+		//for (auto t : m_pSDLTextureMap)
+		//{
+		//	SDL_DestroyTexture(t.second);
+		//}
+		
+		for (auto f : m_pFontMap)
+		{
+			delete f.second;
+		}
+	}
+
 	void ResourceManager::Init(std::string&& dataPath, Renderer* pRenderer)
 	{
 		m_DataPath = std::move(dataPath);
@@ -33,7 +46,6 @@ namespace dae
 		}
 	}
 
-	// TODO: Texture library
 	Texture2D* ResourceManager::CreateTexture(const std::string &file, TransformComponent* pTransform, const SDL_Rect &sourceRect, bool isCentered)
 	{
 		return new Texture2D(CreateSDLTexture(file), pTransform, sourceRect, isCentered);
@@ -66,10 +78,20 @@ namespace dae
 		pTexture = new Texture2D(texture, pTransform, SDL_Rect(), isCentered);
 	}
 
-	// TODO: Create a font library
 	Font* ResourceManager::LoadFont(const std::string &file, unsigned int size)
 	{
-		return new Font(m_DataPath + file, size);
+		const std::string fullPath = m_DataPath + file;
+
+		if (std::find_if(m_pFontMap.begin(), m_pFontMap.end(),
+			[fullPath, size](std::pair<std::pair<std::string, unsigned int>, Font*> f)
+				{ return f.first == std::make_pair(fullPath, size); })
+			!= m_pFontMap.end())
+			return m_pFontMap.at(std::make_pair(fullPath, size));
+
+		Font* pFont = new Font(m_DataPath + file, size);
+		m_pFontMap.insert({ std::make_pair(fullPath, size) , pFont });
+
+		return pFont;
 	}
 
 	nlohmann::json ResourceManager::LoadJson(const std::string &file)

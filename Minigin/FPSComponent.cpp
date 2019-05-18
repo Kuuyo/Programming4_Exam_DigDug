@@ -23,7 +23,6 @@ namespace dae
 
 	FPSComponent::~FPSComponent()
 	{
-		delete m_pFont;
 		m_pParent->GetScene()->RemoveTexture(m_pTexture);
 		delete m_pTexture;
 	}
