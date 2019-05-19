@@ -124,6 +124,9 @@
     <ClInclude Include="AnimatedSpriteComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
@@ -199,6 +202,9 @@
       <Filter>Engine Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="AnimatedSpriteComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
       <Filter>Engine Files\Components</Filter>
     </ClCompile>
   </ItemGroup>

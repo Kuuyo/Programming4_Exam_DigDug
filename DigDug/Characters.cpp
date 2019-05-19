@@ -6,8 +6,8 @@
 #include <AnimatedSpriteComponent.h>
 #include <BodyComponent.h>
 #include <GridComponent.h>
-
 #include <FSMComponent.h>
+#include <HealthComponent.h>
 
 namespace Characters
 {
@@ -38,5 +38,7 @@ namespace Characters
 		SDL_Rect src{};
 		src.h = src.w = 16;
 		out->AddComponent(new dae::AnimatedSpriteComponent("DigDug.gif", true, src, 1, 2, 1.f / 10.f, false));
+
+		out->AddComponent(new dae::HealthComponent(1.f, 3));
 	}
 }
