@@ -27,6 +27,39 @@ namespace Characters
 			// As using the OnNotify here would be slightly obscure as it is implemented now
 			// Another problem with all this though is that I'm not sure I would catch controller input then
 
+			void GlobalState::Initialize(const dae::GameContext &)
+			{
+
+			}
+
+			void GlobalState::OnEnter(const dae::GameContext &)
+			{
+
+			}
+
+			void GlobalState::Update(const dae::GameContext &)
+			{
+				if (!IsActiveState<DeathState>())
+				{
+					auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
+					if (contactList != nullptr)
+					{
+						if (reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject()->GetTag()
+							== "Rock")
+						{
+							ChangeState<DeathState>();
+							return;
+						}
+					}
+				}
+			}
+
+			void GlobalState::OnExit(const dae::GameContext &)
+			{
+
+			}
+
+
 			IdleState::~IdleState()
 			{
 			}
@@ -42,24 +75,12 @@ namespace Characters
 
 			void IdleState::Update(const dae::GameContext &gameContext)
 			{
-				auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
-				if (contactList != nullptr)
-				{
-					if (reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject()->GetTag()
-						== "Rock")
-					{
-						ChangeState<DeathState>();
-						return;
-					}
-				}
-
 				if (gameContext.Input->GetInputMappingAxis("P1Horizontal") != 0.f
 					|| gameContext.Input->GetInputMappingAxis("P1Vertical") != 0.f)
 				{
 					ChangeState<MovingState>();
 					return;
 				}
-
 			}
 
 			void IdleState::OnExit(const dae::GameContext &)
@@ -85,17 +106,6 @@ namespace Characters
 
 			void MovingState::Update(const dae::GameContext &gameContext)
 			{
-				auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
-				if (contactList != nullptr)
-				{
-					if (reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject()->GetTag()
-						== "Rock")
-					{
-						ChangeState<DeathState>();
-						return;
-					}
-				}
-
 				float horizontal = gameContext.Input->GetInputMappingAxis("P1Horizontal");
 				float vertical = gameContext.Input->GetInputMappingAxis("P1Vertical");
 
@@ -164,6 +174,6 @@ namespace Characters
 			{
 
 			}
-}
+		}
 	}
 }

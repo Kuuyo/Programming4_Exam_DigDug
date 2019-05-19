@@ -28,6 +28,9 @@ namespace dae
 		virtual void OnExit(const GameContext &gameContext) = 0;
 
 		template <class T>
+		bool IsActiveState();
+
+		template <class T>
 		void ChangeState()
 		{
 			m_pFSM->ChangeState<T>(*m_pGameContext);
@@ -60,6 +63,13 @@ namespace dae
 
 		void SetGlobalState(State* pState);
 		void RemoveGlobalState();
+
+		template <class T>
+		bool IsActiveState()
+		{
+			const type_info& ti = typeid(T);
+			return typeid(*m_pActiveState) == ti;
+		}
 
 		template <class T>
 		void ChangeState(const GameContext &gameContext)
@@ -95,4 +105,10 @@ namespace dae
 		State* m_pActiveState{ nullptr };
 		State* m_pGlobalState{ nullptr };
 	};
+
+	template<class T>
+	inline bool State::IsActiveState()
+	{
+		return m_pFSM->IsActiveState<T>();
+	}
 }

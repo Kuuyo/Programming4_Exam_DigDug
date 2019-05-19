@@ -7,6 +7,19 @@ namespace Characters
 	{
 		namespace States
 		{
+			class GlobalState final : public dae::State
+			{
+			public:
+				~GlobalState() = default;
+
+			private:
+				void Initialize(const dae::GameContext &gameContext) override;
+
+				void OnEnter(const dae::GameContext &gameContext) override;
+				void Update(const dae::GameContext &gameContext) override;
+				void OnExit(const dae::GameContext &gameContext) override;
+			};
+
 			class IdleState final : public dae::State
 			{
 			public:

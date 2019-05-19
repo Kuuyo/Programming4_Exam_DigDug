@@ -30,6 +30,7 @@ namespace Characters
 		out->AddComponent(new dae::GridComponent(16, { 8.f,24.f }, 224, 256, true));
 
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
+		pFSM->SetGlobalState(new DigDugEx::States::GlobalState());
 		pFSM->AddState(new DigDugEx::States::IdleState());
 		pFSM->AddState(new DigDugEx::States::MovingState());
 		pFSM->AddState(new DigDugEx::States::DeathState());
