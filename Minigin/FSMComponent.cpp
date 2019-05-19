@@ -33,6 +33,8 @@ namespace dae
 
 	FSMComponent::~FSMComponent()
 	{
+		RemoveGlobalState();
+
 		for (auto it : m_pStateMap)
 		{
 			if(it.first != nullptr)
@@ -47,11 +49,19 @@ namespace dae
 			it.first->RootInitialize(gameContext, this);
 		}
 
+		if (m_pGlobalState != nullptr)
+		{
+			m_pGlobalState->RootInitialize(gameContext, this);
+			m_pGlobalState->OnEnter(gameContext);
+		}
+
 		m_pActiveState->OnEnter(gameContext);
 	}
 
 	void FSMComponent::Update(const GameContext &gameContext)
 	{
+		if(m_pGlobalState != nullptr)
+			m_pGlobalState->Update(gameContext);
 		m_pActiveState->Update(gameContext);
 	}
 
@@ -66,5 +76,22 @@ namespace dae
 	void FSMComponent::RemoveState(State* pState)
 	{
 		m_pStateMap.erase(pState);
+	}
+
+	void FSMComponent::SetGlobalState(State* pState)
+	{
+		RemoveGlobalState();
+
+		m_pGlobalState = pState;
+	}
+
+	void FSMComponent::RemoveGlobalState()
+	{
+		if (m_pGlobalState != nullptr)
+		{
+			m_pGlobalState->OnExit(*m_pGlobalState->m_pGameContext);
+			delete m_pGlobalState;
+			m_pGlobalState = nullptr;
+		}
 	}
 }

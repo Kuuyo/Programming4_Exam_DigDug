@@ -58,6 +58,9 @@ namespace dae
 		void AddState(State* pState);
 		void RemoveState(State* pState);
 
+		void SetGlobalState(State* pState);
+		void RemoveGlobalState();
+
 		template <class T>
 		void ChangeState(const GameContext &gameContext)
 		{
@@ -90,5 +93,6 @@ namespace dae
 	private:
 		std::map<State*, bool> m_pStateMap{};
 		State* m_pActiveState{ nullptr };
+		State* m_pGlobalState{ nullptr };
 	};
 }
