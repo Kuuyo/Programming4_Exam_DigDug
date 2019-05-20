@@ -11,8 +11,8 @@
 #include "Prefabs.h"
 #include "Characters.h"
 
-DigDugLevel::DigDugLevel(std::string &&levelName, const GameMode gameMode)
-	: Scene(levelName)
+DigDugLevel::DigDugLevel(std::string &&sceneName, std::string &&levelName, const GameMode gameMode)
+	: Scene(sceneName)
 	, m_LevelName(std::move(levelName))
 	, m_GameMode(gameMode)
 {

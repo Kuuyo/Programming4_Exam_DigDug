@@ -31,6 +31,12 @@ namespace dae
 		m_bNeedsUpdate = true;
 	}
 
+	void TextComponent::SetColor(const SDL_Color &color)
+	{
+		m_Color = color;
+		m_bNeedsUpdate = true;
+	}
+
 	void TextComponent::Initialize(const GameContext &gameContext)
 	{
 		m_pFont = gameContext.Resources->LoadFont(m_Font, m_FontSize);

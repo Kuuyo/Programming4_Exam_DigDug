@@ -191,6 +191,7 @@
     <ClInclude Include="CharacterStates.h" />
     <ClInclude Include="DigDug.h" />
     <ClInclude Include="DigDugLevel.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Prefabs.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RockStates.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="CharacterStates.cpp" />
     <ClCompile Include="DigDug.cpp" />
     <ClCompile Include="DigDugLevel.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Prefabs.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">

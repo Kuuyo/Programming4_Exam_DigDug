@@ -16,7 +16,7 @@ public:
 		Versus
 	};
 
-	DigDugLevel(std::string &&levelName, const GameMode gameMode);
+	DigDugLevel(std::string &&sceneName, std::string &&levelName, const GameMode gameMode);
 	~DigDugLevel();
 
 protected:

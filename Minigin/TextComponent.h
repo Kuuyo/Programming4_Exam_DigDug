@@ -12,7 +12,8 @@ namespace dae
 	public:
 		TextComponent(const std::string& text = " ", unsigned int fontSize = 36, SDL_Color color = { 255,255,255 }, const std::string& font = "Lingua.otf");
 
-		void SetText(const std::string& text);
+		void SetText(const std::string &text);
+		void SetColor(const SDL_Color &color);
 
 		TextComponent(const TextComponent &) = delete;
 		TextComponent(TextComponent &&) = delete;

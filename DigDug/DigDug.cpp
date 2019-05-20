@@ -4,6 +4,7 @@
 #include <SceneManager.h>
 #include <InputManager.h>
 
+#include "MainMenu.h"
 #include "DigDugLevel.h"
 
 void DigDug::LoadGame(const dae::GameContext &gameContext) const
@@ -28,5 +29,13 @@ void DigDug::LoadGame(const dae::GameContext &gameContext) const
 			, SDL_SCANCODE_KP_5, SDL_SCANCODE_KP_8
 			, dae::GamePadAxis::LeftStickVerticalAnalog, 1));
 
-	gameContext.Scenes->AddScene(new DigDugLevel("Level1", DigDugLevel::GameMode::Coop));
+	gameContext.Input->AddInputMapping(
+		dae::InputMapping("Confirm"
+			, SDL_SCANCODE_SPACE
+			, XINPUT_GAMEPAD_A, 0)
+	);
+
+	gameContext.Scenes->AddScene(new MainMenu());
+	gameContext.Scenes->AddScene(new DigDugLevel("Level1_SP", "Level1", DigDugLevel::GameMode::SinglePlayer));
+	// gameContext.Scenes->AddScene(new DigDugLevel("Level1_Coop", "Level1", DigDugLevel::GameMode::Coop));
 }

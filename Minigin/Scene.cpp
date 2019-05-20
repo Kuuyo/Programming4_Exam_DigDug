@@ -46,7 +46,7 @@ namespace dae
 		}
 	}
 
-	void Scene::RootLateUpdate(const GameContext & gameContext)
+	void Scene::RootLateUpdate(const GameContext &gameContext)
 	{
 		LateUpdate(gameContext);
 

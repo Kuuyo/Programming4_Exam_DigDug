@@ -39,6 +39,9 @@
     <ClInclude Include="RockStates.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -64,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="RockStates.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
