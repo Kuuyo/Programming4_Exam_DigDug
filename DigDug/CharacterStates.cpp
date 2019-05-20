@@ -67,6 +67,12 @@ namespace Characters
 			}
 
 
+			IdleState::IdleState(std::string &&hAxis, std::string &&vAxis)
+				: m_HAxis(std::move(hAxis))
+				, m_VAxis(std::move(vAxis))
+			{
+			}
+
 			IdleState::~IdleState()
 			{
 			}
@@ -82,8 +88,8 @@ namespace Characters
 
 			void IdleState::Update(const dae::GameContext &gameContext)
 			{
-				if (gameContext.Input->GetInputMappingAxis("P1Horizontal") != 0.f
-					|| gameContext.Input->GetInputMappingAxis("P1Vertical") != 0.f)
+				if (gameContext.Input->GetInputMappingAxis(m_HAxis) != 0.f
+					|| gameContext.Input->GetInputMappingAxis(m_VAxis) != 0.f)
 				{
 					ChangeState<MovingState>();
 					return;
@@ -96,6 +102,12 @@ namespace Characters
 			}
 
 
+
+			MovingState::MovingState(std::string &&hAxis, std::string &&vAxis)
+				: m_HAxis(std::move(hAxis))
+				, m_VAxis(std::move(vAxis))
+			{
+			}
 
 			MovingState::~MovingState()
 			{
@@ -115,8 +127,8 @@ namespace Characters
 
 			void MovingState::Update(const dae::GameContext &gameContext)
 			{
-				float horizontal = gameContext.Input->GetInputMappingAxis("P1Horizontal");
-				float vertical = gameContext.Input->GetInputMappingAxis("P1Vertical");
+				float horizontal = gameContext.Input->GetInputMappingAxis(m_HAxis);
+				float vertical = gameContext.Input->GetInputMappingAxis(m_VAxis);
 
 				if (horizontal == 0.f && vertical == 0.f)
 				{

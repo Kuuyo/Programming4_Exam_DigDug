@@ -28,24 +28,24 @@ namespace dae
 		const float GetInputMappingAxis(const std::string &inputMapping) const;
 
 		// XInput
-		const bool IsPressed(const WORD button) const;
-		const bool WasPressed(const WORD button) const;
-		const KeyState GetButtonState(const WORD button) const;
+		const bool IsPressed(const WORD button, unsigned int playerIndex) const;
+		const bool WasPressed(const WORD button, unsigned int playerIndex) const;
+		const KeyState GetButtonState(const WORD button, unsigned int playerIndex) const;
 
-		const float GetAxis(const GamePadAxis axis) const;
+		const float GetAxis(const GamePadAxis axis, unsigned int playerIndex) const;
 
-		const float GetLeftTrigger() const;
-		const float GetRightTrigger() const;
+		const float GetLeftTrigger(unsigned int playerIndex) const;
+		const float GetRightTrigger(unsigned int playerIndex) const;
 
-		const float GetLeftStickX() const;
-		const float GetLeftStickY() const;
-		const float GetRightStickX() const;
-		const float GetRightStickY() const;
+		const float GetLeftStickX(unsigned int playerIndex) const;
+		const float GetLeftStickY(unsigned int playerIndex) const;
+		const float GetRightStickX(unsigned int playerIndex) const;
+		const float GetRightStickY(unsigned int playerIndex) const;
 
-		const float GetLeftStickXAnalog() const;
-		const float GetLeftStickYAnalog() const;
-		const float GetRightStickXAnalog() const;
-		const float GetRightStickYAnalog() const;
+		const float GetLeftStickXAnalog(unsigned int playerIndex) const;
+		const float GetLeftStickYAnalog(unsigned int playerIndex) const;
+		const float GetRightStickXAnalog(unsigned int playerIndex) const;
+		const float GetRightStickYAnalog(unsigned int playerIndex) const;
 
 		// Keyboard
 		const bool IsPressed(const SDL_Scancode key) const;
@@ -70,12 +70,12 @@ namespace dae
 			RightY
 		};
 
-		XINPUT_STATE m_CurrentState{};
-		XINPUT_STATE m_PreviousState{};
+		XINPUT_STATE m_CurrentState[4]{};
+		XINPUT_STATE m_PreviousState[4]{};
 		const float m_MaxAxisValue = 32767;
-		bool m_bControllerIsDisconnected{ false };
+		bool m_bControllerIsDisconnected[4]{ false,false,false,false };
 
-		const float HandleStickAxis(const ThumbStick thumbstick) const;
+		const float HandleStickAxis(const ThumbStick thumbstick, unsigned int playerIndex) const;
 
 		// Keyboard
 		UINT8* m_pPreviousKeyboardState;

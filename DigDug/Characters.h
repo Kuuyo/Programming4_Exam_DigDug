@@ -21,10 +21,12 @@ namespace Characters
 			Pumping
 		};
 
-		static void CreateDigDugCharacter(dae::GameObject* &out);
+		static void CreateDigDugCharacter(dae::GameObject* &out, bool isPlayerOne);
 		static unsigned short GetCategoryBits() { return m_CategoryBits; }
 
 	private:
+		static unsigned short m_CategoryBitsP1;
+		static unsigned short m_CategoryBitsP2;
 		static unsigned short m_CategoryBits;
 	};
 }

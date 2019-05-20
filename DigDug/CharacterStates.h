@@ -23,6 +23,7 @@ namespace Characters
 			class IdleState final : public dae::State
 			{
 			public:
+				IdleState(std::string &&hAxis, std::string &&vAxis);
 				~IdleState();
 
 			private:
@@ -31,11 +32,14 @@ namespace Characters
 				void OnEnter(const dae::GameContext &gameContext) override;
 				void Update(const dae::GameContext &gameContext) override;
 				void OnExit(const dae::GameContext &gameContext) override;
+
+				std::string m_HAxis, m_VAxis;
 			};
 
 			class MovingState final : public dae::State
 			{
 			public:
+				MovingState(std::string &&hAxis, std::string &&vAxis);
 				~MovingState();
 
 			private:
@@ -44,6 +48,8 @@ namespace Characters
 				void OnEnter(const dae::GameContext &gameContext) override;
 				void Update(const dae::GameContext &gameContext) override;
 				void OnExit(const dae::GameContext &gameContext) override;
+
+				std::string m_HAxis, m_VAxis;
 			};
 
 			class DeathState final : public dae::State

@@ -11,9 +11,10 @@
 #include "Prefabs.h"
 #include "Characters.h"
 
-DigDugLevel::DigDugLevel(std::string &&levelName)
+DigDugLevel::DigDugLevel(std::string &&levelName, const GameMode gameMode)
 	: Scene(levelName)
 	, m_LevelName(std::move(levelName))
+	, m_GameMode(gameMode)
 {
 }
 
@@ -84,9 +85,16 @@ void DigDugLevel::Initialize(const dae::GameContext &gameContext)
 				go->SetPosition(x, y);
 				break;
 			case DigDugLevel::LevelSectionType::DigDug:
-				Characters::DigDug::CreateDigDugCharacter(m_pDigDug);
+				Characters::DigDug::CreateDigDugCharacter(m_pDigDug, true);
 				AddGameObject(m_pDigDug);
 				m_pDigDug->SetPosition(x, y);
+
+				if (m_GameMode == GameMode::Coop)
+				{
+					Characters::DigDug::CreateDigDugCharacter(m_pDigDug2, false);
+					AddGameObject(m_pDigDug2);
+					m_pDigDug2->SetPosition(x, y);
+				}
 				break;
 			case DigDugLevel::LevelSectionType::Pooka:
 				break;

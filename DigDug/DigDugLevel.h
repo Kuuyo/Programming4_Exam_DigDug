@@ -9,7 +9,14 @@ namespace dae
 class DigDugLevel final : public dae::Scene
 {
 public:
-	DigDugLevel(std::string &&levelName);
+	enum class GameMode
+	{
+		SinglePlayer,
+		Coop,
+		Versus
+	};
+
+	DigDugLevel(std::string &&levelName, const GameMode gameMode);
 	~DigDugLevel();
 
 protected:
@@ -31,7 +38,9 @@ private:
 		Fygar = 5
 	};
 
+	GameMode m_GameMode;
 	dae::GameObject* m_pDigDug{ nullptr };
+	dae::GameObject* m_pDigDug2{ nullptr };
 	const std::string m_LevelName{};
 };
 

@@ -44,13 +44,17 @@ namespace dae
 		m_CurrentKeyMods = SDL_GetModState();
 
 		// XInput
-		m_PreviousState = m_CurrentState;
-
-		ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
-		if (!XInputGetState(0, &m_CurrentState) == ERROR_SUCCESS && !m_bControllerIsDisconnected)
+		for (int i = 0; i < 4; ++i)
 		{
-			LogWarningC("No controller found.");
-			m_bControllerIsDisconnected = true;
+			m_PreviousState[i] = m_CurrentState[i];
+
+			ZeroMemory(&m_CurrentState[i], sizeof(XINPUT_STATE));
+			if (!XInputGetState(0, &m_CurrentState[i]) == ERROR_SUCCESS
+				&& !m_bControllerIsDisconnected[i])
+			{
+				LogWarningC("No controller found at index " + std::to_string(i));
+				m_bControllerIsDisconnected[i] = true;
+			}
 		}
 
 		// InputMappings
@@ -63,10 +67,10 @@ namespace dae
 			im.Axis = GetKeyAxis(im.PositiveKey, im.NegativeKey);
 
 			if (im.HasGamePadButton && im.State == KeyState::Default)
-				im.State = GetButtonState(im.GamePadButton);
+				im.State = GetButtonState(im.GamePadButton, im.PlayerIndex);
 
 			if (im.HasGamePadAxis && im.Axis == 0.f)
-				im.Axis = GetAxis(im.GamePadAxis);
+				im.Axis = GetAxis(im.GamePadAxis, im.PlayerIndex);
 		}
 
 		return true;
@@ -127,31 +131,31 @@ namespace dae
 
 #pragma region XInput
 
-	const bool InputManager::IsPressed(const WORD button) const
+	const bool InputManager::IsPressed(const WORD button, unsigned int playerIndex) const
 	{
-		return (m_CurrentState.Gamepad.wButtons & button) != 0;
+		return (m_CurrentState[playerIndex].Gamepad.wButtons & button) != 0;
 	}
 
-	const bool InputManager::WasPressed(const WORD button) const
+	const bool InputManager::WasPressed(const WORD button, unsigned int playerIndex) const
 	{
-		return (m_PreviousState.Gamepad.wButtons & button) != 0;
+		return (m_PreviousState[playerIndex].Gamepad.wButtons & button) != 0;
 	}
 
-	const KeyState InputManager::GetButtonState(const WORD button) const
+	const KeyState InputManager::GetButtonState(const WORD button, unsigned int playerIndex) const
 	{
-		if (WasPressed(button))
-			if (IsPressed(button))
+		if (WasPressed(button, playerIndex))
+			if (IsPressed(button, playerIndex))
 				return KeyState::Held;
 			else
 				return KeyState::Released;
 		else
-			if (IsPressed(button))
+			if (IsPressed(button, playerIndex))
 				return KeyState::Triggered;
 			else
 				return KeyState::Default;
 	}
 
-	const float InputManager::GetAxis(const GamePadAxis axis) const
+	const float InputManager::GetAxis(const GamePadAxis axis, unsigned int playerIndex) const
 	{
 		switch (axis)
 		{
@@ -159,34 +163,34 @@ namespace dae
 			return 0.f;
 			break;
 		case dae::GamePadAxis::LeftStickHorizontal:
-			return GetLeftStickX();
+			return GetLeftStickX(playerIndex);
 			break;
 		case dae::GamePadAxis::LeftStickVertical:
-			return GetLeftStickY();
+			return GetLeftStickY(playerIndex);
 			break;
 		case dae::GamePadAxis::RightStickHorizontal:
-			return GetRightStickX();
+			return GetRightStickX(playerIndex);
 			break;
 		case dae::GamePadAxis::RightStickVertical:
-			return GetRightStickY();
+			return GetRightStickY(playerIndex);
 			break;
 		case dae::GamePadAxis::LeftTrigger:
-			return GetLeftTrigger();
+			return GetLeftTrigger(playerIndex);
 			break;
 		case dae::GamePadAxis::RightTrigger:
-			return GetRightTrigger();
+			return GetRightTrigger(playerIndex);
 			break;
 		case dae::GamePadAxis::LeftStickHorizontalAnalog:
-			return GetLeftStickXAnalog();
+			return GetLeftStickXAnalog(playerIndex);
 			break;
 		case dae::GamePadAxis::LeftStickVerticalAnalog:
-			return GetLeftStickYAnalog();
+			return GetLeftStickYAnalog(playerIndex);
 			break;
 		case dae::GamePadAxis::RightStickHorizontalAnalog:
-			return GetRightStickXAnalog();
+			return GetRightStickXAnalog(playerIndex);
 			break;
 		case dae::GamePadAxis::RightStickVerticalAnalog:
-			return GetRightStickYAnalog();
+			return GetRightStickYAnalog(playerIndex);
 			break;
 		default:
 			return 0.f;
@@ -194,61 +198,61 @@ namespace dae
 		}
 	}
 
-	const float InputManager::GetLeftTrigger() const
+	const float InputManager::GetLeftTrigger(unsigned int playerIndex) const
 	{
-		return (float)m_CurrentState.Gamepad.bLeftTrigger / 255.0f;
+		return (float)m_CurrentState[playerIndex].Gamepad.bLeftTrigger / 255.0f;
 	}
 
-	const float InputManager::GetRightTrigger() const
+	const float InputManager::GetRightTrigger(unsigned int playerIndex) const
 	{
-		return (float)m_CurrentState.Gamepad.bRightTrigger / 255.0f;
+		return (float)m_CurrentState[playerIndex].Gamepad.bRightTrigger / 255.0f;
 	}
 
-	const float InputManager::GetLeftStickX() const
+	const float InputManager::GetLeftStickX(unsigned int playerIndex) const
 	{
-		return HandleStickAxis(ThumbStick::LeftX);
+		return HandleStickAxis(ThumbStick::LeftX, playerIndex);
 	}
 	
-	const float InputManager::GetLeftStickY() const
+	const float InputManager::GetLeftStickY(unsigned int playerIndex) const
 	{
-		return HandleStickAxis(ThumbStick::LeftY);
+		return HandleStickAxis(ThumbStick::LeftY, playerIndex);
 	}
 	
-	const float InputManager::GetRightStickX() const
+	const float InputManager::GetRightStickX(unsigned int playerIndex) const
 	{
-		return HandleStickAxis(ThumbStick::RightX);
+		return HandleStickAxis(ThumbStick::RightX, playerIndex);
 	}
 	
-	const float InputManager::GetRightStickY() const
+	const float InputManager::GetRightStickY(unsigned int playerIndex) const
 	{
-		return HandleStickAxis(ThumbStick::RightY);
+		return HandleStickAxis(ThumbStick::RightY, playerIndex);
 	}
 
-	const float InputManager::GetLeftStickXAnalog() const
+	const float InputManager::GetLeftStickXAnalog(unsigned int playerIndex) const
 	{
-		float value = HandleStickAxis(ThumbStick::LeftX);
+		float value = HandleStickAxis(ThumbStick::LeftX, playerIndex);
 		return (value > 0.f) ? glm::ceil(value) : glm::floor(value);
 	}
 
-	const float InputManager::GetLeftStickYAnalog() const
+	const float InputManager::GetLeftStickYAnalog(unsigned int playerIndex) const
 	{
-		float value = HandleStickAxis(ThumbStick::LeftY);
+		float value = HandleStickAxis(ThumbStick::LeftY, playerIndex);
 		return (value > 0.f) ? glm::ceil(value) : glm::floor(value);
 	}
 
-	const float InputManager::GetRightStickXAnalog() const
+	const float InputManager::GetRightStickXAnalog(unsigned int playerIndex) const
 	{
-		float value = HandleStickAxis(ThumbStick::RightX);
+		float value = HandleStickAxis(ThumbStick::RightX, playerIndex);
 		return (value > 0.f) ? glm::ceil(value) : glm::floor(value);
 	}
 
-	const float InputManager::GetRightStickYAnalog() const
+	const float InputManager::GetRightStickYAnalog(unsigned int playerIndex) const
 	{
-		float value = HandleStickAxis(ThumbStick::RightY);
+		float value = HandleStickAxis(ThumbStick::RightY, playerIndex);
 		return (value > 0.f) ? glm::ceil(value) : glm::floor(value);
 	}
 
-	const float InputManager::HandleStickAxis(const ThumbStick thumbstick) const
+	const float InputManager::HandleStickAxis(const ThumbStick thumbstick, unsigned int playerIndex) const
 	{
 		float stickAxis{};
 		float deadzone{};
@@ -256,19 +260,19 @@ namespace dae
 		switch (thumbstick)
 		{
 		case dae::InputManager::ThumbStick::LeftX:
-			stickAxis = m_CurrentState.Gamepad.sThumbLX;
+			stickAxis = m_CurrentState[playerIndex].Gamepad.sThumbLX;
 			deadzone = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
 			break;
 		case dae::InputManager::ThumbStick::LeftY:
-			stickAxis = float(-m_CurrentState.Gamepad.sThumbLY);
+			stickAxis = float(-m_CurrentState[playerIndex].Gamepad.sThumbLY);
 			deadzone = XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE;
 			break;
 		case dae::InputManager::ThumbStick::RightX:
-			stickAxis = m_CurrentState.Gamepad.sThumbRX;
+			stickAxis = m_CurrentState[playerIndex].Gamepad.sThumbRX;
 			deadzone = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
 			break;
 		case dae::InputManager::ThumbStick::RightY:
-			stickAxis = float(-m_CurrentState.Gamepad.sThumbRY);
+			stickAxis = float(-m_CurrentState[playerIndex].Gamepad.sThumbRY);
 			deadzone = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
 			break;
 		default:

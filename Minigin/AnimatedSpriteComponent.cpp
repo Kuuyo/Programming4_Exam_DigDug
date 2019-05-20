@@ -8,7 +8,7 @@
 
 namespace dae
 {
-	AnimatedSpriteComponent::AnimatedSpriteComponent(std::string && fileName, bool isCentered,
+	AnimatedSpriteComponent::AnimatedSpriteComponent(std::string &&fileName, bool isCentered,
 		const SDL_Rect &sourceRect, int columns, int rows, bool isAnimating)
 		: m_FileName(std::move(fileName))
 		, m_pTexture(nullptr)
@@ -62,10 +62,7 @@ namespace dae
 				m_Timer -= m_ActiveClip.m_SecondsPerFrame;
 
 				if (m_CurrentFrame == m_ActiveClip.m_StartFrame && !m_IsLooping)
-				{
-					LogDebugC("");
 					Pause();
-				}
 			}
 		}
 	}

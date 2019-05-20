@@ -9,11 +9,15 @@
 #include <FSMComponent.h>
 #include <HealthComponent.h>
 
+#include "Prefabs.h"
+
 namespace Characters
 {
-	unsigned short DigDug::m_CategoryBits = 0x001;
+	unsigned short DigDug::m_CategoryBitsP1 = 0x001;
+	unsigned short DigDug::m_CategoryBitsP2 = 0x002;
+	unsigned short DigDug::m_CategoryBits = m_CategoryBitsP1 | m_CategoryBitsP2;
 
-	void DigDug::CreateDigDugCharacter(dae::GameObject* &out)
+	void DigDug::CreateDigDugCharacter(dae::GameObject* &out, bool isPlayerOne)
 	{
 		if (out == nullptr)
 			out = new dae::GameObject("DigDug");
@@ -21,7 +25,10 @@ namespace Characters
 		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
 		fixtureDesc.halfWidth = 7.95f;
 		fixtureDesc.halfHeight = 7.95f;
-		fixtureDesc.filter.categoryBits = m_CategoryBits;
+		fixtureDesc.isSensor = true;
+		fixtureDesc.filter.categoryBits = isPlayerOne ? m_CategoryBitsP1 : m_CategoryBitsP2;
+		fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits();
+
 		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
 		pBody->SetBoxFixture(fixtureDesc);
 		out->AddComponent(pBody);
@@ -31,8 +38,10 @@ namespace Characters
 
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
 		pFSM->SetGlobalState(new DigDugEx::States::GlobalState());
-		pFSM->AddState(new DigDugEx::States::IdleState());
-		pFSM->AddState(new DigDugEx::States::MovingState());
+		pFSM->AddState(new DigDugEx::States::IdleState(isPlayerOne ? "P1Horizontal" : "P2Horizontal",
+			isPlayerOne ? "P1Vertical" : "P2Vertical"));
+		pFSM->AddState(new DigDugEx::States::MovingState(isPlayerOne ? "P1Horizontal" : "P2Horizontal",
+			isPlayerOne ? "P1Vertical" : "P2Vertical"));
 		pFSM->AddState(new DigDugEx::States::DeathState());
 		out->AddComponent(pFSM);
 

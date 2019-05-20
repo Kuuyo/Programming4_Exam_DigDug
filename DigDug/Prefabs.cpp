@@ -12,7 +12,7 @@
 
 namespace Level
 {
-	unsigned short LevelBlock::m_CategoryBits = 0x0002;
+	unsigned short LevelBlock::m_CategoryBits = 0x0004;
 
 	void LevelBlock::CreateLevelBlock(dae::GameObject* &out, const int blockSize)
 	{
@@ -38,7 +38,7 @@ namespace Level
 		out->AddComponent(pTexture);
 	}
 
-	unsigned short Rock::m_CategoryBits = 0x0004;
+	unsigned short Rock::m_CategoryBits = 0x0008;
 
 	void Rock::CreateRock(dae::GameObject* &out, const int blockSize)
 	{

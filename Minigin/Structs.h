@@ -46,6 +46,7 @@ namespace dae
 			, Axis(0.f)
 			, HasGamePadButton(false)
 			, HasGamePadAxis(false)
+			, PlayerIndex(0)
 			, GamePadAxis(GamePadAxis::None)
 		{}
 
@@ -59,11 +60,12 @@ namespace dae
 			, Axis(0.f)
 			, HasGamePadButton(false)
 			, HasGamePadAxis(false)
+			, PlayerIndex(0)
 			, GamePadAxis(GamePadAxis::None)
 		{}
 
 		InputMapping(std::string&& name,
-			const unsigned short &gamePadButton)
+			const unsigned short &gamePadButton, unsigned int playerIndex)
 			: Name(std::move(name))
 			, PositiveKey(SDL_SCANCODE_UNKNOWN)
 			, NegativeKey(SDL_SCANCODE_UNKNOWN)
@@ -72,13 +74,14 @@ namespace dae
 			, Axis(0.f)
 			, HasGamePadButton(true)
 			, HasGamePadAxis(false)
+			, PlayerIndex(playerIndex)
 			, GamePadButton(gamePadButton)
 			, GamePadAxis(GamePadAxis::None)
 		{}
 
 		InputMapping(std::string&& name,
 			const SDL_Scancode &key,
-			const unsigned short &gamePadButton)
+			const unsigned short &gamePadButton, unsigned int playerIndex)
 			: Name(std::move(name))
 			, PositiveKey(key)
 			, NegativeKey(SDL_SCANCODE_UNKNOWN)
@@ -87,6 +90,7 @@ namespace dae
 			, Axis(0.f)
 			, HasGamePadButton(true)
 			, HasGamePadAxis(false)
+			, PlayerIndex(playerIndex)
 			, GamePadButton(gamePadButton)
 			, GamePadAxis(GamePadAxis::None)
 		{}
@@ -108,7 +112,7 @@ namespace dae
 		InputMapping(std::string&& name,
 			const SDL_Scancode &positiveKey,
 			const SDL_Scancode &negativeKey,
-			const GamePadAxis gamePadAxis)
+			const GamePadAxis gamePadAxis, unsigned int playerIndex)
 			: Name(std::move(name))
 			, PositiveKey(positiveKey)
 			, NegativeKey(negativeKey)
@@ -117,6 +121,7 @@ namespace dae
 			, Axis(0.f)
 			, HasGamePadButton(false)
 			, HasGamePadAxis(true)
+			, PlayerIndex(playerIndex)
 			, GamePadAxis(gamePadAxis)
 		{}
 
@@ -128,6 +133,7 @@ namespace dae
 		SDL_Keymod Mods;
 		KeyState State;
 		float Axis;
+		unsigned int PlayerIndex;
 		unsigned short GamePadButton;
 		GamePadAxis GamePadAxis;
 	};
