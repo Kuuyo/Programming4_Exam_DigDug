@@ -38,8 +38,14 @@ namespace Characters
 
 		SDL_Rect src{};
 		src.h = src.w = 16;
-		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("DigDug.gif", true, src, 1, 2, false);
-		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Walking), 2, 0, 0.1f));
+		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("DigDug.gif", true, src, 8, 2, false);
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Walking), 0, 2, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Digging), 2, 2, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::SquishH), 4, 1, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::SquishV), 5, 1, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Dying), 6, 5, 0.5f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::ThrowPump), 11, 1, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Pumping), 14, 2, 0.1f));
 		animatedSpriteComponent->SetActiveClip(to_integral(AnimationClips::Walking));
 		out->AddComponent(animatedSpriteComponent);
 

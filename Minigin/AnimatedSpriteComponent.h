@@ -5,11 +5,11 @@ namespace dae
 {
 	struct AnimatedSpriteClip
 	{
-		AnimatedSpriteClip(unsigned int id, unsigned int nrOfFrames,
-			unsigned int startFrame, float secondsPerFrame)
+		AnimatedSpriteClip(unsigned int id, unsigned int startFrame,
+			unsigned int nrOfFrames, float secondsPerFrame)
 			: m_Id(id)
-			, m_NrOfFrames(nrOfFrames)
 			, m_StartFrame(startFrame)
+			, m_NrOfFrames(nrOfFrames)
 			, m_SecondsPerFrame(secondsPerFrame)
 		{}
 
@@ -21,8 +21,8 @@ namespace dae
 		{}
 
 		unsigned int m_Id;
-		unsigned int m_NrOfFrames;
 		unsigned int m_StartFrame;
+		unsigned int m_NrOfFrames;
 		float m_SecondsPerFrame;
 		SDL_Rect m_SourceRect;
 	};
@@ -36,6 +36,7 @@ namespace dae
 			int columns, int rows, bool isAnimating);
 
 		void Play();
+		void PlayOnce();
 		void Pause();
 		void Stop();
 
@@ -70,6 +71,8 @@ namespace dae
 
 		bool m_IsCentered;
 		bool m_IsAnimating;
+		bool m_IsLooping;
+		bool m_IsInitialized;
 
 		std::vector<AnimatedSpriteClip> m_Clips;
 		AnimatedSpriteClip m_ActiveClip;

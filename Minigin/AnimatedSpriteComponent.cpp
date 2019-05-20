@@ -20,6 +20,7 @@ namespace dae
 		, m_NumberOfFrames(m_Columns * m_Rows)
 		, m_IsAnimating(isAnimating)
 		, m_Timer(0.f)
+		, m_IsInitialized(false)
 	{
 	}
 
@@ -35,6 +36,10 @@ namespace dae
 			m_pParent->GetComponent<TransformComponent>(), m_SourceRect, m_IsCentered);
 
 		m_pParent->GetScene()->AddTexture(m_pTexture);
+
+		m_pTexture->SetSourceRect(m_ActiveClip.m_SourceRect);
+
+		m_IsInitialized = true;		
 	}
 
 	void AnimatedSpriteComponent::Update(const GameContext &gameContext)
@@ -46,7 +51,7 @@ namespace dae
 			if (m_Timer >= m_ActiveClip.m_SecondsPerFrame)
 			{
 				SDL_Rect src = m_ActiveClip.m_SourceRect;
-				src.x = src.w * (m_CurrentFrame % (m_Columns + 1));
+				src.x = src.w * (m_CurrentFrame % m_Rows);
 				src.y = src.h * (m_CurrentFrame / m_Rows);
 
 				m_pTexture->SetSourceRect(src);
@@ -55,6 +60,12 @@ namespace dae
 					(m_ActiveClip.m_StartFrame + m_ActiveClip.m_NrOfFrames);
 				m_CurrentFrame = glm::max(m_CurrentFrame, m_ActiveClip.m_StartFrame);
 				m_Timer -= m_ActiveClip.m_SecondsPerFrame;
+
+				if (m_CurrentFrame == m_ActiveClip.m_StartFrame && !m_IsLooping)
+				{
+					LogDebugC("");
+					Pause();
+				}
 			}
 		}
 	}
@@ -62,6 +73,13 @@ namespace dae
 	void AnimatedSpriteComponent::Play()
 	{
 		m_IsAnimating = true;
+		m_IsLooping = true;
+	}
+
+	void AnimatedSpriteComponent::PlayOnce()
+	{
+		m_IsAnimating = true;
+		m_IsLooping = false;
 	}
 
 	void AnimatedSpriteComponent::Pause()
@@ -81,7 +99,7 @@ namespace dae
 		m_Clips.push_back(clip);
 
 		SDL_Rect src = m_SourceRect;
-		src.x = src.w * (clip.m_StartFrame % (m_Columns + 1));
+		src.x = src.w * (clip.m_StartFrame % m_Rows);
 		src.y = src.h * (clip.m_StartFrame / m_Rows);
 		m_Clips.back().m_SourceRect = src;
 	}
@@ -108,5 +126,8 @@ namespace dae
 			[ID](AnimatedSpriteClip ac) {return ac.m_Id == ID; });
 
 		m_CurrentFrame = m_ActiveClip.m_StartFrame;
+
+		if(m_IsInitialized)
+			m_pTexture->SetSourceRect(m_ActiveClip.m_SourceRect);
 	}
 }

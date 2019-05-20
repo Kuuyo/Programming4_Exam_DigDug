@@ -5,6 +5,7 @@
 #include <TextureComponent.h>
 #include <BodyComponent.h>
 #include <FSMComponent.h>
+#include <AnimatedSpriteComponent.h>
 
 #include "Characters.h"
 #include "RockStates.h"
@@ -57,17 +58,20 @@ namespace Level
 
 		out->AddComponent(pBody);
 
-		SDL_Rect src{};
-		src.h = src.w = blockSize;
-		dae::TextureComponent* pTexture = new dae::TextureComponent("Rock.gif", true, src);
-		out->AddComponent(pTexture);
-
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
 		pFSM->AddState(new RockEx::States::IdleState());
 		pFSM->AddState(new RockEx::States::WigglingState());
 		pFSM->AddState(new RockEx::States::FallingState());
 		pFSM->AddState(new RockEx::States::BreakingState());
 		out->AddComponent(pFSM);
+
+		SDL_Rect src{};
+		src.h = src.w = 16;
+		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("Rock.gif", true, src, 2, 2, false);
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Wiggle), 0, 2, 0.2f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Break), 2, 2, 0.2f));
+		animatedSpriteComponent->SetActiveClip(to_integral(AnimationClips::Wiggle));
+		out->AddComponent(animatedSpriteComponent);
 	}
 }
 

@@ -25,6 +25,12 @@ namespace Level
 	class Rock
 	{
 	public:
+		enum class AnimationClips : unsigned int
+		{
+			Wiggle,
+			Break
+		};
+
 		static void CreateRock(dae::GameObject* &out, const int blockSize);
 		static unsigned short GetCategoryBits() { return m_CategoryBits; }
 

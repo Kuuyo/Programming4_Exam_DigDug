@@ -14,6 +14,8 @@
 #include <glm/detail/func_common.hpp>
 #pragma warning(pop)
 
+#include "Characters.h"
+
 namespace Characters
 {
 	namespace DigDugEx
@@ -48,6 +50,10 @@ namespace Characters
 						if (reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->
 							GetGameObject()->GetTag() == "Rock" && contactList->other->GetType() == b2BodyType::b2_dynamicBody)
 						{
+							auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+							asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::SquishH));
+							asc->PlayOnce();
+
 							ChangeState<DeathState>();
 							return;
 						}
@@ -102,7 +108,9 @@ namespace Characters
 
 			void MovingState::OnEnter(const dae::GameContext &)
 			{
-				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Play();
+				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Walking));
+				asc->Play();
 			}
 
 			void MovingState::Update(const dae::GameContext &gameContext)
@@ -163,12 +171,14 @@ namespace Characters
 
 			void DeathState::OnEnter(const dae::GameContext &)
 			{
-
+				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Dying));
+				asc->PlayOnce();
 			}
 
 			void DeathState::Update(const dae::GameContext &)
 			{
-				GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
+
 			}
 
 			void DeathState::OnExit(const dae::GameContext &)

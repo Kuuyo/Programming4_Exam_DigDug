@@ -7,6 +7,9 @@
 #include <BodyComponent.h>
 #include <Time.h>
 #include <Box2DRaycastCallback.h>
+#include <AnimatedSpriteComponent.h>
+
+#include "Prefabs.h"
 
 namespace Level
 {
@@ -38,7 +41,7 @@ namespace Level
 
 			void IdleState::OnExit(const dae::GameContext &)
 			{
-				LogDebugC("");
+
 			}
 
 
@@ -52,7 +55,9 @@ namespace Level
 
 			void WigglingState::OnEnter(const dae::GameContext &)
 			{
-				LogDebugC("");
+				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+				asc->SetActiveClip(to_integral(Level::Rock::AnimationClips::Wiggle));
+				asc->Play();
 			}
 
 			void WigglingState::Update(const dae::GameContext &gameContext)
@@ -63,10 +68,6 @@ namespace Level
 				
 				if (m_Timer > m_ShakeElapsed)
 				{
-					GetGameObject()->SetPosition(pos.x +
-						((m_CurrentAmountOfShakes % 2 == 0) ? m_ShakeOffset : -m_ShakeOffset)
-						, pos.y);
-
 					++m_CurrentAmountOfShakes;
 
 					m_Timer -= m_ShakeElapsed;
@@ -78,7 +79,7 @@ namespace Level
 
 			void WigglingState::OnExit(const dae::GameContext &)
 			{
-				LogDebugC("");
+				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Stop();
 			}
 
 
@@ -96,7 +97,6 @@ namespace Level
 			void FallingState::OnEnter(const dae::GameContext &)
 			{
 				GetGameObject()->GetComponent<dae::BodyComponent>()->SetType(b2BodyType::b2_dynamicBody);
-				LogDebugC("");
 			}
 
 			void FallingState::Update(const dae::GameContext &)
@@ -137,13 +137,17 @@ namespace Level
 			{
 				auto pBody = GetGameObject()->GetComponent<dae::BodyComponent>();
 				pBody->SetLinearVelocity(0.f, 0.f);
+
+				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+				asc->SetActiveClip(to_integral(Level::Rock::AnimationClips::Break));
+				asc->PlayOnce();
 			}
 
 			void BreakingState::Update(const dae::GameContext &)
 			{
 				// Do animation
 
-				GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
+				// GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
 			}
 
 			void BreakingState::OnExit(const dae::GameContext &)
