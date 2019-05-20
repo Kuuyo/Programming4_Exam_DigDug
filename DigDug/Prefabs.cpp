@@ -44,7 +44,7 @@ namespace Level
 		if (out == nullptr)
 			out = new dae::GameObject("Rock");
 
-		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_kinematicBody);
+		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_staticBody);
 
 		dae::BodyComponent::BoxFixtureDesc boxFixtureDesc{};
 		boxFixtureDesc.halfWidth = blockSize * .45f;

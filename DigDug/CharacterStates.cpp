@@ -7,6 +7,7 @@
 #include <BodyComponent.h>
 #include <GridComponent.h>
 #include <AnimatedSpriteComponent.h>
+#include <HealthComponent.h>
 
 #pragma warning(push)
 #pragma warning (disable:4201)
@@ -44,8 +45,8 @@ namespace Characters
 					auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
 					if (contactList != nullptr)
 					{
-						if (reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject()->GetTag()
-							== "Rock")
+						if (reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->
+							GetGameObject()->GetTag() == "Rock" && contactList->other->GetType() == b2BodyType::b2_dynamicBody)
 						{
 							ChangeState<DeathState>();
 							return;

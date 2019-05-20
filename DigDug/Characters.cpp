@@ -38,7 +38,10 @@ namespace Characters
 
 		SDL_Rect src{};
 		src.h = src.w = 16;
-		out->AddComponent(new dae::AnimatedSpriteComponent("DigDug.gif", true, src, 1, 2, 1.f / 10.f, false));
+		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("DigDug.gif", true, src, 1, 2, false);
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Walking), 2, 0, 0.1f));
+		animatedSpriteComponent->SetActiveClip(to_integral(AnimationClips::Walking));
+		out->AddComponent(animatedSpriteComponent);
 
 		out->AddComponent(new dae::HealthComponent(1.f, 3));
 	}

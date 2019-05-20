@@ -9,8 +9,7 @@
 namespace dae
 {
 	AnimatedSpriteComponent::AnimatedSpriteComponent(std::string && fileName, bool isCentered,
-		const SDL_Rect &sourceRect, int columns, int rows, float secondsPerFrame, bool isAnimating,
-		const glm::vec2 &margin, const glm::vec2 &padding)
+		const SDL_Rect &sourceRect, int columns, int rows, bool isAnimating)
 		: m_FileName(std::move(fileName))
 		, m_pTexture(nullptr)
 		, m_SourceRect(sourceRect)
@@ -19,10 +18,7 @@ namespace dae
 		, m_Rows(rows)
 		, m_CurrentFrame(0)
 		, m_NumberOfFrames(m_Columns * m_Rows)
-		, m_SecondsPerFrame(secondsPerFrame)
 		, m_IsAnimating(isAnimating)
-		, m_Margin(margin)
-		, m_Padding(padding)
 		, m_Timer(0.f)
 	{
 	}
@@ -37,6 +33,7 @@ namespace dae
 	{
 		m_pTexture = gameContext.Resources->CreateTexture(m_FileName,
 			m_pParent->GetComponent<TransformComponent>(), m_SourceRect, m_IsCentered);
+
 		m_pParent->GetScene()->AddTexture(m_pTexture);
 	}
 
@@ -46,16 +43,18 @@ namespace dae
 		{
 			m_Timer += gameContext.Time->GetDeltaTime();
 
-			if (m_Timer >= m_SecondsPerFrame)
+			if (m_Timer >= m_ActiveClip.m_SecondsPerFrame)
 			{
-				SDL_Rect src = m_SourceRect;
+				SDL_Rect src = m_ActiveClip.m_SourceRect;
 				src.x = src.w * (m_CurrentFrame % (m_Columns + 1));
 				src.y = src.h * (m_CurrentFrame / m_Rows);
 
 				m_pTexture->SetSourceRect(src);
 
-				m_CurrentFrame = (m_CurrentFrame + 1) % m_NumberOfFrames;
-				m_Timer -= m_SecondsPerFrame;
+				m_CurrentFrame = (m_CurrentFrame + 1) %
+					(m_ActiveClip.m_StartFrame + m_ActiveClip.m_NrOfFrames);
+				m_CurrentFrame = glm::max(m_CurrentFrame, m_ActiveClip.m_StartFrame);
+				m_Timer -= m_ActiveClip.m_SecondsPerFrame;
 			}
 		}
 	}
@@ -73,7 +72,41 @@ namespace dae
 	void AnimatedSpriteComponent::Stop()
 	{
 		m_IsAnimating = false;
-		m_CurrentFrame = 0;
-		m_pTexture->SetSourceRect(m_SourceRect);
+		m_CurrentFrame = m_ActiveClip.m_StartFrame;
+		m_pTexture->SetSourceRect(m_ActiveClip.m_SourceRect);
+	}
+
+	void AnimatedSpriteComponent::AddClip(const AnimatedSpriteClip &clip)
+	{
+		m_Clips.push_back(clip);
+
+		SDL_Rect src = m_SourceRect;
+		src.x = src.w * (clip.m_StartFrame % (m_Columns + 1));
+		src.y = src.h * (clip.m_StartFrame / m_Rows);
+		m_Clips.back().m_SourceRect = src;
+	}
+
+	AnimatedSpriteClip AnimatedSpriteComponent::GetClip(unsigned int ID) const
+	{
+		return *std::find_if(m_Clips.begin(), m_Clips.end(),
+			[ID](AnimatedSpriteClip ac) {return ac.m_Id == ID; });
+	}
+
+	AnimatedSpriteClip AnimatedSpriteComponent::GetActiveClip() const
+	{
+		return m_ActiveClip;
+	}
+
+	unsigned int AnimatedSpriteComponent::GetActiveClipID() const
+	{
+		return m_ActiveClip.m_Id;
+	}
+
+	void AnimatedSpriteComponent::SetActiveClip(unsigned int ID)
+	{
+		m_ActiveClip = *std::find_if(m_Clips.begin(), m_Clips.end(),
+			[ID](AnimatedSpriteClip ac) {return ac.m_Id == ID; });
+
+		m_CurrentFrame = m_ActiveClip.m_StartFrame;
 	}
 }

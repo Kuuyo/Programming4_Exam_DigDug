@@ -15,4 +15,11 @@
 #include <windows.h>
 
 #include "Log.h" // Various logging functions
+
+// https://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type
+template<typename E>
+constexpr auto to_integral(E e) -> typename std::underlying_type<E>::type
+{
+	return static_cast<typename std::underlying_type<E>::type>(e);
+}
 #endif //PCH_H
