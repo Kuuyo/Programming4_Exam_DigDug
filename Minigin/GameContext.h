@@ -50,6 +50,12 @@ namespace dae
 		Renderer* Renderer{ nullptr };
 		ResourceManager* Resources{ nullptr };
 		Time* Time{ nullptr };
+	};
+
+	struct SceneContext // TODO: Finish SceneContext
+	{
+		const GameContext* GameContext;
 		b2World* Physics{ nullptr };
+		// Time
 	};
 }

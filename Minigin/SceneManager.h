@@ -13,9 +13,9 @@ namespace dae
 
 		void Initialize(const GameContext &gameContext);
 
-		void FixedUpdate();
-		void Update(const GameContext &gameContext);
-		void LateUpdate(const GameContext &gameContext);
+		void FixedUpdate(float msPerFrame);
+		void Update();
+		void LateUpdate();
 		void DestroyUpdate();
 		void Render(const GameContext &gameContext, float extrapolate);		
 

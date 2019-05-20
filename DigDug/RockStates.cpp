@@ -19,27 +19,27 @@ namespace Level
 		{
 			IdleState::~IdleState() {}
 
-			void IdleState::Initialize(const dae::GameContext &)
+			void IdleState::Initialize(const dae::SceneContext &)
 			{
 
 			}
 
-			void IdleState::OnEnter(const dae::GameContext &)
+			void IdleState::OnEnter(const dae::SceneContext &)
 			{
 
 			}
 
-			void IdleState::Update(const dae::GameContext &gameContext)
+			void IdleState::Update(const dae::SceneContext &sceneContext)
 			{
 				dae::Box2DRaycastCallback callback;
 				const auto pos = GetGameObject()->GetPosition();
-				gameContext.Physics->RayCast(&callback, b2Vec2(pos.x, pos.y), b2Vec2(pos.x, pos.y + 8.f));
+				sceneContext.Physics->RayCast(&callback, b2Vec2(pos.x, pos.y), b2Vec2(pos.x, pos.y + 8.f));
 
 				if(callback.GetFixtures().size() == 0)
 					ChangeState<WigglingState>();	
 			}
 
-			void IdleState::OnExit(const dae::GameContext &)
+			void IdleState::OnExit(const dae::SceneContext &)
 			{
 
 			}
@@ -48,21 +48,21 @@ namespace Level
 
 			WigglingState::~WigglingState(){}
 
-			void WigglingState::Initialize(const dae::GameContext &)
+			void WigglingState::Initialize(const dae::SceneContext &)
 			{
 				m_ShakeElapsed = m_Duration / m_NumberOfShakes;
 			}
 
-			void WigglingState::OnEnter(const dae::GameContext &)
+			void WigglingState::OnEnter(const dae::SceneContext &)
 			{
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
 				asc->SetActiveClip(to_integral(Level::Rock::AnimationClips::Wiggle));
 				asc->Play();
 			}
 
-			void WigglingState::Update(const dae::GameContext &gameContext)
+			void WigglingState::Update(const dae::SceneContext &sceneContext)
 			{
-				m_Timer += gameContext.Time->GetDeltaTime();
+				m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
 
 				const auto pos = GetGameObject()->GetPosition();
 				
@@ -77,7 +77,7 @@ namespace Level
 					ChangeState<FallingState>();
 			}
 
-			void WigglingState::OnExit(const dae::GameContext &)
+			void WigglingState::OnExit(const dae::SceneContext &)
 			{
 				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Stop();
 			}
@@ -89,17 +89,17 @@ namespace Level
 
 			}
 
-			void FallingState::Initialize(const dae::GameContext &)
+			void FallingState::Initialize(const dae::SceneContext &)
 			{
 
 			}
 
-			void FallingState::OnEnter(const dae::GameContext &)
+			void FallingState::OnEnter(const dae::SceneContext &)
 			{
 				GetGameObject()->GetComponent<dae::BodyComponent>()->SetType(b2BodyType::b2_dynamicBody);
 			}
 
-			void FallingState::Update(const dae::GameContext &)
+			void FallingState::Update(const dae::SceneContext &)
 			{
 				auto pBody = GetGameObject()->GetComponent<dae::BodyComponent>();
 				pBody->SetLinearVelocity(0.f, 48.f);
@@ -116,7 +116,7 @@ namespace Level
 				}
 			}
 
-			void FallingState::OnExit(const dae::GameContext &)
+			void FallingState::OnExit(const dae::SceneContext &)
 			{
 
 			}
@@ -128,12 +128,12 @@ namespace Level
 
 			}
 
-			void BreakingState::Initialize(const dae::GameContext &)
+			void BreakingState::Initialize(const dae::SceneContext &)
 			{
 
 			}
 
-			void BreakingState::OnEnter(const dae::GameContext &)
+			void BreakingState::OnEnter(const dae::SceneContext &)
 			{
 				auto pBody = GetGameObject()->GetComponent<dae::BodyComponent>();
 				pBody->SetLinearVelocity(0.f, 0.f);
@@ -143,14 +143,14 @@ namespace Level
 				asc->PlayOnce();
 			}
 
-			void BreakingState::Update(const dae::GameContext &)
+			void BreakingState::Update(const dae::SceneContext &)
 			{
 				// Do animation
 
 				// GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
 			}
 
-			void BreakingState::OnExit(const dae::GameContext &)
+			void BreakingState::OnExit(const dae::SceneContext &)
 			{
 
 			}

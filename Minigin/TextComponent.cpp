@@ -6,6 +6,7 @@
 #include "Texture2D.h"
 #include "GameObject.h"
 #include "ResourceManager.h"
+#include "Scene.h"
 
 namespace dae
 {
@@ -37,19 +38,19 @@ namespace dae
 		m_bNeedsUpdate = true;
 	}
 
-	void TextComponent::Initialize(const GameContext &gameContext)
+	void TextComponent::Initialize(const SceneContext &sceneContext)
 	{
-		m_pFont = gameContext.Resources->LoadFont(m_Font, m_FontSize);
-		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
+		m_pFont = sceneContext.GameContext->Resources->LoadFont(m_Font, m_FontSize);
+		sceneContext.GameContext->Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
 			m_pParent->GetComponent<TransformComponent>(), false);
 		m_pParent->GetScene()->AddTexture(m_pTexture);
 	}
 
-	void TextComponent::Update(const GameContext &gameContext)
+	void TextComponent::Update(const SceneContext &sceneContext)
 	{
 		if (m_bNeedsUpdate)
 		{
-			gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
+			sceneContext.GameContext->Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
 				m_pParent->GetComponent<TransformComponent>(), false);
 			m_bNeedsUpdate = false;
 		}

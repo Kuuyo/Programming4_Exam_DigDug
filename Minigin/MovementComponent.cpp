@@ -31,9 +31,9 @@ namespace dae
 		m_pInput->RemoveObserver(this);
 	}
 
-	void MovementComponent::Initialize(const GameContext &gameContext)
+	void MovementComponent::Initialize(const SceneContext &sceneContext)
 	{
-		m_pInput = gameContext.Input;
+		m_pInput = sceneContext.GameContext->Input;
 		m_pInput->AddObserver(this);
 
 		m_bHasBody = m_pParent->HasComponent<BodyComponent>();
@@ -45,7 +45,7 @@ namespace dae
 		m_InputMappingMap.insert({ SDL_SCANCODE_D, { Direction::Right, false } });
 	}
 
-	void MovementComponent::Update(const GameContext &gameContext)
+	void MovementComponent::Update(const SceneContext &sceneContext)
 	{
 		if (!m_bHasBody)
 		{
@@ -53,7 +53,7 @@ namespace dae
 				if (im.second.second)
 					m_pParent->SetPosition(
 						m_pParent->GetPosition() +
-						(m_Direction.at(im.second.first) * gameContext.Time->GetDeltaTime() * m_Speed)
+						(m_Direction.at(im.second.first) * sceneContext.GameContext->Time->GetDeltaTime() * m_Speed)
 					);
 		}
 		else if (m_IsLockedToGrid)

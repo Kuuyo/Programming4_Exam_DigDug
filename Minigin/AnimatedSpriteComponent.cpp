@@ -5,6 +5,7 @@
 #include "ResourceManager.h"
 #include "Time.h"
 #include "Texture2D.h"
+#include "Scene.h"
 
 namespace dae
 {
@@ -30,9 +31,9 @@ namespace dae
 		delete m_pTexture;
 	}
 
-	void AnimatedSpriteComponent::Initialize(const GameContext &gameContext)
+	void AnimatedSpriteComponent::Initialize(const SceneContext &sceneContext)
 	{
-		m_pTexture = gameContext.Resources->CreateTexture(m_FileName,
+		m_pTexture = sceneContext.GameContext->Resources->CreateTexture(m_FileName,
 			m_pParent->GetComponent<TransformComponent>(), m_SourceRect, m_IsCentered);
 
 		m_pParent->GetScene()->AddTexture(m_pTexture);
@@ -42,11 +43,11 @@ namespace dae
 		m_IsInitialized = true;		
 	}
 
-	void AnimatedSpriteComponent::Update(const GameContext &gameContext)
+	void AnimatedSpriteComponent::Update(const SceneContext &sceneContext)
 	{
 		if (m_IsAnimating)
 		{
-			m_Timer += gameContext.Time->GetDeltaTime();
+			m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
 
 			if (m_Timer >= m_ActiveClip.m_SecondsPerFrame)
 			{

@@ -1,5 +1,4 @@
 #pragma once
-#include "Scene.h"
 
 #pragma warning (push)
 #pragma warning (disable:4201)
@@ -14,7 +13,8 @@ namespace dae
 {
 	class BaseComponent;
 	class TransformComponent;
-	struct GameContext;
+	class Scene;
+	struct SceneContext;
 
 	class GameObject final
 	{
@@ -23,9 +23,9 @@ namespace dae
 		GameObject(std::string &&tag);
 		~GameObject();
 
-		void Initialize(const GameContext &gameContext);
-		void Update(const GameContext &gameContext);
-		void LateUpdate(const GameContext &gameContext);
+		void Initialize(const SceneContext &sceneContext);
+		void Update(const SceneContext &sceneContext);
+		void LateUpdate(const SceneContext &sceneContext);
 
 		void AddComponent(BaseComponent* component);
 
@@ -81,7 +81,7 @@ namespace dae
 #pragma endregion
 
 	private:
-		friend void Scene::AddGameObject(GameObject* object);
+		friend Scene;
 
 		void SetScene(Scene* pScene);
 

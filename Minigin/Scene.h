@@ -11,13 +11,6 @@ namespace dae
 	class Texture2D;
 	class Renderer;
 
-	struct SceneContext // TODO: Finish SceneContext
-	{
-		GameContext GameContext;
-		std::vector<InputMapping> InputMappings;
-		// Time
-	};
-
 	struct Contact
 	{
 		Contact(b2Contact* b2Contact, GameObject* other)
@@ -52,9 +45,9 @@ namespace dae
 	protected:
 		// Did not make these pure virtual on purpose, so making quick and dirty scenes is still possible
 		// without having to override every single function
-		virtual void Initialize(const GameContext &) {}
-		virtual void Update(const GameContext &) {}
-		virtual void LateUpdate(const GameContext &) {}
+		virtual void Initialize(const SceneContext &) {}
+		virtual void Update(const SceneContext &) {}
+		virtual void LateUpdate(const SceneContext &) {}
 		virtual void OnCollisionEnter(const Contact &, GameObject* ) {}
 		virtual void OnCollisionStay(const Contact &, GameObject* ) {}
 		virtual void OnCollisionExit(const Contact &, GameObject* ) {}
@@ -63,12 +56,13 @@ namespace dae
 		friend class SceneManager;
 
 		void RootInitialize(const GameContext &gameContext);
-		void RootUpdate(const GameContext &gameContext);
-		void RootLateUpdate(const GameContext &gameContext);
+		void RootUpdate();
+		void RootLateUpdate();
 		void DestroyUpdate();
 
 		void Render(Renderer* pRenderer, float extrapolate) const;
 
+		void FixedUpdate(float msPerFrame);
 		void BeginContact(b2Contact* contact) override;
 		void ContactUpdate();
 		void EndContact(b2Contact* contact) override;

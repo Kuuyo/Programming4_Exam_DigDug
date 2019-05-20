@@ -38,9 +38,9 @@ namespace dae
 		HealthComponent& operator= (const HealthComponent&&) = delete;
 
 	protected:
-		void Initialize(const GameContext &) override {}
-		void Update(const GameContext &) override {}
-		void LateUpdate(const GameContext &) override {}
+		void Initialize(const SceneContext &) override {}
+		void Update(const SceneContext &) override {}
+		void LateUpdate(const SceneContext &) override {}
 
 		virtual ~HealthComponent() = default;
 

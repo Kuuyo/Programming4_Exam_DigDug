@@ -17,9 +17,9 @@ namespace dae
 		TextureComponent & operator= (const TextureComponent &&) = delete;
 
 	protected:
-		void Initialize(const GameContext &gameContext) override;
-		void Update(const GameContext &) override {}
-		void LateUpdate(const GameContext &) override {}
+		void Initialize(const SceneContext &sceneContext) override;
+		void Update(const SceneContext &) override {}
+		void LateUpdate(const SceneContext &) override {}
 
 		virtual ~TextureComponent();
 

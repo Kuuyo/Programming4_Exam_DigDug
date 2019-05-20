@@ -20,9 +20,9 @@ namespace dae
 		glm::vec2 GetClosestGridPoint() const;
 
 	protected:
-		void Initialize(const GameContext &gameContext) override;
-		void Update(const GameContext &) override {}
-		void LateUpdate(const GameContext &gameContext) override;
+		void Initialize(const SceneContext &sceneContext) override;
+		void Update(const SceneContext &) override {}
+		void LateUpdate(const SceneContext &sceneContext) override;
 
 		virtual ~InfiniteGridComponent();
 

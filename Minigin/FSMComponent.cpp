@@ -14,14 +14,14 @@ namespace dae
 		return m_pFSM->GetGameObject();
 	}
 
-	void State::RootInitialize(const GameContext &gameContext, FSMComponent* pParentFSM)
+	void State::RootInitialize(const SceneContext &sceneContext, FSMComponent* pParentFSM)
 	{
-		m_pInput = gameContext.Input;
+		m_pInput = sceneContext.GameContext->Input;
 
 		m_pFSM = pParentFSM;
-		m_pGameContext = &gameContext;
+		m_pSceneContext = &sceneContext;
 
-		Initialize(gameContext);
+		Initialize(sceneContext);
 	}
 }
 
@@ -42,27 +42,27 @@ namespace dae
 		}
 	}
 
-	void FSMComponent::Initialize(const GameContext &gameContext)
+	void FSMComponent::Initialize(const SceneContext &sceneContext)
 	{
 		for (auto it : m_pStateMap)
 		{
-			it.first->RootInitialize(gameContext, this);
+			it.first->RootInitialize(sceneContext, this);
 		}
 
 		if (m_pGlobalState != nullptr)
 		{
-			m_pGlobalState->RootInitialize(gameContext, this);
-			m_pGlobalState->OnEnter(gameContext);
+			m_pGlobalState->RootInitialize(sceneContext, this);
+			m_pGlobalState->OnEnter(sceneContext);
 		}
 
-		m_pActiveState->OnEnter(gameContext);
+		m_pActiveState->OnEnter(sceneContext);
 	}
 
-	void FSMComponent::Update(const GameContext &gameContext)
+	void FSMComponent::Update(const SceneContext &sceneContext)
 	{
 		if(m_pGlobalState != nullptr)
-			m_pGlobalState->Update(gameContext);
-		m_pActiveState->Update(gameContext);
+			m_pGlobalState->Update(sceneContext);
+		m_pActiveState->Update(sceneContext);
 	}
 
 	void FSMComponent::AddState(State* pState)
@@ -89,7 +89,7 @@ namespace dae
 	{
 		if (m_pGlobalState != nullptr)
 		{
-			m_pGlobalState->OnExit(*m_pGlobalState->m_pGameContext);
+			m_pGlobalState->OnExit(*m_pGlobalState->m_pSceneContext);
 			delete m_pGlobalState;
 			m_pGlobalState = nullptr;
 		}

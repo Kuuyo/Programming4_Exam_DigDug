@@ -25,7 +25,6 @@ namespace Characters
 		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
 		fixtureDesc.halfWidth = 7.95f;
 		fixtureDesc.halfHeight = 7.95f;
-		fixtureDesc.isSensor = true;
 		fixtureDesc.filter.categoryBits = isPlayerOne ? m_CategoryBitsP1 : m_CategoryBitsP2;
 		fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits();
 

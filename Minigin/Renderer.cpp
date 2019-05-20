@@ -16,11 +16,8 @@ namespace dae
 
 		SDL_RenderSetScale(m_pRenderer, gameContext.GameSettings.GameScaleX, gameContext.GameSettings.GameScaleY);
 
-		m_pPhysics = gameContext.Physics;
-
 #if defined(DEBUG) | defined(_DEBUG)	
 		m_pBox2DDebugRenderer = new Box2DDebugRender(this);
-		m_pPhysics->SetDebugDraw(m_pBox2DDebugRenderer);
 		m_pBox2DDebugRenderer->SetFlags(b2Draw::e_shapeBit);
 #endif
 	}
@@ -34,7 +31,8 @@ namespace dae
 			delete m_pBox2DDebugRenderer;
 	}
 
-	void Renderer::Render(const std::vector<Texture2D*> &pTextures, float extrapolate) const
+	void Renderer::Render(const SceneContext &sceneContext, const std::vector<Texture2D*> &pTextures,
+		float extrapolate) const
 	{
 		SDL_RenderClear(m_pRenderer);
 
@@ -42,7 +40,7 @@ namespace dae
 			RenderTexture(*pTexture, extrapolate);
 
 #if defined(DEBUG) | defined(_DEBUG)
-		m_pPhysics->DrawDebugData();
+		sceneContext.Physics->DrawDebugData();
 
 		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
 		SDL_RenderDrawPoints(m_pRenderer, m_DebugDrawPoints.data(), m_DebugDrawPoints.size());

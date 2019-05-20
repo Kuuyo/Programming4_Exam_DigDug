@@ -20,8 +20,8 @@ public:
 	~DigDugLevel();
 
 protected:
-	void Initialize(const dae::GameContext &gameContext) override;
-	void Update(const dae::GameContext &gameContext) override;
+	void Initialize(const dae::SceneContext &sceneContext) override;
+	void Update(const dae::SceneContext &sceneContext) override;
 
 	void OnCollisionEnter(const dae::Contact &contact, dae::GameObject* gameObject) override;
 	void OnCollisionStay(const dae::Contact &contact, dae::GameObject* gameObject) override;

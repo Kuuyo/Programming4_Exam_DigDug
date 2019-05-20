@@ -6,6 +6,7 @@
 #include "Texture2D.h"
 
 #include "BodyComponent.h"
+#include "Box2DDebugRender.h"
 
 #include <Box2D.h>
 
@@ -20,39 +21,45 @@ namespace dae
 			if (gameObject != nullptr)
 				delete gameObject;
 		}
+
+		delete m_SceneContext.Physics;
 	}
 
 	void Scene::RootInitialize(const GameContext &gameContext)
 	{
-		gameContext.Physics->SetContactListener(this);
+		m_SceneContext.GameContext = &gameContext;
+		m_SceneContext.Physics = new b2World({ 0.f,0.f }); // TODO: GRAVITY HARDCODED
+		m_SceneContext.Physics->SetContactListener(this);
 
-		m_SceneContext.GameContext = gameContext;
+#if defined(DEBUG) | defined(_DEBUG)	
+		m_SceneContext.Physics->SetDebugDraw(gameContext.Renderer->GetBox2DDebugRenderer());
+#endif
 
-		Initialize(gameContext);
+		Initialize(m_SceneContext);
 
 		for (auto gameObject : m_Objects)
 		{
-			gameObject->Initialize(gameContext);
+			gameObject->Initialize(m_SceneContext);
 		}
 	}
 
-	void Scene::RootUpdate(const GameContext &gameContext)
+	void Scene::RootUpdate()
 	{
-		Update(gameContext);
+		Update(m_SceneContext);
 
 		for (auto gameObject : m_Objects)
 		{
-			gameObject->Update(gameContext);
+			gameObject->Update(m_SceneContext);
 		}
 	}
 
-	void Scene::RootLateUpdate(const GameContext &gameContext)
+	void Scene::RootLateUpdate()
 	{
-		LateUpdate(gameContext);
+		LateUpdate(m_SceneContext);
 
 		for (auto gameObject : m_Objects)
 		{
-			gameObject->LateUpdate(gameContext);
+			gameObject->LateUpdate(m_SceneContext);
 		}
 	}
 
@@ -86,7 +93,13 @@ namespace dae
 	void Scene::Render(Renderer* pRenderer, float extrapolate) const
 	{
 		// TODO: Remember unreferenced parameter "extrapolate" in Scene::Render
-		pRenderer->Render(m_pTextureVec, extrapolate);
+		pRenderer->Render(m_SceneContext, m_pTextureVec, extrapolate);
+	}
+
+	void Scene::FixedUpdate(float msPerFrame)
+	{
+		m_SceneContext.Physics->Step(msPerFrame, 8, 3);
+		ContactUpdate();
 	}
 
 	void Scene::BeginContact(b2Contact* contact)

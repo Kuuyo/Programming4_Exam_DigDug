@@ -21,11 +21,11 @@ namespace dae
 	protected:
 		virtual ~State();
 
-		virtual void Initialize(const GameContext &gameContext) = 0;
+		virtual void Initialize(const SceneContext &sceneContext) = 0;
 
-		virtual void OnEnter(const GameContext &gameContext) = 0;
-		virtual void Update(const GameContext &gameContext) = 0;
-		virtual void OnExit(const GameContext &gameContext) = 0;
+		virtual void OnEnter(const SceneContext &sceneContext) = 0;
+		virtual void Update(const SceneContext &sceneContext) = 0;
+		virtual void OnExit(const SceneContext &sceneContext) = 0;
 
 		template <class T>
 		bool IsActiveState();
@@ -33,7 +33,7 @@ namespace dae
 		template <class T>
 		void ChangeState()
 		{
-			m_pFSM->ChangeState<T>(*m_pGameContext);
+			m_pFSM->ChangeState<T>(*m_pSceneContext);
 		}
 
 		GameObject* GetGameObject();
@@ -41,11 +41,11 @@ namespace dae
 	private:
 		friend FSMComponent;
 
-		void RootInitialize(const GameContext &gameContext, FSMComponent* pParentFSM);
+		void RootInitialize(const SceneContext &sceneContext, FSMComponent* pParentFSM);
 
 		FSMComponent* m_pFSM{ nullptr };
 		InputManager* m_pInput{ nullptr };
-		const GameContext* m_pGameContext{ nullptr };
+		const SceneContext* m_pSceneContext{ nullptr };
 	};
 
 	class FSMComponent final : public BaseComponent
@@ -72,18 +72,18 @@ namespace dae
 		}
 
 		template <class T>
-		void ChangeState(const GameContext &gameContext)
+		void ChangeState(const SceneContext &sceneContext)
 		{
 			const type_info& ti = typeid(T);
 			for (auto state : m_pStateMap)
 			{
 				if (state.first && typeid(*state.first) == ti)
 				{
-					m_pActiveState->OnExit(gameContext);
+					m_pActiveState->OnExit(sceneContext);
 
 					m_pActiveState = state.first;
 
-					m_pActiveState->OnEnter(gameContext);
+					m_pActiveState->OnEnter(sceneContext);
 
 					return;
 				}
@@ -94,9 +94,9 @@ namespace dae
 		}
 
 	protected:
-		void Initialize(const GameContext &gameContext) override;
-		void Update(const GameContext &gameContext) override;
-		void LateUpdate(const GameContext &) override {}
+		void Initialize(const SceneContext &sceneContext) override;
+		void Update(const SceneContext &sceneContext) override;
+		void LateUpdate(const SceneContext &) override {}
 
 		virtual ~FSMComponent();
 

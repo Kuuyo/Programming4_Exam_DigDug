@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "TransformComponent.h"
 #include "GameObject.h"
+#include "Scene.h"
 
 namespace dae
 {
@@ -19,7 +20,7 @@ namespace dae
 	{
 		glm::vec2 newPos{ m_Position };
 
-		auto gC = m_pParent->GetScene()->GetSceneContext().GameContext;
+		auto gC = *m_pParent->GetScene()->GetSceneContext().GameContext;
 
 		// TODO: Fix this, it's garbage
 		switch (anchor)
@@ -58,7 +59,7 @@ namespace dae
 	{
 		glm::vec2 newPos{ x,y };
 
-		auto gC = m_pParent->GetScene()->GetSceneContext().GameContext;
+		auto gC = *m_pParent->GetScene()->GetSceneContext().GameContext;
 
 		// TODO: Fix this, it's garbage
 		switch (anchor)
@@ -121,11 +122,11 @@ namespace dae
 			m_Orientation.y = y > 0 ? 1.f : -1.f;
 	}
 
-	void TransformComponent::Initialize(const GameContext &)
+	void TransformComponent::Initialize(const SceneContext &)
 	{
 	}
 
-	void TransformComponent::Update(const GameContext &)
+	void TransformComponent::Update(const SceneContext &)
 	{
 	}
 }

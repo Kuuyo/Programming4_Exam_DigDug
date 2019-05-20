@@ -8,8 +8,8 @@ public:
 	~MainMenu();
 
 protected:
-	void Initialize(const dae::GameContext &gameContext) override;
-	void Update(const dae::GameContext &gameContext) override;
+	void Initialize(const dae::SceneContext &sceneContext) override;
+	void Update(const dae::SceneContext &sceneContext) override;
 
 	void SelectGameObject(dae::GameObject* gameObject);
 	void UnSelectGameObject(dae::GameObject* gameObject);

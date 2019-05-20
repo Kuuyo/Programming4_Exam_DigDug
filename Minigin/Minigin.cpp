@@ -40,7 +40,6 @@ namespace dae
 		m_GameContext.Time = new Time();
 		Log::GetInstance().SetGlobalTime(m_GameContext.Time);
 		m_GameContext.Scenes = new SceneManager();
-		m_GameContext.Physics = new b2World({ 0.f,0.f }); // TODO: Gravity is hardcoded
 		m_GameContext.Renderer = new Renderer(m_pWindow, m_GameContext);
 		m_GameContext.Resources = new ResourceManager();
 		// TODO: ResourceManager Init: Don't forget to change the resource path if needed
@@ -82,7 +81,6 @@ namespace dae
 		auto* sceneManager = m_GameContext.Scenes;
 		auto* input = m_GameContext.Input;
 		auto* time = m_GameContext.Time;
-		auto* physics = m_GameContext.Physics;
 
 		float accumulatedTime{ 0.f };
 		bool doContinue = true;
@@ -98,14 +96,13 @@ namespace dae
 			unsigned int nrLoops{ 0 };
 			while (accumulatedTime >= m_MsPerFrame && nrLoops < m_MaxUpdates)
 			{
-				physics->Step(m_MsPerFrame, 8, 3);
-				sceneManager->FixedUpdate();
+				sceneManager->FixedUpdate(m_MsPerFrame);
 				accumulatedTime -= m_MsPerFrame;
 				++nrLoops;
 			}
 
-			sceneManager->Update(m_GameContext);
-			sceneManager->LateUpdate(m_GameContext);
+			sceneManager->Update();
+			sceneManager->LateUpdate();
 			
 			sceneManager->DestroyUpdate();
 
@@ -118,7 +115,6 @@ namespace dae
 	void Minigin::Cleanup()
 	{
 		delete m_GameContext.Scenes;
-		delete m_GameContext.Physics;
 		delete m_GameContext.Time;
 		delete m_GameContext.Renderer;
 		delete m_GameContext.Resources;

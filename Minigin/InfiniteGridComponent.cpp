@@ -5,6 +5,7 @@
 #include "BodyComponent.h"
 
 #include <glm/detail/func_common.hpp>
+#include <map>
 
 namespace dae
 {
@@ -18,11 +19,11 @@ namespace dae
 	{
 	}
 
-	void InfiniteGridComponent::Initialize(const GameContext &)
+	void InfiniteGridComponent::Initialize(const SceneContext &)
 	{
 	}
 
-	void InfiniteGridComponent::LateUpdate(const GameContext &)
+	void InfiniteGridComponent::LateUpdate(const SceneContext &)
 	{
 		if (m_bConstrain) // TODO: Kind of ugly, this whole component needs some refining
 		{

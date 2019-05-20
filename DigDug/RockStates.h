@@ -13,11 +13,11 @@ namespace Level
 				~IdleState();
 
 			private:
-				void Initialize(const dae::GameContext &gameContext) override;
+				void Initialize(const dae::SceneContext &sceneContext) override;
 
-				void OnEnter(const dae::GameContext &gameContext) override;
-				void Update(const dae::GameContext &gameContext) override;
-				void OnExit(const dae::GameContext &gameContext) override;
+				void OnEnter(const dae::SceneContext &sceneContext) override;
+				void Update(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext) override;
 			};
 
 			class WigglingState final : public dae::State
@@ -26,11 +26,11 @@ namespace Level
 				~WigglingState();
 
 			private:
-				void Initialize(const dae::GameContext &gameContext) override;
+				void Initialize(const dae::SceneContext &sceneContext) override;
 
-				void OnEnter(const dae::GameContext &gameContext) override;
-				void Update(const dae::GameContext &gameContext) override;
-				void OnExit(const dae::GameContext &gameContext) override;
+				void OnEnter(const dae::SceneContext &sceneContext) override;
+				void Update(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext) override;
 
 				float m_Timer{};
 				float m_Duration{ 1.f };
@@ -46,11 +46,11 @@ namespace Level
 				~FallingState();
 
 			private:
-				void Initialize(const dae::GameContext &gameContext) override;
+				void Initialize(const dae::SceneContext &sceneContext) override;
 
-				void OnEnter(const dae::GameContext &gameContext) override;
-				void Update(const dae::GameContext &gameContext) override;
-				void OnExit(const dae::GameContext &gameContext) override;
+				void OnEnter(const dae::SceneContext &sceneContext) override;
+				void Update(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext) override;
 			};
 
 			class BreakingState final : public dae::State
@@ -59,11 +59,11 @@ namespace Level
 				~BreakingState();
 
 			private:
-				void Initialize(const dae::GameContext &gameContext) override;
+				void Initialize(const dae::SceneContext &sceneContext) override;
 
-				void OnEnter(const dae::GameContext &gameContext) override;
-				void Update(const dae::GameContext &gameContext) override;
-				void OnExit(const dae::GameContext &gameContext) override;
+				void OnEnter(const dae::SceneContext &sceneContext) override;
+				void Update(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext) override;
 			};
 		}
 	}

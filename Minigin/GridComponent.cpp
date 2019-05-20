@@ -24,7 +24,7 @@ namespace dae
 	{
 	}
 
-	void GridComponent::Initialize(const GameContext &gameContext)
+	void GridComponent::Initialize(const SceneContext &sceneContext)
 	{
 		glm::vec2 gridPoint{};
 
@@ -37,12 +37,12 @@ namespace dae
 				gridPoint.x = j * m_SectionSize + m_Origin.x;
 				m_GridPointsVec.push_back(gridPoint);
 
-				gameContext.Renderer->AddDebugDrawPoint({ int(gridPoint.x),int(gridPoint.y) });
+				sceneContext.GameContext->Renderer->AddDebugDrawPoint({ int(gridPoint.x),int(gridPoint.y) });
 			}
 		}
 	}
 
-	void GridComponent::LateUpdate(const GameContext &)
+	void GridComponent::LateUpdate(const SceneContext &)
 	{
 		if (m_SnapToGrid)
 		{

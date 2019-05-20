@@ -40,9 +40,9 @@ namespace dae
 		TransformComponent & operator= (const TransformComponent &&) = delete;
 
 	protected:
-		void Initialize(const GameContext &gameContext) override;
-		void Update(const GameContext &gameContext) override;
-		void LateUpdate(const GameContext &) override {}
+		void Initialize(const SceneContext &sceneContext) override;
+		void Update(const SceneContext &sceneContext) override;
+		void LateUpdate(const SceneContext &) override {}
 
 		virtual ~TransformComponent();
 

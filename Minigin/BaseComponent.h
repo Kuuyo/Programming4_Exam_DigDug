@@ -3,7 +3,7 @@
 namespace dae
 {
 	class GameObject;
-	struct GameContext;
+	struct SceneContext;
 
 	class BaseComponent
 	{
@@ -20,9 +20,9 @@ namespace dae
 	protected:
 		virtual ~BaseComponent() = default;
 
-		virtual void Initialize(const GameContext &gameContext) = 0;
-		virtual void Update(const GameContext &gameContext) = 0;
-		virtual void LateUpdate(const GameContext &gameContext) = 0;
+		virtual void Initialize(const SceneContext &sceneContext) = 0;
+		virtual void Update(const SceneContext &sceneContext) = 0;
+		virtual void LateUpdate(const SceneContext &sceneContext) = 0;
 
 		GameObject* m_pParent;
 

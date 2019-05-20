@@ -7,6 +7,7 @@
 #include "ResourceManager.h"
 #include "Font.h"
 #include "Texture2D.h"
+#include "Scene.h"
 
 namespace dae
 {
@@ -27,21 +28,21 @@ namespace dae
 		delete m_pTexture;
 	}
 
-	void FPSComponent::Initialize(const GameContext &gameContext)
+	void FPSComponent::Initialize(const SceneContext &sceneContext)
 	{
-		m_pFont = gameContext.Resources->LoadFont("Lingua.otf", m_FontSize);
-		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
+		m_pFont = sceneContext.GameContext->Resources->LoadFont("Lingua.otf", m_FontSize);
+		sceneContext.GameContext->Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
 			m_pParent->GetComponent<TransformComponent>(), m_IsCentered);
 		m_pParent->GetScene()->AddTexture(m_pTexture);
 	}
 
-	void FPSComponent::Update(const GameContext &gameContext)
+	void FPSComponent::Update(const SceneContext &sceneContext)
 	{
-		std::string text = std::to_string(gameContext.Time->GetFPS());
+		std::string text = std::to_string(sceneContext.GameContext->Time->GetFPS());
 		text.append(" FPS");
 		m_Text = text;
 
-		gameContext.Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
+		sceneContext.GameContext->Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
 			m_pParent->GetComponent<TransformComponent>(), m_IsCentered);
 	}
 }

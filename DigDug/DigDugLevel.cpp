@@ -23,7 +23,7 @@ DigDugLevel::~DigDugLevel()
 {
 }
 
-void DigDugLevel::Initialize(const dae::GameContext &gameContext)
+void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 {
 	// Background
 	auto go = new dae::GameObject();
@@ -37,7 +37,7 @@ void DigDugLevel::Initialize(const dae::GameContext &gameContext)
 	go->SetPosition(0.f, 6.f, dae::Anchor::BottomCenter);
 
 	// Level
-	nlohmann::json jsonLevel = gameContext.Resources->LoadJson(m_LevelName + ".json");
+	nlohmann::json jsonLevel = sceneContext.GameContext->Resources->LoadJson(m_LevelName + ".json");
 	auto layout = jsonLevel["layout"];
 
 	std::vector<LevelSectionType> levelVec;
@@ -57,8 +57,8 @@ void DigDugLevel::Initialize(const dae::GameContext &gameContext)
 	float x = 0;
 	float y = topBorder + halfSize;
 
-	const int width = gameContext.GameSettings.WindowResolutionW / blockSize;
-	const int height = gameContext.GameSettings.WindowResolutionH / blockSize
+	const int width = sceneContext.GameContext->GameSettings.WindowResolutionW / blockSize;
+	const int height = sceneContext.GameContext->GameSettings.WindowResolutionH / blockSize
 		- topBorder / blockSize
 		- bottomBorder / blockSize;
 
@@ -112,7 +112,7 @@ void DigDugLevel::Initialize(const dae::GameContext &gameContext)
 	}
 }
 
-void DigDugLevel::Update(const dae::GameContext &)
+void DigDugLevel::Update(const dae::SceneContext &)
 {
 }
 

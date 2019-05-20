@@ -17,9 +17,9 @@ namespace dae
 			m_pPhysics->DestroyBody(m_pBody);
 	}
 
-	void BodyComponent::Initialize(const GameContext &gameContext)
+	void BodyComponent::Initialize(const SceneContext &sceneContext)
 	{
-		m_pPhysics = gameContext.Physics;
+		m_pPhysics = sceneContext.Physics;
 
 		b2BodyDef def;
 		def.type = m_BodyType;
@@ -27,7 +27,7 @@ namespace dae
 		auto pos = m_pParent->GetPosition();
 		def.position.Set(pos.x, pos.y);
 		def.userData = this;
-		m_pBody = gameContext.Physics->CreateBody(&def);
+		m_pBody = sceneContext.Physics->CreateBody(&def);
 
 		for (auto fxtDef : m_FixtureDefVec)
 		{
@@ -35,7 +35,7 @@ namespace dae
 		}
 	}
 
-	void BodyComponent::Update(const GameContext &)
+	void BodyComponent::Update(const SceneContext &)
 	{
 		auto pos = m_pBody->GetPosition();
 		m_pParent->SetPosition(pos.x, pos.y);

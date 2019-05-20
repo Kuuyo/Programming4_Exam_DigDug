@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseComponent.h"
 
+#include <SDL.h>
+
 namespace dae
 {
 	struct AnimatedSpriteClip
@@ -53,9 +55,9 @@ namespace dae
 		AnimatedSpriteComponent& operator= (const AnimatedSpriteComponent&&) = delete;
 
 	protected:
-		void Initialize(const GameContext &gameContext) override;
-		void Update(const GameContext &) override;
-		void LateUpdate(const GameContext &) override {}
+		void Initialize(const SceneContext &sceneContext) override;
+		void Update(const SceneContext &sceneContext) override;
+		void LateUpdate(const SceneContext &) override {}
 
 		virtual ~AnimatedSpriteComponent();
 

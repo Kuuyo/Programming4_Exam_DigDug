@@ -29,29 +29,29 @@ namespace dae
 		}
 	}
 
-	void GameObject::Initialize(const GameContext &gameContext)
+	void GameObject::Initialize(const SceneContext &sceneContext)
 	{
 		for (auto pComponent : m_pVecComponents)
 		{
-			pComponent->Initialize(gameContext);
+			pComponent->Initialize(sceneContext);
 		}
 
 		m_IsInitialized = true;
 	}
 
-	void GameObject::Update(const GameContext &gameContext)
+	void GameObject::Update(const SceneContext &sceneContext)
 	{
 		for (auto pComponent : m_pVecComponents)
 		{
-			pComponent->Update(gameContext);
+			pComponent->Update(sceneContext);
 		}
 	}
 
-	void GameObject::LateUpdate(const GameContext & gameContext)
+	void GameObject::LateUpdate(const SceneContext &sceneContext)
 	{
 		for (auto pComponent : m_pVecComponents)
 		{
-			pComponent->LateUpdate(gameContext);
+			pComponent->LateUpdate(sceneContext);
 		}
 	}
 

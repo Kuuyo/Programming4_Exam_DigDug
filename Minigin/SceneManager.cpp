@@ -23,19 +23,19 @@ namespace dae
 		}
 	}
 
-	void SceneManager::FixedUpdate()
+	void SceneManager::FixedUpdate(float msPerFrame)
 	{
-		m_pActiveScene->ContactUpdate();
+		m_pActiveScene->FixedUpdate(msPerFrame);
 	}
 
-	void SceneManager::Update(const GameContext &gameContext)
+	void SceneManager::Update()
 	{
-		m_pActiveScene->RootUpdate(gameContext);
+		m_pActiveScene->RootUpdate();
 	}
 
-	void SceneManager::LateUpdate(const GameContext & gameContext)
+	void SceneManager::LateUpdate()
 	{
-		m_pActiveScene->RootLateUpdate(gameContext);
+		m_pActiveScene->RootLateUpdate();
 	}
 
 	void SceneManager::DestroyUpdate()

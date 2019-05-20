@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include "GameObject.h"
 #include "Texture2D.h"
+#include "Scene.h"
 
 namespace dae
 {
@@ -23,9 +24,9 @@ namespace dae
 		delete m_pTexture;
 	}
 
-	void TextureComponent::Initialize(const GameContext &gameContext)
+	void TextureComponent::Initialize(const SceneContext &sceneContext)
 	{
-		m_pTexture = gameContext.Resources->CreateTexture(m_FileName,
+		m_pTexture = sceneContext.GameContext->Resources->CreateTexture(m_FileName,
 			m_pParent->GetComponent<TransformComponent>(), m_SourceRect, m_IsCentered);
 		m_pParent->GetScene()->AddTexture(m_pTexture);
 	}

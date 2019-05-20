@@ -30,17 +30,17 @@ namespace Characters
 			// As using the OnNotify here would be slightly obscure as it is implemented now
 			// Another problem with all this though is that I'm not sure I would catch controller input then
 
-			void GlobalState::Initialize(const dae::GameContext &)
+			void GlobalState::Initialize(const dae::SceneContext &)
 			{
 
 			}
 
-			void GlobalState::OnEnter(const dae::GameContext &)
+			void GlobalState::OnEnter(const dae::SceneContext &)
 			{
 
 			}
 
-			void GlobalState::Update(const dae::GameContext &)
+			void GlobalState::Update(const dae::SceneContext &)
 			{
 				if (!IsActiveState<DeathState>())
 				{
@@ -61,7 +61,7 @@ namespace Characters
 				}
 			}
 
-			void GlobalState::OnExit(const dae::GameContext &)
+			void GlobalState::OnExit(const dae::SceneContext &)
 			{
 
 			}
@@ -77,26 +77,26 @@ namespace Characters
 			{
 			}
 
-			void IdleState::Initialize(const dae::GameContext &)
+			void IdleState::Initialize(const dae::SceneContext &)
 			{
 
 			}
 
-			void IdleState::OnEnter(const dae::GameContext &)
+			void IdleState::OnEnter(const dae::SceneContext &)
 			{
 			}
 
-			void IdleState::Update(const dae::GameContext &gameContext)
+			void IdleState::Update(const dae::SceneContext &sceneContext)
 			{
-				if (gameContext.Input->GetInputMappingAxis(m_HAxis) != 0.f
-					|| gameContext.Input->GetInputMappingAxis(m_VAxis) != 0.f)
+				if (sceneContext.GameContext->Input->GetInputMappingAxis(m_HAxis) != 0.f
+					|| sceneContext.GameContext->Input->GetInputMappingAxis(m_VAxis) != 0.f)
 				{
 					ChangeState<MovingState>();
 					return;
 				}
 			}
 
-			void IdleState::OnExit(const dae::GameContext &)
+			void IdleState::OnExit(const dae::SceneContext &)
 			{
 
 			}
@@ -113,22 +113,22 @@ namespace Characters
 			{
 			}
 
-			void MovingState::Initialize(const dae::GameContext &)
+			void MovingState::Initialize(const dae::SceneContext &)
 			{
 
 			}
 
-			void MovingState::OnEnter(const dae::GameContext &)
+			void MovingState::OnEnter(const dae::SceneContext &)
 			{
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
 				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Walking));
 				asc->Play();
 			}
 
-			void MovingState::Update(const dae::GameContext &gameContext)
+			void MovingState::Update(const dae::SceneContext &sceneContext)
 			{
-				float horizontal = gameContext.Input->GetInputMappingAxis(m_HAxis);
-				float vertical = gameContext.Input->GetInputMappingAxis(m_VAxis);
+				float horizontal = sceneContext.GameContext->Input->GetInputMappingAxis(m_HAxis);
+				float vertical = sceneContext.GameContext->Input->GetInputMappingAxis(m_VAxis);
 
 				if (horizontal == 0.f && vertical == 0.f)
 				{
@@ -168,7 +168,7 @@ namespace Characters
 				gameObject->GetComponent<dae::BodyComponent>()->MoveToTarget(vector, 32.f);
 			}
 
-			void MovingState::OnExit(const dae::GameContext &)
+			void MovingState::OnExit(const dae::SceneContext &)
 			{
 				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 0.f);
 				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Stop();
@@ -176,24 +176,24 @@ namespace Characters
 
 
 
-			void DeathState::Initialize(const dae::GameContext &)
+			void DeathState::Initialize(const dae::SceneContext &)
 			{
 
 			}
 
-			void DeathState::OnEnter(const dae::GameContext &)
+			void DeathState::OnEnter(const dae::SceneContext &)
 			{
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
 				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Dying));
 				asc->PlayOnce();
 			}
 
-			void DeathState::Update(const dae::GameContext &)
+			void DeathState::Update(const dae::SceneContext &)
 			{
 
 			}
 
-			void DeathState::OnExit(const dae::GameContext &)
+			void DeathState::OnExit(const dae::SceneContext &)
 			{
 
 			}
