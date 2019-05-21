@@ -110,6 +110,11 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 		}
 		y += blockSize;
 	}
+
+	Level::BottomLayer::CreateBottomLayer(go = nullptr, sceneContext, blockSize);
+	AddGameObject(go);
+	go->SetPosition(float(sceneContext.GameContext->GameSettings.WindowResolutionW * .5f),
+		float(sceneContext.GameContext->GameSettings.WindowResolutionH - blockSize * .5f));
 }
 
 void DigDugLevel::Update(const dae::SceneContext &)

@@ -42,6 +42,8 @@ namespace dae
 		void Pause();
 		void Stop();
 
+		bool IsPlaying() const;
+
 		void AddClip(const AnimatedSpriteClip &clip);
 		AnimatedSpriteClip GetClip(unsigned int ID) const;
 

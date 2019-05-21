@@ -8,6 +8,7 @@
 #include <Time.h>
 #include <Box2DRaycastCallback.h>
 #include <AnimatedSpriteComponent.h>
+#include <Scene.h>
 
 #include "Prefabs.h"
 
@@ -107,12 +108,8 @@ namespace Level
 				auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
 				if (contactList != nullptr)
 				{
-					auto tag = reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject()->GetTag();
-					if (tag == "DigDug" || tag == "LevelBlock")
-					{
-						ChangeState<BreakingState>();
-						return;
-					}
+					ChangeState<BreakingState>();
+					return;
 				}
 			}
 
@@ -143,11 +140,16 @@ namespace Level
 				asc->PlayOnce();
 			}
 
-			void BreakingState::Update(const dae::SceneContext &)
+			void BreakingState::Update(const dae::SceneContext &sceneContext)
 			{
-				// Do animation
-
-				// GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
+				if (!GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->IsPlaying())
+				{
+					m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
+					if (m_Timer >= m_Duration)
+					{
+						GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
+					}
+				}
 			}
 
 			void BreakingState::OnExit(const dae::SceneContext &)

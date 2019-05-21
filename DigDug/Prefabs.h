@@ -4,7 +4,7 @@ namespace dae
 	class GameObject;
 	class Scene;
 	struct GameSettings;
-	struct GameContext;
+	struct SceneContext;
 }
 
 namespace Level
@@ -32,6 +32,16 @@ namespace Level
 		};
 
 		static void CreateRock(dae::GameObject* &out, const int blockSize);
+		static unsigned short GetCategoryBits() { return m_CategoryBits; }
+
+	private:
+		static unsigned short m_CategoryBits;
+	};
+
+	class BottomLayer
+	{
+	public:
+		static void CreateBottomLayer(dae::GameObject* &out, const dae::SceneContext &sceneContext, const int blockSize);
 		static unsigned short GetCategoryBits() { return m_CategoryBits; }
 
 	private:

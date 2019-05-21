@@ -92,6 +92,11 @@ namespace dae
 		m_pTexture->SetSourceRect(m_ActiveClip.m_SourceRect);
 	}
 
+	bool AnimatedSpriteComponent::IsPlaying() const
+	{
+		return m_IsAnimating;
+	}
+
 	void AnimatedSpriteComponent::AddClip(const AnimatedSpriteClip &clip)
 	{
 		m_Clips.push_back(clip);

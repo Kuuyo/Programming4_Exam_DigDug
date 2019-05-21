@@ -57,7 +57,6 @@ namespace dae
 				if (body != nullptr)
 				{
 					body->SetLinearVelocity(0.f, 0.f);
-					LogDebugC("SNAP!");
 				}
 			}
 		}

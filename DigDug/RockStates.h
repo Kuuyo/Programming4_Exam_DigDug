@@ -64,6 +64,9 @@ namespace Level
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
 				void OnExit(const dae::SceneContext &sceneContext) override;
+
+				float m_Timer{};
+				float m_Duration{ .5f };
 			};
 		}
 	}
