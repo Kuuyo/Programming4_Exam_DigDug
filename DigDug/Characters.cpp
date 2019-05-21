@@ -8,6 +8,8 @@
 #include <GridComponent.h>
 #include <FSMComponent.h>
 #include <HealthComponent.h>
+#include <Scene.h>
+#include <Conversions.h>
 
 #include "Prefabs.h"
 
@@ -17,7 +19,7 @@ namespace Characters
 	unsigned short DigDug::m_CategoryBitsP2 = 0x002;
 	unsigned short DigDug::m_CategoryBits = m_CategoryBitsP1 | m_CategoryBitsP2;
 
-	void DigDug::CreateDigDugCharacter(dae::GameObject* &out, bool isPlayerOne)
+	void DigDug::CreateDigDugCharacter(dae::GameObject* &out, dae::Scene* pScene, bool isPlayerOne)
 	{
 		if (out == nullptr)
 			out = new dae::GameObject("DigDug");
@@ -33,7 +35,9 @@ namespace Characters
 		out->AddComponent(pBody);
 
 		// TODO: Make grid not hardcoded
-		out->AddComponent(new dae::GridComponent(16, { 8.f,24.f }, 224, 256, true));
+		auto pGrid = new dae::GridComponent(16, { 8.f,24.f }, 224, 256, true);
+		pScene->AddDebugDrawPointVec(dae::Conversions::GLM_To_SDL(pGrid->GetGrid()));
+		out->AddComponent(pGrid);
 
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
 		pFSM->SetGlobalState(new DigDugEx::States::GlobalState());

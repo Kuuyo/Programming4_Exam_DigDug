@@ -93,7 +93,7 @@ namespace dae
 	void Scene::Render(Renderer* pRenderer, float extrapolate) const
 	{
 		// TODO: Remember unreferenced parameter "extrapolate" in Scene::Render
-		pRenderer->Render(m_SceneContext, m_pTextureVec, extrapolate);
+		pRenderer->Render(m_SceneContext, m_pTextureVec, m_DebugDrawPoints, extrapolate);
 	}
 
 	void Scene::FixedUpdate(float msPerFrame)
@@ -152,6 +152,16 @@ namespace dae
 	void Scene::RemoveTexture(Texture2D* pTexture)
 	{
 		m_pTexturesToRemove.push_back(pTexture);
+	}
+
+	void Scene::AddDebugDrawPoint(const SDL_Point &point)
+	{
+		m_DebugDrawPoints.push_back(point);
+	}
+
+	void Scene::AddDebugDrawPointVec(const std::vector<SDL_Point>& point)
+	{
+		m_DebugDrawPoints.insert(m_DebugDrawPoints.end(), point.begin(), point.end());
 	}
 
 	const std::string Scene::GetName() const

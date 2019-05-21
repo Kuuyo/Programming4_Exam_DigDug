@@ -32,7 +32,7 @@ namespace dae
 	}
 
 	void Renderer::Render(const SceneContext &sceneContext, const std::vector<Texture2D*> &pTextures,
-		float extrapolate) const
+		const std::vector<SDL_Point> &debugDraw, float extrapolate) const
 	{
 		SDL_RenderClear(m_pRenderer);
 
@@ -43,16 +43,11 @@ namespace dae
 		sceneContext.Physics->DrawDebugData();
 
 		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
-		SDL_RenderDrawPoints(m_pRenderer, m_DebugDrawPoints.data(), m_DebugDrawPoints.size());
+		SDL_RenderDrawPoints(m_pRenderer, debugDraw.data(), debugDraw.size());
 		SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 0);
 #endif
 
 		SDL_RenderPresent(m_pRenderer);
-	}
-
-	void Renderer::AddDebugDrawPoint(const SDL_Point &point)
-	{
-		m_DebugDrawPoints.push_back(point);
 	}
 
 	void Renderer::RenderTexture(const Texture2D& texture, float) const

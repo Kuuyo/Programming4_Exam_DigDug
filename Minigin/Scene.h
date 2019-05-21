@@ -36,6 +36,9 @@ namespace dae
 		const std::string GetName() const;
 		SceneContext GetSceneContext() const { return m_SceneContext; }
 
+		void AddDebugDrawPoint(const SDL_Point &point);
+		void AddDebugDrawPointVec(const std::vector<SDL_Point> &point);
+
 		virtual ~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
@@ -75,6 +78,8 @@ namespace dae
 		std::vector<Texture2D*> m_pTextureVec{};
 		std::vector<Texture2D*> m_pTexturesToRemove{};
 		// TODO: Fix this vector of pointers bullshit
+
+		std::vector<SDL_Point> m_DebugDrawPoints{};
 	};
 
 }

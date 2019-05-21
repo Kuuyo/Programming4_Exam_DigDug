@@ -85,13 +85,13 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 				go->SetPosition(x, y);
 				break;
 			case DigDugLevel::LevelSectionType::DigDug:
-				Characters::DigDug::CreateDigDugCharacter(m_pDigDug, true);
+				Characters::DigDug::CreateDigDugCharacter(m_pDigDug, this, true);
 				AddGameObject(m_pDigDug);
 				m_pDigDug->SetPosition(x, y);
 
 				if (m_GameMode == GameMode::Coop)
 				{
-					Characters::DigDug::CreateDigDugCharacter(m_pDigDug2, false);
+					Characters::DigDug::CreateDigDugCharacter(m_pDigDug2, this, false);
 					AddGameObject(m_pDigDug2);
 					m_pDigDug2->SetPosition(x, y);
 				}

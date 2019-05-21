@@ -127,6 +127,9 @@
     <ClInclude Include="HealthComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Conversions.h">
+      <Filter>Engine Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
@@ -206,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Conversions.cpp">
+      <Filter>Engine Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

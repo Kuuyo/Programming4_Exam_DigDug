@@ -18,14 +18,7 @@ namespace dae
 		, m_SnapToGrid(snapToGrid)
 	{
 		m_GridPointsVec.reserve(m_NrOfColums * m_NrOfRows);
-	}
 
-	GridComponent::~GridComponent()
-	{
-	}
-
-	void GridComponent::Initialize(const SceneContext &sceneContext)
-	{
 		glm::vec2 gridPoint{};
 
 		for (int i = 0; i < m_NrOfColums; ++i)
@@ -36,10 +29,17 @@ namespace dae
 			{
 				gridPoint.x = j * m_SectionSize + m_Origin.x;
 				m_GridPointsVec.push_back(gridPoint);
-
-				sceneContext.GameContext->Renderer->AddDebugDrawPoint({ int(gridPoint.x),int(gridPoint.y) });
 			}
 		}
+	}
+
+	GridComponent::~GridComponent()
+	{
+	}
+
+	void GridComponent::Initialize(const SceneContext &)
+	{
+
 	}
 
 	void GridComponent::LateUpdate(const SceneContext &)
@@ -112,5 +112,9 @@ namespace dae
 	bool GridComponent::IsValidGridPoint(const glm::vec2 &point) const
 	{
 		return std::find(m_GridPointsVec.begin(), m_GridPointsVec.end(), point) != m_GridPointsVec.end();
+	}
+	std::vector<glm::vec2> GridComponent::GetGrid() const
+	{
+		return m_GridPointsVec;
 	}
 }

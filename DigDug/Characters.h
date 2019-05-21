@@ -3,6 +3,7 @@
 namespace dae
 {
 	class GameObject;
+	class Scene;
 }
 
 namespace Characters
@@ -21,7 +22,7 @@ namespace Characters
 			Pumping
 		};
 
-		static void CreateDigDugCharacter(dae::GameObject* &out, bool isPlayerOne);
+		static void CreateDigDugCharacter(dae::GameObject* &out, dae::Scene* pScene, bool isPlayerOne);
 		static unsigned short GetCategoryBits() { return m_CategoryBits; }
 
 	private:
