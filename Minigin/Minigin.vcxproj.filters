@@ -130,6 +130,12 @@
     <ClInclude Include="Conversions.h">
       <Filter>Engine Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="SubjectComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ObserverComponent.h">
+      <Filter>Engine Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
@@ -212,6 +218,12 @@
     </ClCompile>
     <ClCompile Include="Conversions.cpp">
       <Filter>Engine Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="SubjectComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ObserverComponent.cpp">
+      <Filter>Engine Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

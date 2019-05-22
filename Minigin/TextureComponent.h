@@ -11,6 +11,9 @@ namespace dae
 	public:
 		TextureComponent(std::string&& fileName, bool isCentered = true, const SDL_Rect &sourceRect = SDL_Rect());
 
+		SDL_Rect GetSourceRect() const;
+		void SetSourceRect(const SDL_Rect &src);
+
 		TextureComponent(const TextureComponent &) = delete;
 		TextureComponent(TextureComponent &&) = delete;
 		TextureComponent & operator= (const TextureComponent &) = delete;

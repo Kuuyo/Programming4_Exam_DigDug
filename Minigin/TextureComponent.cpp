@@ -17,7 +17,6 @@ namespace dae
 	{
 	}
 
-
 	TextureComponent::~TextureComponent()
 	{
 		m_pParent->GetScene()->RemoveTexture(m_pTexture);
@@ -29,5 +28,16 @@ namespace dae
 		m_pTexture = sceneContext.GameContext->Resources->CreateTexture(m_FileName,
 			m_pParent->GetComponent<TransformComponent>(), m_SourceRect, m_IsCentered);
 		m_pParent->GetScene()->AddTexture(m_pTexture);
+	}
+
+	SDL_Rect TextureComponent::GetSourceRect() const
+	{
+		return m_SourceRect;
+	}
+
+	void TextureComponent::SetSourceRect(const SDL_Rect &src)
+	{
+		m_SourceRect = src;
+		m_pTexture->SetSourceRect(src);
 	}
 }

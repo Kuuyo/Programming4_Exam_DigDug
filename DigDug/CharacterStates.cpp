@@ -8,6 +8,7 @@
 #include <GridComponent.h>
 #include <AnimatedSpriteComponent.h>
 #include <HealthComponent.h>
+#include <SubjectComponent.h>
 
 #pragma warning(push)
 #pragma warning (disable:4201)
@@ -186,6 +187,8 @@ namespace Characters
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
 				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Dying));
 				asc->PlayOnce();
+
+				GetGameObject()->GetComponent<dae::SubjectComponent>()->Notify(1, Information::LostLife);
 			}
 
 			void DeathState::Update(const dae::SceneContext &)

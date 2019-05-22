@@ -16,6 +16,9 @@
     <Filter Include="Characters">
       <UniqueIdentifier>{78222119-2cb1-4ebf-8e97-7425ff2107b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{5a629ae4-7a42-43e3-82d3-6003a703946b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -41,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthDisplay.h">
+      <Filter>Characters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthDisplay.cpp">
+      <Filter>Characters</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

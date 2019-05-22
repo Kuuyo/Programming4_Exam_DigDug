@@ -5,6 +5,11 @@ namespace Characters
 {
 	namespace DigDugEx
 	{
+		enum class Information
+		{
+			LostLife
+		};
+
 		namespace States
 		{
 			class GlobalState final : public dae::State

@@ -10,7 +10,10 @@
 #include <HealthComponent.h>
 #include <Scene.h>
 #include <Conversions.h>
+#include <SubjectComponent.h>
+#include <ObserverComponent.h>
 
+#include "HealthDisplay.h"
 #include "Prefabs.h"
 
 namespace Characters
@@ -61,6 +64,13 @@ namespace Characters
 		animatedSpriteComponent->SetActiveClip(to_integral(AnimationClips::Walking));
 		out->AddComponent(animatedSpriteComponent);
 
-		out->AddComponent(new dae::HealthComponent(1.f, 3));
+		dae::GameObject* healthDisplay = nullptr;
+		HealthDisplay::CreateHealthDisplay(healthDisplay, isPlayerOne ? "Player1" : "Player2");
+		pScene->AddGameObject(healthDisplay); // TODO: Make child instead when children is implemented
+		healthDisplay->SetPosition(3.f, 16.f, dae::Anchor::BottomLeft);
+
+		auto pSubject = new dae::SubjectComponent(isPlayerOne ? "Player1" : "Player2");
+		pSubject->AddObserver(healthDisplay->GetComponent<dae::ObserverComponent>());
+		out->AddComponent(pSubject);
 	}
 }

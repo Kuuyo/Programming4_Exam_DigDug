@@ -13,6 +13,7 @@ namespace dae
 	{
 	public:
 		Subject(std::string &&tag);
+		virtual ~Subject() = default;
 
 		void AddObserver(Observer* observer);
 		void RemoveObserver(Observer* observer);
@@ -22,6 +23,7 @@ namespace dae
 	protected:
 		//void Notify(const GameObject* entity, int eventID) const;
 		void Notify(const Subject* subject, int nrArgs, ...) const;
+		void Notify(const Subject* subject, va_list args, int nrArgs) const;
 
 	private:
 		std::set<Observer*> m_Observers;
@@ -33,6 +35,9 @@ namespace dae
 	public:
 		virtual ~Observer() {}
 		//virtual void OnNotify(const GameObject* entity, int eventID) = 0;
+	protected:
 		virtual void OnNotify(const Subject* entity, int nrArgs, va_list args) = 0;
+
+		friend Subject;
 	};
 }
