@@ -47,6 +47,8 @@ namespace dae
 		void AddClip(const AnimatedSpriteClip &clip);
 		AnimatedSpriteClip GetClip(unsigned int ID) const;
 
+		void HideTexture();
+
 		AnimatedSpriteClip GetActiveClip() const;
 		unsigned int GetActiveClipID() const;
 		void SetActiveClip(unsigned int ID);

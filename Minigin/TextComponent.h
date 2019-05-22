@@ -10,7 +10,7 @@ namespace dae
 	class TextComponent final : public BaseComponent
 	{
 	public:
-		TextComponent(const std::string& text = " ", unsigned int fontSize = 36, SDL_Color color = { 255,255,255 }, const std::string& font = "Lingua.otf");
+		TextComponent(const std::string& text = " ", bool isCentered = false, unsigned int fontSize = 36, SDL_Color color = { 255,255,255 }, const std::string& font = "Lingua.otf");
 
 		void SetText(const std::string &text);
 		void SetColor(const SDL_Color &color);
@@ -31,7 +31,8 @@ namespace dae
 		Texture2D* m_pTexture;
 		SDL_Color m_Color;
 		std::string m_Text;
-		bool m_bNeedsUpdate;
+		bool m_NeedsUpdate;
+		bool m_IsCentered;
 		unsigned int m_FontSize;
 		std::string m_Font;
 		Font* m_pFont;

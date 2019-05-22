@@ -6,6 +6,7 @@
 
 #include "MainMenu.h"
 #include "DigDugLevel.h"
+#include "GameOverScene.h"
 
 void DigDug::LoadGame(const dae::GameContext &gameContext) const
 {
@@ -38,4 +39,5 @@ void DigDug::LoadGame(const dae::GameContext &gameContext) const
 	gameContext.Scenes->AddScene(new MainMenu());
 	gameContext.Scenes->AddScene(new DigDugLevel("Level1_SP", "Level1", DigDugLevel::GameMode::SinglePlayer));
 	gameContext.Scenes->AddScene(new DigDugLevel("Level1_Coop", "Level1", DigDugLevel::GameMode::Coop));
+	gameContext.Scenes->AddScene(new GameOverScene());
 }

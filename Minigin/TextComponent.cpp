@@ -10,8 +10,9 @@
 
 namespace dae
 {
-	TextComponent::TextComponent(const std::string& text, unsigned int fontSize, SDL_Color color, const std::string& font)
-		: m_bNeedsUpdate(false)
+	TextComponent::TextComponent(const std::string& text, bool isCentered, unsigned int fontSize, SDL_Color color, const std::string& font)
+		: m_NeedsUpdate(false)
+		, m_IsCentered(isCentered)
 		, m_Text(text)
 		, m_pFont(nullptr)
 		, m_pTexture(nullptr)
@@ -29,13 +30,13 @@ namespace dae
 	void TextComponent::SetText(const std::string& text)
 	{
 		m_Text = text;
-		m_bNeedsUpdate = true;
+		m_NeedsUpdate = true;
 	}
 
 	void TextComponent::SetColor(const SDL_Color &color)
 	{
 		m_Color = color;
-		m_bNeedsUpdate = true;
+		m_NeedsUpdate = true;
 	}
 
 	void TextComponent::Initialize(const SceneContext &sceneContext)
@@ -43,16 +44,17 @@ namespace dae
 		m_pFont = sceneContext.GameContext->Resources->LoadFont(m_Font, m_FontSize);
 		sceneContext.GameContext->Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
 			m_pParent->GetComponent<TransformComponent>(), false);
+		m_pTexture->SetIsCentered(m_IsCentered);
 		m_pParent->GetScene()->AddTexture(m_pTexture);
 	}
 
 	void TextComponent::Update(const SceneContext &sceneContext)
 	{
-		if (m_bNeedsUpdate)
+		if (m_NeedsUpdate)
 		{
 			sceneContext.GameContext->Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
 				m_pParent->GetComponent<TransformComponent>(), false);
-			m_bNeedsUpdate = false;
+			m_NeedsUpdate = false;
 		}
 	}
 }

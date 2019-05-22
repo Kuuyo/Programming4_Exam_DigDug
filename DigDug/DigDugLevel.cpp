@@ -8,6 +8,7 @@
 #include <HealthComponent.h>
 #include <SubjectComponent.h>
 #include <FSMComponent.h>
+#include <SceneManager.h>
 
 #include <json.hpp>
 
@@ -161,7 +162,10 @@ void DigDugLevel::OnNotify(const dae::Subject* entity, int , va_list args)
 			ResetPlayer(gameObject);
 			break;
 		case dae::HealthStatus::Dead:
+			if (m_IsOnePlayerDead || m_GameMode == GameMode::SinglePlayer)
+				GetSceneContext().GameContext->Scenes->SetActiveScene("GameOverScene");
 
+			m_IsOnePlayerDead = true;			
 			break;
 		default:
 			break;

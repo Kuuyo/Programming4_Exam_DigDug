@@ -24,6 +24,11 @@ public:
 	DigDugLevel(std::string &&sceneName, std::string &&levelName, const GameMode gameMode);
 	~DigDugLevel();
 
+	DigDugLevel(const DigDugLevel&) = delete;
+	DigDugLevel(DigDugLevel&&) = delete;
+	DigDugLevel& operator= (const DigDugLevel&) = delete;
+	DigDugLevel& operator= (const DigDugLevel&&) = delete;
+
 private:
 	void Initialize(const dae::SceneContext &sceneContext) override;
 	void Update(const dae::SceneContext &sceneContext) override;
@@ -51,5 +56,6 @@ private:
 	dae::GameObject* m_pDigDug2{ nullptr };
 	glm::vec2 m_PlayerSpawn{};
 	const std::string m_LevelName{};
+	bool m_IsOnePlayerDead{ false };
 };
 

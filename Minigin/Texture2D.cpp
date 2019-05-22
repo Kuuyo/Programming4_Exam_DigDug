@@ -51,6 +51,11 @@ namespace dae
 		}
 	}
 
+	void Texture2D::SetIsCentered(bool isCentered)
+	{
+		m_IsCentered = isCentered;
+	}
+
 	bool Texture2D::GetIsCentered() const
 	{
 		return m_IsCentered;

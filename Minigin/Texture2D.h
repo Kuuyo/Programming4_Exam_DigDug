@@ -19,6 +19,7 @@ namespace dae
 		glm::vec2 GetPosition() const;
 		SDL_RendererFlip GetOrientation() const;
 
+		void SetIsCentered(bool isCentered);
 		bool GetIsCentered() const;
 
 		Texture2D(const Texture2D &) = delete;

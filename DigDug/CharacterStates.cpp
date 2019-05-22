@@ -195,8 +195,12 @@ namespace Characters
 
 			void DeathState::Update(const dae::SceneContext &sceneContext)
 			{
-				if (!GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->IsPlaying())
+				const auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+
+				if (!asc->IsPlaying())
 				{
+					asc->HideTexture();
+
 					m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
 					if (m_Timer >= m_Duration)
 					{
@@ -210,7 +214,7 @@ namespace Characters
 
 			void DeathState::OnExit(const dae::SceneContext &)
 			{
-
+				m_Timer = 0.f;
 			}
 		}
 	}

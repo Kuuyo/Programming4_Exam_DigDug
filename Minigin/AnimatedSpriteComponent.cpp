@@ -113,6 +113,11 @@ namespace dae
 			[ID](AnimatedSpriteClip ac) {return ac.m_Id == ID; });
 	}
 
+	void AnimatedSpriteComponent::HideTexture()
+	{
+		m_pTexture->SetSourceRect(SDL_Rect());
+	}
+
 	AnimatedSpriteClip AnimatedSpriteComponent::GetActiveClip() const
 	{
 		return m_ActiveClip;

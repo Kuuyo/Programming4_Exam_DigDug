@@ -30,6 +30,9 @@ namespace dae
 	{
 		m_CurrentHealth += value;
 
+		if (m_CurrentHealth <= 0.f)
+			RemoveLives(1);
+
 		if (!isOverHealingAllowed) glm::max(m_CurrentHealth, m_MaxHealth);
 
 		if (m_CurrentHealth <= 0.f && m_CurrentNrOfLives > 0)

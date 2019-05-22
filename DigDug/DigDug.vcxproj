@@ -191,6 +191,7 @@
     <ClInclude Include="CharacterStates.h" />
     <ClInclude Include="DigDug.h" />
     <ClInclude Include="DigDugLevel.h" />
+    <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="HealthDisplay.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Prefabs.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="CharacterStates.cpp" />
     <ClCompile Include="DigDug.cpp" />
     <ClCompile Include="DigDugLevel.cpp" />
+    <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="HealthDisplay.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Prefabs.cpp" />
