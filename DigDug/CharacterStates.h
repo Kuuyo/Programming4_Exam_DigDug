@@ -5,11 +5,6 @@ namespace Characters
 {
 	namespace DigDugEx
 	{
-		enum class Information
-		{
-			LostLife
-		};
-
 		namespace States
 		{
 			class GlobalState final : public dae::State
@@ -68,6 +63,9 @@ namespace Characters
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
 				void OnExit(const dae::SceneContext &sceneContext) override;
+
+				float m_Timer{};
+				float m_Duration{ .5f };
 			};
 		}
 	}

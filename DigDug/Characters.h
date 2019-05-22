@@ -6,6 +6,8 @@ namespace dae
 	class Scene;
 }
 
+class DigDugLevel;
+
 namespace Characters
 {
 	class DigDug
@@ -22,7 +24,7 @@ namespace Characters
 			Pumping
 		};
 
-		static void CreateDigDugCharacter(dae::GameObject* &out, dae::Scene* pScene, bool isPlayerOne);
+		static void CreateDigDugCharacter(dae::GameObject* &out, DigDugLevel* pScene, bool isPlayerOne);
 		static unsigned short GetCategoryBits() { return m_CategoryBits; }
 
 	private:

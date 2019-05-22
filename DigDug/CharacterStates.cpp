@@ -9,6 +9,7 @@
 #include <AnimatedSpriteComponent.h>
 #include <HealthComponent.h>
 #include <SubjectComponent.h>
+#include <Time.h>
 
 #pragma warning(push)
 #pragma warning (disable:4201)
@@ -85,6 +86,9 @@ namespace Characters
 
 			void IdleState::OnEnter(const dae::SceneContext &)
 			{
+				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Walking));
+				asc->Pause();
 			}
 
 			void IdleState::Update(const dae::SceneContext &sceneContext)
@@ -187,13 +191,21 @@ namespace Characters
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
 				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Dying));
 				asc->PlayOnce();
-
-				GetGameObject()->GetComponent<dae::SubjectComponent>()->Notify(1, Information::LostLife);
 			}
 
-			void DeathState::Update(const dae::SceneContext &)
+			void DeathState::Update(const dae::SceneContext &sceneContext)
 			{
-
+				if (!GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->IsPlaying())
+				{
+					m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
+					if (m_Timer >= m_Duration)
+					{
+						auto health = GetGameObject()->GetComponent<dae::HealthComponent>();
+						GetGameObject()->GetComponent<dae::SubjectComponent>()->
+							Notify(2, health->ChangeHealth(-1.f), GetGameObject());
+						// GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
+					}
+				}
 			}
 
 			void DeathState::OnExit(const dae::SceneContext &)

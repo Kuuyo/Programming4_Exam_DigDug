@@ -8,13 +8,13 @@
 #include <GridComponent.h>
 #include <FSMComponent.h>
 #include <HealthComponent.h>
-#include <Scene.h>
 #include <Conversions.h>
 #include <SubjectComponent.h>
 #include <ObserverComponent.h>
 
 #include "HealthDisplay.h"
 #include "Prefabs.h"
+#include "DigDugLevel.h"
 
 namespace Characters
 {
@@ -22,7 +22,7 @@ namespace Characters
 	unsigned short DigDug::m_CategoryBitsP2 = 0x002;
 	unsigned short DigDug::m_CategoryBits = m_CategoryBitsP1 | m_CategoryBitsP2;
 
-	void DigDug::CreateDigDugCharacter(dae::GameObject* &out, dae::Scene* pScene, bool isPlayerOne)
+	void DigDug::CreateDigDugCharacter(dae::GameObject* &out, DigDugLevel* pScene, bool isPlayerOne)
 	{
 		if (out == nullptr)
 			out = new dae::GameObject("DigDug");
@@ -75,6 +75,9 @@ namespace Characters
 
 		auto pSubject = new dae::SubjectComponent(isPlayerOne ? "Player1" : "Player2");
 		pSubject->AddObserver(healthDisplay->GetComponent<dae::ObserverComponent>());
+		pSubject->AddObserver(pScene);
 		out->AddComponent(pSubject);
+
+		out->AddComponent(new dae::HealthComponent(1.f, 3));
 	}
 }

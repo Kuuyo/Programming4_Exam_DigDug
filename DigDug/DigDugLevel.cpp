@@ -5,11 +5,15 @@
 #include <TextureComponent.h>
 #include <FPSComponent.h>
 #include <ResourceManager.h>
+#include <HealthComponent.h>
+#include <SubjectComponent.h>
+#include <FSMComponent.h>
 
 #include <json.hpp>
 
 #include "Prefabs.h"
 #include "Characters.h"
+#include "CharacterStates.h"
 
 DigDugLevel::DigDugLevel(std::string &&sceneName, std::string &&levelName, const GameMode gameMode)
 	: Scene(sceneName)
@@ -85,6 +89,8 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 				go->SetPosition(x, y);
 				break;
 			case DigDugLevel::LevelSectionType::DigDug:
+				m_PlayerSpawn = glm::vec2(x, y);
+
 				Characters::DigDug::CreateDigDugCharacter(m_pDigDug, this, true);
 				AddGameObject(m_pDigDug);
 				m_pDigDug->SetPosition(x, y);
@@ -124,6 +130,7 @@ void DigDugLevel::Update(const dae::SceneContext &)
 void DigDugLevel::OnCollisionEnter(const dae::Contact &contact, dae::GameObject* gameObject)
 {
 	// TODO: Predefine tags pls
+	// TODO: Move this to DigDug states?
 	if (gameObject->GetTag() == "DigDug" && contact.Other->GetTag() == "LevelBlock")
 	{
 		RemoveGameObject(contact.Other);
@@ -138,4 +145,32 @@ void DigDugLevel::OnCollisionStay(const dae::Contact &, dae::GameObject* )
 
 void DigDugLevel::OnCollisionExit(const dae::Contact &, dae::GameObject* )
 {
+}
+
+void DigDugLevel::OnNotify(const dae::Subject* entity, int , va_list args)
+{
+	// TODO: Predefine this
+	if (entity->GetTag() == "Player1" || entity->GetTag() == "Player2")
+	{
+		dae::HealthStatus status = va_arg(args, dae::HealthStatus);
+		dae::GameObject* gameObject = va_arg(args, dae::GameObject*);
+
+		switch (status)
+		{
+		case dae::HealthStatus::LostLife:
+			ResetPlayer(gameObject);
+			break;
+		case dae::HealthStatus::Dead:
+
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void DigDugLevel::ResetPlayer(dae::GameObject* gameObject)
+{
+	gameObject->SetPosition(m_PlayerSpawn);
+	gameObject->GetComponent<dae::FSMComponent>()->ChangeState<Characters::DigDugEx::States::IdleState>(GetSceneContext());
 }

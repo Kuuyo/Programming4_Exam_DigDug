@@ -4,8 +4,7 @@
 #include <GameObject.h>
 #include <ObserverComponent.h>
 #include <TextureComponent.h>
-
-#include "CharacterStates.h"
+#include <HealthComponent.h>
 
 void HealthDisplay::CreateHealthDisplay(dae::GameObject* &out, const std::string &playerName, bool isPlayerOne)
 {
@@ -19,11 +18,11 @@ void HealthDisplay::CreateHealthDisplay(dae::GameObject* &out, const std::string
 		{
 			if (entity->GetTag() == playerName)
 			{
-				Characters::DigDugEx::Information info = va_arg(args, Characters::DigDugEx::Information);
+				dae::HealthStatus info = va_arg(args, dae::HealthStatus);
 
 				switch (info)
 				{
-				case Characters::DigDugEx::Information::LostLife:
+				case dae::HealthStatus::LostLife:
 				{
 					auto pTexture = out->GetComponent<dae::TextureComponent>();
 					auto srcRect = pTexture->GetSourceRect();
