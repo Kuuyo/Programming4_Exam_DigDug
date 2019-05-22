@@ -60,19 +60,6 @@ namespace dae
 	{
 		SDL_Rect src = texture.GetSourceRect();
 
-		// int width{ 0 }, height{ 0 };
-		// 
-		// if (SDL_RectEmpty(&src))
-		// {
-		// 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &width, &height);
-		// }
-		// 
-		// width = src.w > 0 ? src.w : width;
-		// height = src.h > 0 ? src.h : height;
-		// 
-		// src.w = width;
-		// src.h = height;
-
 		bool center = texture.GetIsCentered();
 		SDL_Rect dst;
 		dst.x = center ? static_cast<int>(x - (src.w*.5f)) : static_cast<int>(x);

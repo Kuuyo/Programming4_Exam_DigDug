@@ -7,5 +7,5 @@ namespace dae
 
 namespace HealthDisplay
 {
-	void CreateHealthDisplay(dae::GameObject* &out, const std::string &playerName);
+	void CreateHealthDisplay(dae::GameObject* &out, const std::string &playerName, bool isPlayerOne);
 }

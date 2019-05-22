@@ -7,7 +7,7 @@
 
 #include "CharacterStates.h"
 
-void HealthDisplay::CreateHealthDisplay(dae::GameObject* &out, const std::string &playerName)
+void HealthDisplay::CreateHealthDisplay(dae::GameObject* &out, const std::string &playerName, bool isPlayerOne)
 {
 	if (out == nullptr)
 		out = new dae::GameObject("HealthDisplay: " + playerName);
@@ -15,7 +15,7 @@ void HealthDisplay::CreateHealthDisplay(dae::GameObject* &out, const std::string
 	auto pObserver = new dae::ObserverComponent();
 
 	std::function<void(const dae::Subject* entity, int nrArgs, va_list args)> func =
-		[out, playerName](const dae::Subject* entity, int, va_list args)
+		[out, playerName, isPlayerOne](const dae::Subject* entity, int, va_list args)
 		{
 			if (entity->GetTag() == playerName)
 			{

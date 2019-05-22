@@ -65,9 +65,13 @@ namespace Characters
 		out->AddComponent(animatedSpriteComponent);
 
 		dae::GameObject* healthDisplay = nullptr;
-		HealthDisplay::CreateHealthDisplay(healthDisplay, isPlayerOne ? "Player1" : "Player2");
+		HealthDisplay::CreateHealthDisplay(healthDisplay, isPlayerOne ? "Player1" : "Player2", isPlayerOne);
 		pScene->AddGameObject(healthDisplay); // TODO: Make child instead when children is implemented
-		healthDisplay->SetPosition(3.f, 16.f, dae::Anchor::BottomLeft);
+
+		if(isPlayerOne)
+			healthDisplay->SetPosition(3.f, 16.f, dae::Anchor::BottomLeft);
+		else
+			healthDisplay->SetPosition(35.f, 16.f, dae::Anchor::BottomRight);
 
 		auto pSubject = new dae::SubjectComponent(isPlayerOne ? "Player1" : "Player2");
 		pSubject->AddObserver(healthDisplay->GetComponent<dae::ObserverComponent>());
