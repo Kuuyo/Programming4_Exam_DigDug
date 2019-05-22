@@ -10,6 +10,7 @@
 #include <HealthComponent.h>
 #include <SubjectComponent.h>
 #include <Time.h>
+#include <Scene.h>
 
 #pragma warning(push)
 #pragma warning (disable:4201)
@@ -205,9 +206,13 @@ namespace Characters
 					if (m_Timer >= m_Duration)
 					{
 						auto health = GetGameObject()->GetComponent<dae::HealthComponent>();
+						auto info = health->ChangeHealth(-1.f);
 						GetGameObject()->GetComponent<dae::SubjectComponent>()->
-							Notify(2, health->ChangeHealth(-1.f), GetGameObject());
-						// GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
+							Notify(2, info, GetGameObject());
+						if (info == dae::HealthStatus::Dead)
+						{
+							GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
+						}
 					}
 				}
 			}

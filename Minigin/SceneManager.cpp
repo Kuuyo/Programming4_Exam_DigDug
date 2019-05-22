@@ -44,8 +44,6 @@ namespace dae
 		
 		if (m_pNewActiveScene != nullptr)
 		{
-			LogDebugC("");
-
 			m_pActiveScene = m_pNewActiveScene;
 			m_pNewActiveScene = nullptr;
 		}
@@ -75,7 +73,6 @@ namespace dae
 
 	void SceneManager::SetActiveScene(const std::string& sceneName)
 	{
-		LogDebugC("");
 		m_pNewActiveScene = m_pScenesMap.at(sceneName);
 	}
 

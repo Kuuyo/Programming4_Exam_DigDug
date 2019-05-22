@@ -139,8 +139,6 @@ void DigDugLevel::OnCollisionEnter(const dae::Contact &contact, dae::GameObject*
 	{
 		RemoveGameObject(contact.Other);
 	}
-
-	LogErrorC(gameObject->GetTag());
 }
 
 void DigDugLevel::OnCollisionStay(const dae::Contact &, dae::GameObject* )
@@ -162,16 +160,16 @@ void DigDugLevel::OnNotify(const dae::Subject* entity, int , va_list args)
 		switch (status)
 		{
 		case dae::HealthStatus::LostLife:
+			LogDebugC("LostLife");
 			ResetPlayer(gameObject);
 			break;
 		case dae::HealthStatus::Dead:
+			LogDebugC("Dead");
 			if (m_IsOnePlayerDead || m_GameMode == GameMode::SinglePlayer)
 			{
-				LogDebugC("");
 				GetSceneContext().GameContext->Scenes->SetActiveScene("GameOverScene");
 				Reset();
 			}
-
 			m_IsOnePlayerDead = true;			
 			break;
 		default:
