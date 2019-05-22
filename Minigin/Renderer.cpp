@@ -45,6 +45,9 @@ namespace dae
 		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
 		SDL_RenderDrawPoints(m_pRenderer, debugDraw.data(), int(debugDraw.size()));
 		SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 0);
+#else
+		(sceneContext);
+		(debugDraw);
 #endif
 
 		SDL_RenderPresent(m_pRenderer);
