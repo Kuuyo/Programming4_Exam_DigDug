@@ -25,10 +25,13 @@ namespace dae
 
 		void SetActiveScene(const std::string& sceneName);
 		Scene* GetActiveScene() const;
+
+		Scene* GetScene(const std::string& sceneName) const;
 		
 	private:
 		std::map<std::string, Scene*> m_pScenesMap;
 		Scene* m_pActiveScene{ nullptr };
+		Scene* m_pNewActiveScene{ nullptr };
 	};
 
 }

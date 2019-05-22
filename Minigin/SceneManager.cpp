@@ -41,6 +41,14 @@ namespace dae
 	void SceneManager::DestroyUpdate()
 	{
 		m_pActiveScene->DestroyUpdate();
+		
+		if (m_pNewActiveScene != nullptr)
+		{
+			LogDebugC("");
+
+			m_pActiveScene = m_pNewActiveScene;
+			m_pNewActiveScene = nullptr;
+		}
 	}
 
 	void SceneManager::Render(const GameContext &gameContext, float extrapolate)
@@ -67,11 +75,25 @@ namespace dae
 
 	void SceneManager::SetActiveScene(const std::string& sceneName)
 	{
-		m_pActiveScene = m_pScenesMap.at(sceneName);
+		LogDebugC("");
+		m_pNewActiveScene = m_pScenesMap.at(sceneName);
 	}
 
 	Scene* SceneManager::GetActiveScene() const
 	{
 		return m_pActiveScene;
+	}
+
+	Scene* SceneManager::GetScene(const std::string &sceneName) const
+	{
+		if (std::find_if(m_pScenesMap.begin(), m_pScenesMap.end(),
+			[sceneName](std::pair<std::string, Scene*> s)
+		{ return s.first == sceneName; })
+			!= m_pScenesMap.end())
+		{
+			return m_pScenesMap.at(sceneName);
+		}
+
+		return nullptr;
 	}
 }

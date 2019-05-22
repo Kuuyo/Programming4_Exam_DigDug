@@ -39,6 +39,8 @@ namespace dae
 		void AddDebugDrawPoint(const SDL_Point &point);
 		void AddDebugDrawPointVec(const std::vector<SDL_Point> &point);
 
+		void Reset();
+
 		virtual ~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
@@ -70,6 +72,8 @@ namespace dae
 		void ContactUpdate();
 		void EndContact(b2Contact* contact) override;
 
+		void Cleanup();
+
 		SceneContext m_SceneContext;
 		std::map<b2Contact*, std::pair<GameObject*, GameObject*>> m_pActiveCollisionMap;
 		std::string m_Name{};
@@ -80,6 +84,7 @@ namespace dae
 		// TODO: Fix this vector of pointers bullshit
 
 		std::vector<SDL_Point> m_DebugDrawPoints{};
+		bool m_Reset = false;
 	};
 
 }

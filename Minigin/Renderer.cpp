@@ -43,7 +43,7 @@ namespace dae
 		sceneContext.Physics->DrawDebugData();
 
 		SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
-		SDL_RenderDrawPoints(m_pRenderer, debugDraw.data(), debugDraw.size());
+		SDL_RenderDrawPoints(m_pRenderer, debugDraw.data(), int(debugDraw.size()));
 		SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 0);
 #endif
 

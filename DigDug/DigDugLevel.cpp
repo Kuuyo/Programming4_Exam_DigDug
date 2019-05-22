@@ -30,6 +30,9 @@ DigDugLevel::~DigDugLevel()
 
 void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 {
+	m_pDigDug = nullptr;
+	m_pDigDug2 = nullptr;
+
 	// Background
 	auto go = new dae::GameObject();
 	go->AddComponent(new dae::TextureComponent("LevelBackground.png", false));
@@ -80,12 +83,12 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 			case DigDugLevel::LevelSectionType::Empty:
 				break;
 			case DigDugLevel::LevelSectionType::Block:
-				Level::LevelBlock::CreateLevelBlock(go = new dae::GameObject("LevelBlock"), blockSize);
+				Level::LevelBlock::CreateLevelBlock(go = nullptr, blockSize);
 				AddGameObject(go);
 				go->SetPosition(x, y);
 				break;
 			case DigDugLevel::LevelSectionType::Rock:
-				Level::Rock::CreateRock(go = new dae::GameObject("Rock"), blockSize);
+				Level::Rock::CreateRock(go = nullptr, blockSize);
 				AddGameObject(go);
 				go->SetPosition(x, y);
 				break;
@@ -163,7 +166,11 @@ void DigDugLevel::OnNotify(const dae::Subject* entity, int , va_list args)
 			break;
 		case dae::HealthStatus::Dead:
 			if (m_IsOnePlayerDead || m_GameMode == GameMode::SinglePlayer)
+			{
+				LogDebugC("");
 				GetSceneContext().GameContext->Scenes->SetActiveScene("GameOverScene");
+				Reset();
+			}
 
 			m_IsOnePlayerDead = true;			
 			break;

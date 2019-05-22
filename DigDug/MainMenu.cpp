@@ -49,8 +49,8 @@ void MainMenu::Update(const dae::SceneContext &sceneContext)
 		m_CurrentlySelected += (int)axis;
 
 		m_CurrentlySelected = (m_CurrentlySelected < 0) ?
-			m_MenuSelectableObjects.size() - 1 :
-			m_CurrentlySelected % m_MenuSelectableObjects.size();
+			int(m_MenuSelectableObjects.size()) - 1 :
+			m_CurrentlySelected % int(m_MenuSelectableObjects.size());
 		
 		SelectGameObject(m_MenuSelectableObjects[m_CurrentlySelected]);
 	}
@@ -58,13 +58,15 @@ void MainMenu::Update(const dae::SceneContext &sceneContext)
 
 	if (sceneContext.GameContext->Input->GetInputMappingState("Confirm") == dae::KeyState::Triggered)
 	{
+		const auto pSceneManager = sceneContext.GameContext->Scenes;
+
 		switch (m_CurrentlySelected)
 		{
-		case 0:
-			sceneContext.GameContext->Scenes->SetActiveScene("Level1_SP");
+		case 0:		
+			pSceneManager->SetActiveScene("Level1_SP");
 			break;
 		case 1:
-			sceneContext.GameContext->Scenes->SetActiveScene("Level1_Coop");
+			pSceneManager->SetActiveScene("Level1_Coop");
 			break;
 		case 2:
 

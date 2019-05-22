@@ -16,13 +16,7 @@ namespace dae
 
 	Scene::~Scene()
 	{
-		for (auto gameObject : m_Objects)
-		{
-			if (gameObject != nullptr)
-				delete gameObject;
-		}
-
-		delete m_SceneContext.Physics;
+		Cleanup();
 	}
 
 	void Scene::RootInitialize(const GameContext &gameContext)
@@ -41,6 +35,8 @@ namespace dae
 		{
 			gameObject->Initialize(m_SceneContext);
 		}
+
+		m_Reset = false;
 	}
 
 	void Scene::RootUpdate()
@@ -65,6 +61,12 @@ namespace dae
 
 	void Scene::DestroyUpdate()
 	{
+		if (m_Reset)
+		{
+			Cleanup();
+			RootInitialize(*m_SceneContext.GameContext);
+		}
+
 		// TODO: Maybe find a prettier way to do this
 		for (auto gO : m_ObjectsToRemove)
 		{
@@ -133,6 +135,23 @@ namespace dae
 		m_pActiveCollisionMap.erase(contact);
 	}
 
+	void Scene::Cleanup()
+	{
+		m_pActiveCollisionMap.clear();
+
+		for (auto gameObject : m_Objects)
+		{
+			if (gameObject != nullptr)
+				delete gameObject;
+		}
+
+		m_Objects.clear();
+
+		m_DebugDrawPoints.clear();
+
+		delete m_SceneContext.Physics;
+	}
+
 	void Scene::AddGameObject(GameObject* object)
 	{
 		object->SetScene(this);
@@ -162,6 +181,11 @@ namespace dae
 	void Scene::AddDebugDrawPointVec(const std::vector<SDL_Point>& point)
 	{
 		m_DebugDrawPoints.insert(m_DebugDrawPoints.end(), point.begin(), point.end());
+	}
+
+	void Scene::Reset()
+	{
+		m_Reset = true;
 	}
 
 	const std::string Scene::GetName() const
