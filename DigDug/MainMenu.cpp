@@ -21,20 +21,21 @@ void MainMenu::Initialize(const dae::SceneContext &)
 	m_CurrentlySelected = 0;
 
 	auto go = new dae::GameObject();
-	go->AddComponent(new dae::TextComponent("Single Player"));
+	go->AddComponent(new dae::TextComponent("Single Player", true));
 	AddGameObject(go);
+	go->SetPosition(0, 50, dae::Anchor::TopCenter);
 	m_MenuSelectableObjects.push_back(go);
 
 	go = new dae::GameObject();
-	go->AddComponent(new dae::TextComponent("Co-op"));
+	go->AddComponent(new dae::TextComponent("Co-op", true));
 	AddGameObject(go);
-	go->SetPosition(0, 50);
+	go->SetPosition(0, 100, dae::Anchor::TopCenter);
 	m_MenuSelectableObjects.push_back(go);
 
 	go = new dae::GameObject();
-	go->AddComponent(new dae::TextComponent("Versus"));
+	go->AddComponent(new dae::TextComponent("Versus", true));
 	AddGameObject(go);
-	go->SetPosition(0, 100);
+	go->SetPosition(0, 150, dae::Anchor::TopCenter);
 	m_MenuSelectableObjects.push_back(go);
 
 	SelectGameObject(m_MenuSelectableObjects[m_CurrentlySelected]);
