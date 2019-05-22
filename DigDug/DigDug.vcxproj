@@ -109,7 +109,7 @@
       <AdditionalDependencies>Minigin.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)Data" "$(OutputPath)Data" /E /I /R /Y</Command>
+      <Command>xcopy "$(ProjectDir)Data" "$(OutputPath)Data" /E /I /R /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -131,7 +131,7 @@
       <AdditionalDependencies>Minigin.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)Data" "$(OutputPath)Data" /E /I /R /Y</Command>
+      <Command>xcopy "$(ProjectDir)Data" "$(OutputPath)Data" /E /I /R /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -157,7 +157,7 @@
       <AdditionalDependencies>Minigin.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)Data" "$(OutputPath)Data" /E /I /R /Y</Command>
+      <Command>xcopy "$(ProjectDir)Data" "$(OutputPath)Data" /E /I /R /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -183,7 +183,7 @@
       <AdditionalDependencies>Minigin.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)Data" "$(OutputPath)Data" /E /I /R /Y</Command>
+      <Command>xcopy "$(ProjectDir)Data" "$(OutputPath)Data" /E /I /R /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
