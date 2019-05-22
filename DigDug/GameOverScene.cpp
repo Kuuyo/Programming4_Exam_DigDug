@@ -18,9 +18,19 @@ GameOverScene::~GameOverScene()
 void GameOverScene::Initialize(const dae::SceneContext &)
 {
 	dae::GameObject* go = new dae::GameObject();
-	go->AddComponent(new dae::TextComponent("GAME OVER", true));
+	go->AddComponent(new dae::TextComponent("GAME OVER", true, 36, SDL_Color({255,0,0})));
 	AddGameObject(go);
 	go->SetPosition(0.f, 50.f, dae::Anchor::TopCenter);
+
+	go = new dae::GameObject();
+	go->AddComponent(new dae::TextComponent("Press Space or (A)", true, 12));
+	AddGameObject(go);
+	go->SetPosition(0.f, 100.f, dae::Anchor::TopCenter);
+
+	go = new dae::GameObject();
+	go->AddComponent(new dae::TextComponent("to go back to Main Menu", true, 12));
+	AddGameObject(go);
+	go->SetPosition(0.f, 120.f, dae::Anchor::TopCenter);
 }
 
 void GameOverScene::Update(const dae::SceneContext &sceneContext)
