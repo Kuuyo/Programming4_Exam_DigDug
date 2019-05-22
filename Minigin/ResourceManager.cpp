@@ -46,9 +46,24 @@ namespace dae
 		}
 	}
 
-	Texture2D* ResourceManager::CreateTexture(const std::string &file, TransformComponent* pTransform, const SDL_Rect &sourceRect, bool isCentered)
+	Texture2D* ResourceManager::CreateTexture(const std::string &file, TransformComponent* pTransform, SDL_Rect &sourceRect, bool isCentered)
 	{
-		return new Texture2D(CreateSDLTexture(file), pTransform, sourceRect, isCentered);
+		auto pTexture = CreateSDLTexture(file);
+
+		int width{ 0 }, height{ 0 };
+
+		if (SDL_RectEmpty(&sourceRect))
+		{
+			SDL_QueryTexture(pTexture, nullptr, nullptr, &width, &height);
+		}
+
+		width = sourceRect.w > 0 ? sourceRect.w : width;
+		height = sourceRect.h > 0 ? sourceRect.h : height;
+
+		sourceRect.w = width;
+		sourceRect.h = height;
+
+		return new Texture2D(pTexture, pTransform, sourceRect, isCentered);
 	}
 
 	void ResourceManager::CreateTextTexture(const SDL_Color &color, const Font* pFont,
@@ -68,14 +83,26 @@ namespace dae
 
 		SDL_FreeSurface(surf);
 
+		SDL_Rect sourceRect{};
+		int width{ 0 }, height{ 0 };
+
+		SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+
+		width = sourceRect.w > 0 ? sourceRect.w : width;
+		height = sourceRect.h > 0 ? sourceRect.h : height;
+
+		sourceRect.w = width;
+		sourceRect.h = height;
+
 		if (pTexture != nullptr)
 		{
 			SDL_DestroyTexture(pTexture->m_pTexture);
 			pTexture->m_pTexture = texture;
+			pTexture->SetSourceRect(sourceRect);
 			return;
 		}
 
-		pTexture = new Texture2D(texture, pTransform, SDL_Rect(), isCentered);
+		pTexture = new Texture2D(texture, pTransform, sourceRect, isCentered);
 	}
 
 	Font* ResourceManager::LoadFont(const std::string &file, unsigned int size)

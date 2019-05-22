@@ -17,7 +17,7 @@ namespace dae
 		void Init(std::string&& data, Renderer* pRenderer);
 
 		Texture2D* CreateTexture(const std::string &file, TransformComponent* pTransform,
-			const SDL_Rect &sourceRect, bool isCentered);
+			SDL_Rect &sourceRect, bool isCentered);
 
 		void CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text,
 			Texture2D* &pTexture, TransformComponent* pTransform, bool isCentered);

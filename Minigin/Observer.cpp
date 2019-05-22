@@ -35,8 +35,6 @@ namespace dae
 
 	void Subject::Notify(const Subject* subject, va_list args, int nrArgs) const
 	{
-		LogDebugC("Ey yo");
-
 		for (auto observer : m_Observers)
 			observer->OnNotify(subject, nrArgs, args);
 	}
