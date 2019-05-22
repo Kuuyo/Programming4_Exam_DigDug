@@ -49,7 +49,7 @@ namespace dae
 			m_PreviousState[i] = m_CurrentState[i];
 
 			ZeroMemory(&m_CurrentState[i], sizeof(XINPUT_STATE));
-			if (!XInputGetState(0, &m_CurrentState[i]) == ERROR_SUCCESS
+			if (!XInputGetState(i, &m_CurrentState[i]) == ERROR_SUCCESS
 				&& !m_bControllerIsDisconnected[i])
 			{
 				LogWarningC("No controller found at index " + std::to_string(i));
