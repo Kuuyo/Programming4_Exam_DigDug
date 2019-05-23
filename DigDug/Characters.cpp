@@ -29,14 +29,24 @@ namespace Characters
 			out = new dae::GameObject("DigDug");
 
 		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
-		fixtureDesc.halfWidth = 7.95f;
-		fixtureDesc.halfHeight = 7.95f;
+		fixtureDesc.halfWidth = 7.f;
+		fixtureDesc.halfHeight = 7.f;
 		fixtureDesc.filter.categoryBits = isPlayerOne ? m_CategoryBitsP1 : m_CategoryBitsP2;
 		fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits() |
 			Fygar::GetCategoryBits();
 
+		std::vector<dae::BodyComponent::BoxFixtureDesc> boxDescs;
+		boxDescs.push_back(fixtureDesc);
+
+		fixtureDesc.halfWidth = 7.7f;
+		fixtureDesc.halfHeight = 7.7f;
+		fixtureDesc.isSensor = true;
+		fixtureDesc.filter.categoryBits = isPlayerOne ? m_CategoryBitsP1 : m_CategoryBitsP2;
+
+		boxDescs.push_back(fixtureDesc);
+
 		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
-		pBody->SetBoxFixture(fixtureDesc);
+		pBody->SetBoxFixtures(boxDescs);
 		out->AddComponent(pBody);
 
 		// TODO: Make grid not hardcoded

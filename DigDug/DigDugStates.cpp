@@ -50,7 +50,8 @@ namespace Characters
 					auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
 					if (contactList != nullptr)
 					{
-						const auto tag = reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject()->GetTag();
+						const auto gameObject = reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject();
+						const auto tag = gameObject->GetTag();
 						LogDebugC(tag);
 						if ((tag == "Rock" && contactList->other->GetType() == b2BodyType::b2_dynamicBody)
 							|| tag == "Fygar")
@@ -61,6 +62,10 @@ namespace Characters
 
 							ChangeState<DeathState>();
 							return;
+						}
+						else if (tag == "LevelBlock")
+						{
+							gameObject->GetScene()->RemoveGameObject(gameObject);
 						}
 					}
 				}
