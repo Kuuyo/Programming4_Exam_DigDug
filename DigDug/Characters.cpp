@@ -125,6 +125,19 @@ namespace Characters
 			pFSM->AddState(new DigDugEx::States::MovingState("P2Horizontal", "P2Vertical"));
 			pFSM->AddState(new DigDugEx::States::DeathState());
 			out->AddComponent(pFSM);
+
+			dae::GameObject* healthDisplay = nullptr;
+			HealthDisplay::CreateHealthDisplay(healthDisplay, "Player2", false);
+			pScene->AddGameObject(healthDisplay); // TODO: Make child instead when children is implemented
+
+			healthDisplay->SetPosition(35.f, 16.f, dae::Anchor::BottomRight);
+
+			auto pSubject = new dae::SubjectComponent("Player2");
+			pSubject->AddObserver(healthDisplay->GetComponent<dae::ObserverComponent>());
+			pSubject->AddObserver(pScene);
+			out->AddComponent(pSubject);
+
+			out->AddComponent(new dae::HealthComponent(1.f, 3));
 		}
 	}
 }

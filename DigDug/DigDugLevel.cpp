@@ -109,9 +109,13 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 			case DigDugLevel::LevelSectionType::Pooka:
 				break;
 			case DigDugLevel::LevelSectionType::Fygar:
-				Characters::Fygar::CreateFygarCharacter(go = nullptr, this, (m_GameMode == GameMode::Versus));
+				if(!m_IsFygarSpawned)
+					m_FygarSpawn = glm::vec2(x, y);
+				Characters::Fygar::CreateFygarCharacter(go = nullptr, this, (m_GameMode == GameMode::Versus)
+					&& !m_IsFygarSpawned);
 				AddGameObject(go);
 				go->SetPosition(x, y);
+				m_IsFygarSpawned = true;
 				break;
 			default:
 				break;
@@ -183,6 +187,10 @@ void DigDugLevel::OnNotify(const dae::Subject* entity, int , va_list args)
 
 void DigDugLevel::ResetPlayer(dae::GameObject* gameObject)
 {
-	gameObject->SetPosition(m_PlayerSpawn);
+	if(gameObject->GetTag() == "DigDug")
+		gameObject->SetPosition(m_PlayerSpawn);
+	else
+		gameObject->SetPosition(m_FygarSpawn);
+
 	gameObject->GetComponent<dae::FSMComponent>()->ChangeState<Characters::DigDugEx::States::IdleState>(GetSceneContext());
 }

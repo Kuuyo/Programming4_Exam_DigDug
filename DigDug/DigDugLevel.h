@@ -55,7 +55,9 @@ private:
 	dae::GameObject* m_pDigDug{ nullptr };
 	dae::GameObject* m_pDigDug2{ nullptr };
 	glm::vec2 m_PlayerSpawn{};
+	glm::vec2 m_FygarSpawn{};
 	const std::string m_LevelName{};
 	bool m_IsOnePlayerDead{ false };
+	bool m_IsFygarSpawned{ false };
 };
 
