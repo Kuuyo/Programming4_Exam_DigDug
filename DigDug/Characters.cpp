@@ -31,7 +31,8 @@ namespace Characters
 		fixtureDesc.halfWidth = 7.95f;
 		fixtureDesc.halfHeight = 7.95f;
 		fixtureDesc.filter.categoryBits = isPlayerOne ? m_CategoryBitsP1 : m_CategoryBitsP2;
-		fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits();
+		fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits() |
+			Fygar::GetCategoryBits();
 
 		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
 		pBody->SetBoxFixture(fixtureDesc);
@@ -79,5 +80,51 @@ namespace Characters
 		out->AddComponent(pSubject);
 
 		out->AddComponent(new dae::HealthComponent(1.f, 3));
+	}
+
+	unsigned short Fygar::m_CategoryBits = 0x032;
+
+	void Fygar::CreateFygarCharacter(dae::GameObject* &out, DigDugLevel* pScene, bool isPlayer)
+	{
+		if (out == nullptr)
+			out = new dae::GameObject("Fygar" + isPlayer ? "_Player2" : "");
+
+		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
+		fixtureDesc.halfWidth = 7.95f;
+		fixtureDesc.halfHeight = 7.95f;
+		fixtureDesc.filter.categoryBits = m_CategoryBits;
+		fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits()
+			| DigDug::GetCategoryBits();
+
+		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
+		pBody->SetBoxFixture(fixtureDesc);
+		out->AddComponent(pBody);
+
+		// TODO: Make grid not hardcoded
+		auto pGrid = new dae::GridComponent(16, { 8.f,24.f }, 224, 256, true);
+		pScene->AddDebugDrawPointVec(dae::Conversions::GLM_To_SDL(pGrid->GetGrid()));
+		out->AddComponent(pGrid);
+
+		SDL_Rect src{};
+		src.h = src.w = 16;
+		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("Fygar.gif", true, src, 10, 2, false);
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Walking), 0, 2, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Ghosting), 2, 2, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::FireBreath), 4, 2, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Squish), 6, 1, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Pumped), 7, 1, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Ballooning), 8, 3, 0.1f));
+		animatedSpriteComponent->SetActiveClip(to_integral(AnimationClips::Walking));
+		out->AddComponent(animatedSpriteComponent);
+
+		if (isPlayer)
+		{
+			dae::FSMComponent* pFSM = new dae::FSMComponent();
+			pFSM->SetGlobalState(new DigDugEx::States::GlobalState());
+			pFSM->AddState(new DigDugEx::States::IdleState("P2Horizontal", "P2Vertical"));
+			pFSM->AddState(new DigDugEx::States::MovingState("P2Horizontal", "P2Vertical"));
+			pFSM->AddState(new DigDugEx::States::DeathState());
+			out->AddComponent(pFSM);
+		}
 	}
 }

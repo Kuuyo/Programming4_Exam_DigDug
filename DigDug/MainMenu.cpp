@@ -70,7 +70,7 @@ void MainMenu::Update(const dae::SceneContext &sceneContext)
 			pSceneManager->SetActiveScene("Level1_Coop");
 			break;
 		case 2:
-
+			pSceneManager->SetActiveScene("Level1_Versus");
 			break;
 		default:
 			break;
@@ -83,7 +83,7 @@ void MainMenu::SelectGameObject(dae::GameObject* gameObject)
 	gameObject->GetComponent<dae::TextComponent>()->SetColor({ 255,0,0 });
 }
 
-void MainMenu::UnSelectGameObject(dae::GameObject * gameObject)
+void MainMenu::UnSelectGameObject(dae::GameObject* gameObject)
 {
 	gameObject->GetComponent<dae::TextComponent>()->SetColor({ 255,255,255 });
 }

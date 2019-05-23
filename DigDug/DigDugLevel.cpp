@@ -109,6 +109,9 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 			case DigDugLevel::LevelSectionType::Pooka:
 				break;
 			case DigDugLevel::LevelSectionType::Fygar:
+				Characters::Fygar::CreateFygarCharacter(go = nullptr, this, (m_GameMode == GameMode::Versus));
+				AddGameObject(go);
+				go->SetPosition(x, y);
 				break;
 			default:
 				break;
@@ -135,7 +138,7 @@ void DigDugLevel::OnCollisionEnter(const dae::Contact &contact, dae::GameObject*
 {
 	// TODO: Predefine tags pls
 	// TODO: Move this to DigDug states?
-	if (gameObject->GetTag() == "DigDug" && contact.Other->GetTag() == "LevelBlock")
+	if (gameObject->GetTag() != "Rock" && contact.Other->GetTag() == "LevelBlock")
 	{
 		RemoveGameObject(contact.Other);
 	}

@@ -32,4 +32,25 @@ namespace Characters
 		static unsigned short m_CategoryBitsP2;
 		static unsigned short m_CategoryBits;
 	};
+
+	class Fygar
+	{
+	public:
+		enum class AnimationClips : unsigned int
+		{
+			Walking,
+			Ghosting,
+			FireBreath,
+			Squish,
+			Pumped,
+			Ballooning
+		};
+
+		static void CreateFygarCharacter(dae::GameObject* &out, DigDugLevel* pScene, bool isPlayer);
+		static unsigned short GetCategoryBits() { return m_CategoryBits; }
+
+	private:
+		static unsigned short m_CategoryBits;
+
+	};
 }
