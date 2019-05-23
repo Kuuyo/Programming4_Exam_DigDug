@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "CharacterStates.h"
+#include "FygarStates.h"
 
 #include <GameContext.h>
 #include <InputManager.h>
@@ -21,18 +21,10 @@
 
 namespace Characters
 {
-	namespace DigDugEx
+	namespace FygarEx
 	{
 		namespace States
 		{
-			// TODO: Decide if checking input with if statements is what I want to do
-			// As I can get Input with the Observer pattern too
-			// But then all States are Observers and have an always active OnNotify
-			// Maybe a bool to decide wether it uses the OnNotify or not ?
-			// Make Minigin Observe and parse the info to send here to make it more readable?
-			// As using the OnNotify here would be slightly obscure as it is implemented now
-			// Another problem with all this though is that I'm not sure I would catch controller input then
-
 			void GlobalState::Initialize(const dae::SceneContext &)
 			{
 
@@ -54,7 +46,7 @@ namespace Characters
 							GetGameObject()->GetTag() == "Rock" && contactList->other->GetType() == b2BodyType::b2_dynamicBody)
 						{
 							auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
-							asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::SquishH));
+							asc->SetActiveClip(to_integral(Characters::Fygar::AnimationClips::Squish));
 							asc->PlayOnce();
 
 							ChangeState<DeathState>();
@@ -70,48 +62,7 @@ namespace Characters
 			}
 
 
-			IdleState::IdleState(std::string &&hAxis, std::string &&vAxis)
-				: m_HAxis(std::move(hAxis))
-				, m_VAxis(std::move(vAxis))
-			{
-			}
-
-			IdleState::~IdleState()
-			{
-			}
-
-			void IdleState::Initialize(const dae::SceneContext &)
-			{
-
-			}
-
-			void IdleState::OnEnter(const dae::SceneContext &)
-			{
-				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
-				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Walking));
-				asc->Pause();
-			}
-
-			void IdleState::Update(const dae::SceneContext &sceneContext)
-			{
-				if (sceneContext.GameContext->Input->GetInputMappingAxis(m_HAxis) != 0.f
-					|| sceneContext.GameContext->Input->GetInputMappingAxis(m_VAxis) != 0.f)
-				{
-					ChangeState<MovingState>();
-					return;
-				}
-			}
-
-			void IdleState::OnExit(const dae::SceneContext &)
-			{
-
-			}
-
-
-
-			MovingState::MovingState(std::string &&hAxis, std::string &&vAxis)
-				: m_HAxis(std::move(hAxis))
-				, m_VAxis(std::move(vAxis))
+			MovingState::MovingState()
 			{
 			}
 
@@ -121,28 +72,38 @@ namespace Characters
 
 			void MovingState::Initialize(const dae::SceneContext &)
 			{
-
+				// https://stackoverflow.com/questions/686353/random-float-number-generation
+				m_RandomEngine = std::mt19937(m_RandomDevice());
 			}
 
 			void MovingState::OnEnter(const dae::SceneContext &)
 			{
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
-				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Walking));
+				asc->SetActiveClip(to_integral(Characters::Fygar::AnimationClips::Walking));
 				asc->Play();
 			}
 
 			void MovingState::Update(const dae::SceneContext &sceneContext)
 			{
-				float horizontal = sceneContext.GameContext->Input->GetInputMappingAxis(m_HAxis);
-				float vertical = sceneContext.GameContext->Input->GetInputMappingAxis(m_VAxis);
+				m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
 
-				if (horizontal == 0.f && vertical == 0.f)
+				if (m_Timer > GetRandomFloat(1.f, 5.f))
 				{
-					ChangeState<IdleState>();
-					return;
+					m_Horizontal = GetRandomFloat(-1.f, 1.f);
+					m_Vertical = GetRandomFloat(-1.f, 1.f);
+					m_Timer = 0.f;
 				}
 
-				glm::vec2 direction{ horizontal,vertical };
+				LogDebugC(std::to_string(m_Horizontal));
+				LogDebugC(std::to_string(m_Vertical));
+
+
+				if (m_Horizontal == 0.f && m_Vertical == 0.f)
+				{
+					m_Horizontal = 1.f;
+				}
+
+				glm::vec2 direction{ m_Horizontal,m_Vertical };
 
 				if (direction.x != 0.f && direction.y != 0.f)
 				{
@@ -178,7 +139,13 @@ namespace Characters
 			{
 				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 0.f);
 				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Stop();
-			} 
+			}
+
+			float MovingState::GetRandomFloat(float min, float max)
+			{
+				std::uniform_real_distribution<float> dist(min, max);
+				return glm::round(dist(m_RandomEngine));
+			}
 
 
 
@@ -190,7 +157,7 @@ namespace Characters
 			void DeathState::OnEnter(const dae::SceneContext &)
 			{
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
-				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Dying));
+				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Dying)); // TODO:
 				asc->PlayOnce();
 			}
 
@@ -205,14 +172,7 @@ namespace Characters
 					m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
 					if (m_Timer >= m_Duration)
 					{
-						auto health = GetGameObject()->GetComponent<dae::HealthComponent>();
-						auto info = health->ChangeHealth(-1.f);
-						GetGameObject()->GetComponent<dae::SubjectComponent>()->
-							Notify(2, info, GetGameObject());
-						if (info == dae::HealthStatus::Dead)
-						{
-							GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
-						}
+						GetGameObject()->GetScene()->RemoveGameObject(GetGameObject());
 					}
 				}
 			}

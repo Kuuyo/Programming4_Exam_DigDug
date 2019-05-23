@@ -14,7 +14,7 @@
 
 #include "Prefabs.h"
 #include "Characters.h"
-#include "CharacterStates.h"
+#include "DigDugStates.h"
 
 DigDugLevel::DigDugLevel(std::string &&sceneName, std::string &&levelName, const GameMode gameMode)
 	: Scene(sceneName)

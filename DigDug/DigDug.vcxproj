@@ -188,9 +188,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Characters.h" />
-    <ClInclude Include="CharacterStates.h" />
+    <ClInclude Include="DigDugStates.h" />
     <ClInclude Include="DigDug.h" />
     <ClInclude Include="DigDugLevel.h" />
+    <ClInclude Include="FygarStates.h" />
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="HealthDisplay.h" />
     <ClInclude Include="MainMenu.h" />
@@ -200,9 +201,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Characters.cpp" />
-    <ClCompile Include="CharacterStates.cpp" />
+    <ClCompile Include="DigDugStates.cpp" />
     <ClCompile Include="DigDug.cpp" />
     <ClCompile Include="DigDugLevel.cpp" />
+    <ClCompile Include="FygarStates.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="HealthDisplay.cpp" />
     <ClCompile Include="MainMenu.cpp" />

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Characters.h"
-#include "CharacterStates.h"
+#include "DigDugStates.h"
 
 #include <GameObject.h>
 #include <AnimatedSpriteComponent.h>
@@ -15,6 +15,7 @@
 #include "HealthDisplay.h"
 #include "Prefabs.h"
 #include "DigDugLevel.h"
+#include "FygarStates.h"
 
 namespace Characters
 {
@@ -138,6 +139,14 @@ namespace Characters
 			out->AddComponent(pSubject);
 
 			out->AddComponent(new dae::HealthComponent(1.f, 3));
+		}
+		else
+		{
+			dae::FSMComponent* pFSM = new dae::FSMComponent();
+			pFSM->SetGlobalState(new FygarEx::States::GlobalState());
+			pFSM->AddState(new FygarEx::States::MovingState());
+			pFSM->AddState(new FygarEx::States::DeathState());
+			out->AddComponent(pFSM);
 		}
 	}
 }

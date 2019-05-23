@@ -30,9 +30,6 @@
     <ClInclude Include="Characters.h">
       <Filter>Characters</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterStates.h">
-      <Filter>Characters</Filter>
-    </ClInclude>
     <ClInclude Include="DigDugLevel.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -51,6 +48,12 @@
     <ClInclude Include="GameOverScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="FygarStates.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="DigDugStates.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -63,9 +66,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Characters.cpp">
-      <Filter>Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterStates.cpp">
       <Filter>Characters</Filter>
     </ClCompile>
     <ClCompile Include="DigDugLevel.cpp">
@@ -85,6 +85,12 @@
     </ClCompile>
     <ClCompile Include="GameOverScene.cpp">
       <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="FygarStates.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDugStates.cpp">
+      <Filter>Characters</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
