@@ -49,7 +49,7 @@ namespace dae
 			auto pos = m_pParent->GetPosition();
 			auto closestPoint = GetClosestGridPoint(pos);
 
-			if (closestPoint != glm::vec2() && glm::distance(closestPoint, pos) < .1f)
+			if (closestPoint != glm::vec2() && glm::distance(closestPoint, pos) < .3f)
 			{
 				m_pParent->SetPosition(closestPoint);
 				auto body = m_pParent->GetComponentNoError<BodyComponent>();

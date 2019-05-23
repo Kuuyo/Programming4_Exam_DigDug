@@ -50,8 +50,10 @@ namespace Characters
 					auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
 					if (contactList != nullptr)
 					{
-						if (reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->
-							GetGameObject()->GetTag() == "Rock" && contactList->other->GetType() == b2BodyType::b2_dynamicBody)
+						const auto tag = reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject()->GetTag();
+						LogDebugC(tag);
+						if ((tag == "Rock" && contactList->other->GetType() == b2BodyType::b2_dynamicBody)
+							|| tag == "Fygar")
 						{
 							auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
 							asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::SquishH));

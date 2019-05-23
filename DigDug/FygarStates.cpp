@@ -11,6 +11,7 @@
 #include <SubjectComponent.h>
 #include <Time.h>
 #include <Scene.h>
+#include <Box2DRaycastCallback.h>
 
 #pragma warning(push)
 #pragma warning (disable:4201)
@@ -94,13 +95,28 @@ namespace Characters
 					m_Timer = 0.f;
 				}
 
-				LogDebugC(std::to_string(m_Horizontal));
-				LogDebugC(std::to_string(m_Vertical));
-
-
 				if (m_Horizontal == 0.f && m_Vertical == 0.f)
 				{
 					m_Horizontal = 1.f;
+				}
+
+				// TODO: This might be a little overkill ?
+				dae::Box2DRaycastCallback callback;
+				const auto pos = GetGameObject()->GetPosition();
+				sceneContext.Physics->RayCast(&callback, b2Vec2(pos.x, pos.y),
+					b2Vec2(pos.x + m_Horizontal * 8.f, pos.y + m_Vertical * 8.f));
+
+				auto fixt = callback.GetFixtures();
+
+				for (const auto& f : fixt)
+				{				
+					if (reinterpret_cast<dae::BodyComponent*>(f->GetUserData())->GetGameObject()->GetTag()
+						== "LevelBlock")
+					{
+						m_Horizontal = -m_Horizontal;
+						m_Vertical = -m_Vertical;
+						break;
+					}
 				}
 
 				glm::vec2 direction{ m_Horizontal,m_Vertical };
@@ -115,7 +131,6 @@ namespace Characters
 
 				auto gameObject = GetGameObject();
 
-				auto pos = gameObject->GetPosition();
 				auto target = gameObject->GetComponent<dae::GridComponent>()->GetNextGridPoint(pos, direction);
 
 				auto vector = target - pos;
@@ -132,7 +147,7 @@ namespace Characters
 
 				vector += pos;
 
-				gameObject->GetComponent<dae::BodyComponent>()->MoveToTarget(vector, 32.f);
+				gameObject->GetComponent<dae::BodyComponent>()->MoveToTarget(vector, 40.f);
 			}
 
 			void MovingState::OnExit(const dae::SceneContext &)

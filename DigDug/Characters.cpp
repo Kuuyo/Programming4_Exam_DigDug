@@ -88,7 +88,7 @@ namespace Characters
 	void Fygar::CreateFygarCharacter(dae::GameObject* &out, DigDugLevel* pScene, bool isPlayer)
 	{
 		if (out == nullptr)
-			out = new dae::GameObject("Fygar" + isPlayer ? "_Player2" : "");
+			out = new dae::GameObject(isPlayer ? "Player2" : "Fygar");
 
 		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
 		fixtureDesc.halfWidth = 7.95f;
