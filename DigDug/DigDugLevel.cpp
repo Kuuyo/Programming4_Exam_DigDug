@@ -142,7 +142,7 @@ void DigDugLevel::OnCollisionEnter(const dae::Contact &contact, dae::GameObject*
 {
 	// TODO: Predefine tags pls
 	// TODO: Move this to DigDug states?
-	if (gameObject->GetTag() != "Rock" && contact.Other->GetTag() == "LevelBlock")
+	if (gameObject->GetTag() == "DigDug" && contact.Other->GetTag() == "LevelBlock")
 	{
 		RemoveGameObject(contact.Other);
 	}

@@ -25,7 +25,7 @@ namespace Level
 		dae::BodyComponent::BoxFixtureDesc boxFixtureDesc{};
 		boxFixtureDesc.halfWidth = blockSize * .5f;
 		boxFixtureDesc.halfHeight = blockSize * .5f;
-		boxFixtureDesc.isSensor = true;
+		// boxFixtureDesc.isSensor = true;
 		boxFixtureDesc.filter.categoryBits = m_CategoryBits;
 		boxFixtureDesc.filter.maskBits = Characters::DigDug::GetCategoryBits() | Rock::GetCategoryBits();
 
