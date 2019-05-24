@@ -225,6 +225,19 @@ namespace Characters
 
 			void ThrowPumpState::Update(const dae::SceneContext &sceneContext)
 			{
+				const auto contactList = m_pBody->GetContactList();
+
+				if (contactList != nullptr)
+				{
+					const auto gameObject = reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject();
+					const auto tag = gameObject->GetTag();
+					if (tag != "Fygar")
+					{
+						ChangeState<IdleState>();
+						return;
+					}
+				}
+
 				if (!sceneContext.GameContext->Input->GetInputMappingAxis(m_PumpMapping)
 					|| m_HalfWidth >= 16.f)
 				{
@@ -236,7 +249,7 @@ namespace Characters
 
 				dae::BodyComponent::BoxFixtureDesc fixtureDesc;
 				fixtureDesc.halfWidth = m_HalfWidth;
-				fixtureDesc.halfHeight = 8.f;
+				fixtureDesc.halfHeight = 7.f;
 				fixtureDesc.filter.categoryBits = Characters::DigDug::GetPumpCategoryBits();
 				fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits() |
 					Fygar::GetCategoryBits();

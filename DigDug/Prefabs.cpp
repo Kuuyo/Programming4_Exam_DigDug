@@ -27,7 +27,8 @@ namespace Level
 		boxFixtureDesc.halfHeight = blockSize * .5f;
 		// boxFixtureDesc.isSensor = true;
 		boxFixtureDesc.filter.categoryBits = m_CategoryBits;
-		boxFixtureDesc.filter.maskBits = Characters::DigDug::GetCategoryBits() | Rock::GetCategoryBits();
+		boxFixtureDesc.filter.maskBits = Characters::DigDug::GetCategoryBits() | Rock::GetCategoryBits()
+			| Characters::DigDug::GetPumpCategoryBits();
 
 		pBody->SetBoxFixture(boxFixtureDesc);
 
