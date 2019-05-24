@@ -252,6 +252,7 @@ namespace dae
 		if (m_pParent != nullptr)
 		{
 			m_Position = m_pParent->GetPosition() + m_LocalPosition;
+			m_Orientation = m_pParent->GetOrentation();
 		}
 		else
 		{

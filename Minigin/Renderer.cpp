@@ -70,8 +70,11 @@ namespace dae
 		dst.w = src.w;
 		dst.h = src.h;
 
-		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst, 0.0, NULL,
-			texture.GetOrientation());
+		const auto ori = texture.GetOrientation();
+		if (ori == SDL_RendererFlip::SDL_FLIP_HORIZONTAL && !center)
+			dst.x -= dst.w;
+
+		SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst, 0.0, NULL, ori);
 	}
 
 	void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
