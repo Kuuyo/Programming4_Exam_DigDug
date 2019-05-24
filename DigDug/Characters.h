@@ -31,6 +31,7 @@ namespace Characters
 		static unsigned short m_CategoryBitsP1;
 		static unsigned short m_CategoryBitsP2;
 		static unsigned short m_CategoryBits;
+		static unsigned short m_CategoryBitsPump;
 	};
 
 	class Fygar

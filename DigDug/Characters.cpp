@@ -23,6 +23,7 @@ namespace Characters
 	unsigned short DigDug::m_CategoryBitsP1 = 0x001;
 	unsigned short DigDug::m_CategoryBitsP2 = 0x002;
 	unsigned short DigDug::m_CategoryBits = m_CategoryBitsP1 | m_CategoryBitsP2;
+	unsigned short DigDug::m_CategoryBitsPump = 0x0064;
 
 	void DigDug::CreateDigDugCharacter(dae::GameObject* &out, DigDugLevel* pScene, bool isPlayerOne)
 	{
@@ -98,14 +99,25 @@ namespace Characters
 		// Pump
 		auto pump = new dae::GameObject("Pump");
 		out->AddChild(pump);
-		pump->SetLocalPosition(0.f, -8.f);
+		pump->SetLocalPosition(24.f, 0.f);
 
 		SDL_Rect pumpSrc{};
 		pumpSrc.y = 96;
 		pumpSrc.h = 16;
 		pumpSrc.w = 32;
-		pump->AddComponent(new dae::TextureComponent("DigDug.gif", false, pumpSrc));
+		pump->AddComponent(new dae::TextureComponent("DigDug.gif", true, pumpSrc));
 
+		dae::BodyComponent::BoxFixtureDesc pumpFixtureDesc{};
+		pumpFixtureDesc.halfWidth = 16.f;
+		pumpFixtureDesc.halfHeight = 7.f;
+		pumpFixtureDesc.filter.categoryBits = m_CategoryBitsPump;
+		pumpFixtureDesc.isSensor = true;
+		pumpFixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits() |
+			Fygar::GetCategoryBits();
+
+		dae::BodyComponent* pPumpBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
+		pPumpBody->SetBoxFixture(pumpFixtureDesc);
+		pump->AddComponent(pPumpBody);
 	}
 
 	unsigned short Fygar::m_CategoryBits = 0x032;
