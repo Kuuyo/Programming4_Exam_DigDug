@@ -6,7 +6,7 @@ namespace dae
 	class Texture2D;
 	class Font;
 	class Renderer;
-	class TransformComponent;
+	class GameObject;
 
 	class ResourceManager final
 	{		
@@ -16,11 +16,11 @@ namespace dae
 
 		void Init(std::string&& data, Renderer* pRenderer);
 
-		Texture2D* CreateTexture(const std::string &file, TransformComponent* pTransform,
+		Texture2D* CreateTexture(const std::string &file, GameObject* pTransform,
 			SDL_Rect &sourceRect, bool isCentered);
 
 		void CreateTextTexture(const SDL_Color &color, const Font* pFont, const std::string &text,
-			Texture2D* &pTexture, TransformComponent* pTransform, bool isCentered);
+			Texture2D* &pTexture, GameObject* pTransform, bool isCentered);
 
 		Font* LoadFont(const std::string& file, unsigned int size);
 

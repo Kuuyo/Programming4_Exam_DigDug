@@ -174,7 +174,7 @@ namespace Characters
 						vector.x = 0;
 				}
 
-				gameObject->GetComponent<dae::TransformComponent>()->SetOrientationX(vector.x);
+				gameObject->SetOrientationX(vector.x);
 
 				vector += pos;
 

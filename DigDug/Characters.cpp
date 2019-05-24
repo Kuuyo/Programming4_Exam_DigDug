@@ -11,6 +11,7 @@
 #include <Conversions.h>
 #include <SubjectComponent.h>
 #include <ObserverComponent.h>
+#include <TextureComponent.h>
 
 #include "HealthDisplay.h"
 #include "Prefabs.h"
@@ -80,7 +81,7 @@ namespace Characters
 
 		dae::GameObject* healthDisplay = nullptr;
 		HealthDisplay::CreateHealthDisplay(healthDisplay, isPlayerOne ? "Player1" : "Player2", isPlayerOne);
-		out->AddChild(healthDisplay); // TODO: Make child instead when children is implemented
+		pScene->AddGameObject(healthDisplay);
 
 		if(isPlayerOne)
 			healthDisplay->SetPosition(3.f, 16.f, dae::Anchor::BottomLeft);
@@ -93,6 +94,18 @@ namespace Characters
 		out->AddComponent(pSubject);
 
 		out->AddComponent(new dae::HealthComponent(1.f, 3));
+
+		// Pump
+		auto pump = new dae::GameObject("Pump");
+		out->AddChild(pump);
+		pump->SetLocalPosition(0.f, -8.f);
+
+		SDL_Rect pumpSrc{};
+		pumpSrc.y = 96;
+		pumpSrc.h = 16;
+		pumpSrc.w = 32;
+		pump->AddComponent(new dae::TextureComponent("DigDug.gif", false, pumpSrc));
+
 	}
 
 	unsigned short Fygar::m_CategoryBits = 0x032;

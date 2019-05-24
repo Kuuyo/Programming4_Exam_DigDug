@@ -2,19 +2,25 @@
 
 #pragma warning (push)
 #pragma warning (disable:4201)
-#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
 #pragma warning (pop)
-
-#include "TransformComponent.h"
-
-// TODO: Add possibility to add GameObject as a child to a GameObject ?
 
 namespace dae
 {
 	class BaseComponent;
-	class TransformComponent;
 	class Scene;
 	struct SceneContext;
+
+	enum class Anchor
+	{
+		TopLeft,
+		TopRight,
+		BottomLeft,
+		BottomRight,
+		TopCenter,
+		BottomCenter,
+		Center
+	};
 
 	class GameObject final
 	{
@@ -23,21 +29,30 @@ namespace dae
 		GameObject(std::string &&tag);
 		~GameObject();
 
-		void Initialize(const SceneContext &sceneContext);
-		void Update(const SceneContext &sceneContext);
-		void LateUpdate(const SceneContext &sceneContext);
-
 		void AddComponent(BaseComponent* component);
 		void RemoveComponent(BaseComponent* component);
 
 		void AddChild(GameObject* child);
 		void RemoveChild(GameObject* child);
 
-		void SetPosition(float x = 0, float y = 0, Anchor anchor = Anchor::TopLeft);
-		void SetPosition(glm::vec2 pos);
-		const glm::vec2 GetPosition() const;
 		Scene* GetScene() const;
 		std::string GetTag() const { return m_Tag; }
+
+#pragma region Transform
+		glm::vec2 GetPosition(Anchor anchor = Anchor::TopLeft) const;
+		void SetPosition(float x, float y, Anchor anchor = Anchor::TopLeft);
+		void SetPosition(const glm::vec2 &newPos, Anchor anchor = Anchor::TopLeft);
+
+		glm::vec2 GetLocalPosition() const;
+		void SetLocalPosition(float x, float y);
+		void SetLocalPosition(const glm::vec2 &lPos);
+
+		glm::vec2 GetOrentation() const;
+		void SetOrientation(const glm::vec2 &orientation);
+		void SetOrientation(float x, float y);
+		void SetOrientationX(float x);
+		void SetOrientationY(float y);
+#pragma endregion
 
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -89,11 +104,21 @@ namespace dae
 
 		void SetScene(Scene* pScene);
 
+		void Initialize(const SceneContext &sceneContext);
+		void Update(const SceneContext &sceneContext);
+		void LateUpdate(const SceneContext &sceneContext);
+		void TransformUpdate();
+
+		GameObject* m_pParent{ nullptr };
+
+		glm::vec2 m_LocalPosition;
+		glm::vec2 m_Position;
+		glm::vec2 m_Orientation;
+
+		Scene* m_pScene{ nullptr };
+		std::vector<BaseComponent*> m_pVecComponents;		
+		std::vector<GameObject*> m_pChildren;
 		std::string m_Tag; // TODO: Is a string really what I want for tagging ?
 		bool m_IsInitialized;
-		std::vector<BaseComponent*> m_pVecComponents;
-		TransformComponent* m_pTransform;
-		Scene* m_pScene;
-		std::vector<GameObject*> m_pChildren;
 	};
 }

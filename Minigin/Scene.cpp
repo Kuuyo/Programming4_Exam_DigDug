@@ -92,6 +92,14 @@ namespace dae
 		m_pTexturesToRemove.clear();
 	}
 
+	void Scene::TransformUpdate()
+	{
+		for (auto gameObject : m_Objects)
+		{
+			gameObject->TransformUpdate();
+		}
+	}
+
 	void Scene::Render(Renderer* pRenderer, float extrapolate) const
 	{
 		// TODO: Remember unreferenced parameter "extrapolate" in Scene::Render

@@ -26,7 +26,7 @@ namespace dae
 	void TextureComponent::Initialize(const SceneContext &sceneContext)
 	{
 		m_pTexture = sceneContext.GameContext->Resources->CreateTexture(m_FileName,
-			m_pParent->GetComponent<TransformComponent>(), m_SourceRect, m_IsCentered);
+			m_pParent, m_SourceRect, m_IsCentered);
 		m_pParent->GetScene()->AddTexture(m_pTexture);
 	}
 

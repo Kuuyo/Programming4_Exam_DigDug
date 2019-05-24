@@ -3,12 +3,12 @@
 
 namespace dae
 {
-	class TransformComponent;
+	class GameObject;
 
 	class Texture2D final
 	{
 	public:
-		Texture2D(SDL_Texture* pTexture, TransformComponent* pTransform, const SDL_Rect &sourceRect, bool isCentered);
+		Texture2D(SDL_Texture* pTexture, GameObject* pTransform, const SDL_Rect &sourceRect, bool isCentered);
 		~Texture2D();
 
 		SDL_Texture* GetSDLTexture() const;
@@ -28,11 +28,11 @@ namespace dae
 		Texture2D & operator= (const Texture2D &&) = delete;
 	private:
 		SDL_Texture* m_pTexture;
-		TransformComponent* m_pTransform;
+		GameObject* m_pTransform;
 		SDL_Rect m_SourceRect;
 		bool m_IsCentered;
 
 		friend void ResourceManager::CreateTextTexture(const SDL_Color &color, const Font* pFont,
-			const std::string &text, Texture2D* &pTexture, TransformComponent* pTransform, bool isCentered);
+			const std::string &text, Texture2D* &pTexture, GameObject* pTransform, bool isCentered);
 	};
 }

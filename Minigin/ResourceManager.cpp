@@ -46,7 +46,8 @@ namespace dae
 		}
 	}
 
-	Texture2D* ResourceManager::CreateTexture(const std::string &file, TransformComponent* pTransform, SDL_Rect &sourceRect, bool isCentered)
+	Texture2D* ResourceManager::CreateTexture(const std::string &file, GameObject* pTransform,
+		SDL_Rect &sourceRect, bool isCentered)
 	{
 		auto pTexture = CreateSDLTexture(file);
 
@@ -67,7 +68,7 @@ namespace dae
 	}
 
 	void ResourceManager::CreateTextTexture(const SDL_Color &color, const Font* pFont,
-		const std::string &text, Texture2D* &pTexture, TransformComponent* pTransform, bool isCentered)
+		const std::string &text, Texture2D* &pTexture, GameObject* pTransform, bool isCentered)
 	{
 		const auto surf = TTF_RenderText_Blended(pFont->GetFont(), text.c_str(), color);
 		if (surf == nullptr)

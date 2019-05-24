@@ -64,9 +64,6 @@
     <ClInclude Include="BaseComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="TransformComponent.h">
-      <Filter>Engine Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="TextureComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
@@ -165,9 +162,6 @@
     <ClCompile Include="Texture2D.cpp">
       <Filter>Engine Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="TransformComponent.cpp">
-      <Filter>Engine Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="TextureComponent.cpp">
       <Filter>Engine Files\Components</Filter>
     </ClCompile>
@@ -227,9 +221,6 @@
     </ClCompile>
     <ClCompile Include="ObserverComponent.cpp">
       <Filter>Engine Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="HelperFunctions.cpp">
-      <Filter>Engine Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

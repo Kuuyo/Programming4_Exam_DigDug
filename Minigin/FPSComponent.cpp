@@ -32,7 +32,7 @@ namespace dae
 	{
 		m_pFont = sceneContext.GameContext->Resources->LoadFont("Lingua.otf", m_FontSize);
 		sceneContext.GameContext->Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
-			m_pParent->GetComponent<TransformComponent>(), m_IsCentered);
+			m_pParent, m_IsCentered);
 		m_pParent->GetScene()->AddTexture(m_pTexture);
 	}
 
@@ -43,6 +43,6 @@ namespace dae
 		m_Text = text;
 
 		sceneContext.GameContext->Resources->CreateTextTexture(m_Color, m_pFont, m_Text, m_pTexture,
-			m_pParent->GetComponent<TransformComponent>(), m_IsCentered);
+			m_pParent, m_IsCentered);
 	}
 }

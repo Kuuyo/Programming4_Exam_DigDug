@@ -18,8 +18,11 @@ namespace dae
 	}
 
 	template <class T>
-	void EraseRemoveFromVector(std::vector<T> &vector, T objectToRemove)
+	bool EraseRemoveFromVector(std::vector<T> &vector, T objectToRemove)
 	{
+		const auto size = vector.size();
 		vector.erase(std::remove(vector.begin(), vector.end(), objectToRemove), vector.end());
+
+		return size == vector.size();
 	}
 }

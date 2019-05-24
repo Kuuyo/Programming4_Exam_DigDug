@@ -1,11 +1,11 @@
 #include "MiniginPCH.h"
 #include "Texture2D.h"
 
-#include "TransformComponent.h"
+#include "GameObject.h"
 
 namespace dae
 {
-	Texture2D::Texture2D(SDL_Texture* pTexture, TransformComponent* pTransform, const SDL_Rect &sourceRect, bool isCentered)
+	Texture2D::Texture2D(SDL_Texture* pTexture, GameObject* pTransform, const SDL_Rect &sourceRect, bool isCentered)
 		: m_SourceRect(sourceRect)
 		, m_IsCentered(isCentered)
 	{
