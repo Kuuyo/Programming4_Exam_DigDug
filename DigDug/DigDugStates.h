@@ -52,6 +52,24 @@ namespace Characters
 				std::string m_HAxis, m_VAxis;
 			};
 
+			class ThrowPumpState final : public dae::State
+			{
+			public:
+				ThrowPumpState(std::string &&pumpMapping);
+				~ThrowPumpState() = default;
+
+				std::string GetPumpMapping() const { return m_PumpMapping; }
+
+			private:
+				void Initialize(const dae::SceneContext &sceneContext) override;
+
+				void OnEnter(const dae::SceneContext &sceneContext) override;
+				void Update(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext) override;
+
+				std::string m_PumpMapping;
+			};
+
 			class DeathState final : public dae::State
 			{
 			public:

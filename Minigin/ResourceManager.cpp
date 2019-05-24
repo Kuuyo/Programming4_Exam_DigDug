@@ -58,8 +58,8 @@ namespace dae
 			SDL_QueryTexture(pTexture, nullptr, nullptr, &width, &height);
 		}
 
-		width = sourceRect.w > 0 ? sourceRect.w : width;
-		height = sourceRect.h > 0 ? sourceRect.h : height;
+		width = sourceRect.w != 0 ? sourceRect.w : width;
+		height = sourceRect.h != 0 ? sourceRect.h : height;
 
 		sourceRect.w = width;
 		sourceRect.h = height;

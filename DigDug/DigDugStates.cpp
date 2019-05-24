@@ -43,7 +43,7 @@ namespace Characters
 
 			}
 
-			void GlobalState::Update(const dae::SceneContext &)
+			void GlobalState::Update(const dae::SceneContext &sceneContext)
 			{
 				if (!IsActiveState<DeathState>())
 				{
@@ -66,6 +66,15 @@ namespace Characters
 						else if (tag == "LevelBlock")
 						{
 							gameObject->GetScene()->RemoveGameObject(gameObject);
+						}
+					}
+
+					if (!IsActiveState<ThrowPumpState>())
+					{
+						if (sceneContext.GameContext->Input->GetInputMappingAxis(GetState<ThrowPumpState>()->GetPumpMapping()))
+						{
+							ChangeState<ThrowPumpState>();
+							return;
 						}
 					}
 				}
@@ -186,6 +195,37 @@ namespace Characters
 				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 0.f);
 				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Stop();
 			} 
+
+
+
+			ThrowPumpState::ThrowPumpState(std::string &&pumpMapping)
+				: m_PumpMapping(std::move(pumpMapping))
+			{
+			}
+
+			void ThrowPumpState::Initialize(const dae::SceneContext &)
+			{
+			}
+
+			void ThrowPumpState::OnEnter(const dae::SceneContext &)
+			{
+				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::ThrowPump));
+				asc->PlayOnce();
+			}
+
+			void ThrowPumpState::Update(const dae::SceneContext &sceneContext)
+			{
+				if (!sceneContext.GameContext->Input->GetInputMappingAxis(m_PumpMapping))
+				{
+					ChangeState<IdleState>();
+					return;
+				}
+			}
+
+			void ThrowPumpState::OnExit(const dae::SceneContext &)
+			{
+			}
 
 
 

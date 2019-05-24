@@ -36,6 +36,9 @@ namespace dae
 			m_pFSM->ChangeState<T>(*m_pSceneContext);
 		}
 
+		template <class T>
+		T* GetState();
+
 		GameObject* GetGameObject();
 
 	private:
@@ -93,6 +96,21 @@ namespace dae
 				+ std::string(ti.name()));
 		}
 
+		template <class T>
+		T* GetState()
+		{
+			const type_info& ti = typeid(T);
+			for (auto state : m_pStateMap)
+			{
+				if (state.first && typeid(*state.first) == ti)
+				{
+					return static_cast<T*>(state.first);
+				}
+			}
+
+			return nullptr;
+		}
+
 	protected:
 		void Initialize(const SceneContext &sceneContext) override;
 		void Update(const SceneContext &sceneContext) override;
@@ -110,5 +128,11 @@ namespace dae
 	inline bool State::IsActiveState()
 	{
 		return m_pFSM->IsActiveState<T>();
+	}
+
+	template<class T>
+	inline T* State::GetState()
+	{
+		return m_pFSM->GetState<T>();
 	}
 }

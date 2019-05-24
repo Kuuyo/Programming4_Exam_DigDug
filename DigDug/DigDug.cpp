@@ -21,6 +21,11 @@ void DigDug::LoadGame(const dae::GameContext &gameContext) const
 			, dae::GamePadAxis::LeftStickVerticalAnalog, 0));
 
 	gameContext.Input->AddInputMapping(
+		dae::InputMapping("P1Pump"
+			, SDL_SCANCODE_SPACE
+			, XINPUT_GAMEPAD_A, 0));
+
+	gameContext.Input->AddInputMapping(
 		dae::InputMapping("P2Horizontal"
 			, SDL_SCANCODE_RIGHT, SDL_SCANCODE_LEFT
 			, dae::GamePadAxis::LeftStickHorizontalAnalog, 1));
@@ -31,10 +36,14 @@ void DigDug::LoadGame(const dae::GameContext &gameContext) const
 			, dae::GamePadAxis::LeftStickVerticalAnalog, 1));
 
 	gameContext.Input->AddInputMapping(
+		dae::InputMapping("P2Pump"
+			, SDL_SCANCODE_RCTRL
+			, XINPUT_GAMEPAD_A, 1));
+
+	gameContext.Input->AddInputMapping(
 		dae::InputMapping("Confirm"
 			, SDL_SCANCODE_SPACE
-			, XINPUT_GAMEPAD_A, 0)
-	);
+			, XINPUT_GAMEPAD_A, 0));
 
 	gameContext.Scenes->AddScene(new MainMenu());
 	gameContext.Scenes->AddScene(new DigDugLevel("Level1_SP", "Level1", DigDugLevel::GameMode::SinglePlayer));

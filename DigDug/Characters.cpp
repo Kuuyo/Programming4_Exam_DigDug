@@ -65,6 +65,7 @@ namespace Characters
 		pFSM->AddState(new DigDugEx::States::MovingState(isPlayerOne ? "P1Horizontal" : "P2Horizontal",
 			isPlayerOne ? "P1Vertical" : "P2Vertical"));
 		pFSM->AddState(new DigDugEx::States::DeathState());
+		pFSM->AddState(new DigDugEx::States::ThrowPumpState(isPlayerOne ? "P1Pump" : "P2Pump"));
 		out->AddComponent(pFSM);
 
 		SDL_Rect src{};
@@ -103,20 +104,20 @@ namespace Characters
 
 		SDL_Rect pumpSrc{};
 		pumpSrc.y = 96;
-		pumpSrc.h = 16;
-		pumpSrc.w = 32;
+		pumpSrc.h = -1;
+		pumpSrc.w = -1;
 		pump->AddComponent(new dae::TextureComponent("DigDug.gif", true, pumpSrc));
 
 		dae::BodyComponent::BoxFixtureDesc pumpFixtureDesc{};
-		pumpFixtureDesc.halfWidth = 16.f;
-		pumpFixtureDesc.halfHeight = 7.f;
+		pumpFixtureDesc.halfWidth = 0.f;
+		pumpFixtureDesc.halfHeight = 0.f;
 		pumpFixtureDesc.filter.categoryBits = m_CategoryBitsPump;
 		pumpFixtureDesc.isSensor = true;
 		pumpFixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits() |
 			Fygar::GetCategoryBits();
 
 		dae::BodyComponent* pPumpBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
-		pPumpBody->SetBoxFixture(pumpFixtureDesc);
+		//pPumpBody->SetBoxFixture(pumpFixtureDesc);
 		pump->AddComponent(pPumpBody);
 	}
 
