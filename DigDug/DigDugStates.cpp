@@ -11,6 +11,7 @@
 #include <SubjectComponent.h>
 #include <Time.h>
 #include <Scene.h>
+#include <TextureComponent.h>
 
 #pragma warning(push)
 #pragma warning (disable:4201)
@@ -208,6 +209,7 @@ namespace Characters
 			{
 				m_pPump = GetGameObject()->GetChild(0); // TODO: This can give some problems
 				m_pBody = m_pPump->GetComponent<dae::BodyComponent>();
+				m_pTexture = m_pPump->GetComponent<dae::TextureComponent>();
 				m_OriginalLocalPos = m_pPump->GetLocalPosition();
 			}
 
@@ -242,11 +244,24 @@ namespace Characters
 				m_pBody->RemoveFixtures();
 				m_pBody->SetBoxFixture(fixtureDesc);
 				m_pPump->SetLocalPosition(m_OriginalLocalPos.x + m_HalfWidth, m_OriginalLocalPos.y);
+
+				SDL_Rect src{};
+				src.y = 96;
+				src.h = 16;
+				src.w = int(glm::round(m_HalfWidth * 2));
+				src.x = 32 - src.w;
+				m_pTexture->SetSourceRect(src);
 			}
 
 			void ThrowPumpState::OnExit(const dae::SceneContext &)
 			{
 				m_pBody->RemoveFixtures();
+
+				SDL_Rect src{};
+				src.y = 96;
+				src.h = -1;
+				src.w = -1;
+				m_pTexture->SetSourceRect(src);
 			}
 
 

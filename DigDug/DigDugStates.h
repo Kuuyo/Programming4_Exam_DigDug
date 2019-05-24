@@ -8,6 +8,7 @@
 namespace dae
 {
 	class BodyComponent;
+	class TextureComponent;
 }
 
 namespace Characters
@@ -78,6 +79,7 @@ namespace Characters
 
 				std::string m_PumpMapping;
 				dae::BodyComponent* m_pBody{ nullptr };
+				dae::TextureComponent* m_pTexture{ nullptr };
 				dae::GameObject* m_pPump{ nullptr };
 				glm::vec2 m_OriginalLocalPos{};
 				float m_HalfWidth;
