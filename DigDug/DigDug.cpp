@@ -42,8 +42,8 @@ void DigDug::LoadGame(const dae::GameContext &gameContext) const
 
 	gameContext.Input->AddInputMapping(
 		dae::InputMapping("Confirm"
-			, SDL_SCANCODE_SPACE
-			, XINPUT_GAMEPAD_A, 0));
+			, SDL_SCANCODE_RETURN
+			, XINPUT_GAMEPAD_START, 0));
 
 	gameContext.Scenes->AddScene(new MainMenu());
 	gameContext.Scenes->AddScene(new DigDugLevel("Level1_SP", "Level1", DigDugLevel::GameMode::SinglePlayer));

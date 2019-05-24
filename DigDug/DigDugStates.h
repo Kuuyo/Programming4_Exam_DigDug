@@ -1,5 +1,14 @@
 #pragma once
 #include <FSMComponent.h>
+#pragma warning(push)
+#pragma warning (disable:4201)
+#include <glm/vec2.hpp>
+#pragma warning(pop)
+
+namespace dae
+{
+	class BodyComponent;
+}
 
 namespace Characters
 {
@@ -68,6 +77,10 @@ namespace Characters
 				void OnExit(const dae::SceneContext &sceneContext) override;
 
 				std::string m_PumpMapping;
+				dae::BodyComponent* m_pBody{ nullptr };
+				dae::GameObject* m_pPump{ nullptr };
+				glm::vec2 m_OriginalLocalPos{};
+				float m_HalfWidth;
 			};
 
 			class DeathState final : public dae::State

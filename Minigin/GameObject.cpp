@@ -105,6 +105,11 @@ namespace dae
 		}
 	}
 
+	GameObject* GameObject::GetChild(unsigned int index) const
+	{
+		return ((m_pChildren.size() > index) ? m_pChildren[index] : nullptr);
+	}
+
 	Scene* GameObject::GetScene() const
 	{
 		return m_pScene;

@@ -18,6 +18,7 @@
 #pragma warning(pop)
 
 #include "Characters.h"
+#include "Prefabs.h"
 
 namespace Characters
 {
@@ -205,6 +206,9 @@ namespace Characters
 
 			void ThrowPumpState::Initialize(const dae::SceneContext &)
 			{
+				m_pPump = GetGameObject()->GetChild(0); // TODO: This can give some problems
+				m_pBody = m_pPump->GetComponent<dae::BodyComponent>();
+				m_OriginalLocalPos = m_pPump->GetLocalPosition();
 			}
 
 			void ThrowPumpState::OnEnter(const dae::SceneContext &)
@@ -212,19 +216,37 @@ namespace Characters
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
 				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::ThrowPump));
 				asc->PlayOnce();
+
+				m_HalfWidth = 0.f;
+				m_pPump->SetLocalPosition(m_OriginalLocalPos);
 			}
 
 			void ThrowPumpState::Update(const dae::SceneContext &sceneContext)
 			{
-				if (!sceneContext.GameContext->Input->GetInputMappingAxis(m_PumpMapping))
+				if (!sceneContext.GameContext->Input->GetInputMappingAxis(m_PumpMapping)
+					|| m_HalfWidth >= 16.f)
 				{
 					ChangeState<IdleState>();
 					return;
 				}
+
+				m_HalfWidth += sceneContext.GameContext->Time->GetDeltaTime() * 16.f;
+
+				dae::BodyComponent::BoxFixtureDesc fixtureDesc;
+				fixtureDesc.halfWidth = m_HalfWidth;
+				fixtureDesc.halfHeight = 8.f;
+				fixtureDesc.filter.categoryBits = Characters::DigDug::GetPumpCategoryBits();
+				fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits() |
+					Fygar::GetCategoryBits();
+
+				m_pBody->RemoveFixtures();
+				m_pBody->SetBoxFixture(fixtureDesc);
+				m_pPump->SetLocalPosition(m_OriginalLocalPos.x + m_HalfWidth, m_OriginalLocalPos.y);
 			}
 
 			void ThrowPumpState::OnExit(const dae::SceneContext &)
 			{
+				m_pBody->RemoveFixtures();
 			}
 
 

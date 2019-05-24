@@ -34,6 +34,7 @@ namespace dae
 
 		void AddChild(GameObject* child);
 		void RemoveChild(GameObject* child);
+		GameObject* GetChild(unsigned int index) const;
 
 		Scene* GetScene() const;
 		std::string GetTag() const { return m_Tag; }

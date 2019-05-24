@@ -2,6 +2,8 @@
 #include <Box2D.h>
 #include "BaseComponent.h"
 
+// Based on last years Prog4 Exam BodyComponent by me
+
 namespace dae
 {
 	class BodyComponent final : public BaseComponent
@@ -97,7 +99,7 @@ namespace dae
 		bool Raycast(b2RayCastOutput* output, const b2RayCastInput &input, int32 childIndex) const;
 		bool Raycast(b2RayCastOutput* output, const b2Vec2 &direction, float multiplier, int32 childIndex) const;
 
-
+		void RemoveFixtures();
 
 		BodyComponent(const BodyComponent &) = delete;
 		BodyComponent(BodyComponent &&) = delete;

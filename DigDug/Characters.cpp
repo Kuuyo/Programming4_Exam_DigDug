@@ -100,7 +100,7 @@ namespace Characters
 		// Pump
 		auto pump = new dae::GameObject("Pump");
 		out->AddChild(pump);
-		pump->SetLocalPosition(24.f, 0.f);
+		pump->SetLocalPosition(8.f, 0.f);
 
 		SDL_Rect pumpSrc{};
 		pumpSrc.y = 96;
@@ -108,16 +108,7 @@ namespace Characters
 		pumpSrc.w = -1;
 		pump->AddComponent(new dae::TextureComponent("DigDug.gif", true, pumpSrc));
 
-		dae::BodyComponent::BoxFixtureDesc pumpFixtureDesc{};
-		pumpFixtureDesc.halfWidth = 0.f;
-		pumpFixtureDesc.halfHeight = 0.f;
-		pumpFixtureDesc.filter.categoryBits = m_CategoryBitsPump;
-		pumpFixtureDesc.isSensor = true;
-		pumpFixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits() |
-			Fygar::GetCategoryBits();
-
 		dae::BodyComponent* pPumpBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
-		//pPumpBody->SetBoxFixture(pumpFixtureDesc);
 		pump->AddComponent(pPumpBody);
 	}
 

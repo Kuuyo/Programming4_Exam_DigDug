@@ -26,6 +26,7 @@ namespace Characters
 
 		static void CreateDigDugCharacter(dae::GameObject* &out, DigDugLevel* pScene, bool isPlayerOne);
 		static unsigned short GetCategoryBits() { return m_CategoryBits; }
+		static unsigned short GetPumpCategoryBits() { return m_CategoryBitsPump; }
 
 	private:
 		static unsigned short m_CategoryBitsP1;

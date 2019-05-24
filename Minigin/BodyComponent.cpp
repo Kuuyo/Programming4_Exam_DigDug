@@ -204,6 +204,17 @@ namespace dae
 		return m_pBody->GetFixtureList()->RayCast(output, input, childIndex);
 	}
 
+	void BodyComponent::RemoveFixtures()
+	{
+		auto fix = m_pBody->GetFixtureList();
+		while (fix != nullptr)
+		{
+			auto next = fix->GetNext();
+			m_pBody->DestroyFixture(fix);
+			fix = next;
+		}
+	}
+
 	void BodyComponent::CreateFixtureDef(const std::shared_ptr<b2Shape> shape, const FixtureDesc desc)
 	{
 		auto fixtureDef = std::make_shared<b2FixtureDef>();
@@ -216,5 +227,8 @@ namespace dae
 		fixtureDef->userData = this;
 
 		m_FixtureDefVec.push_back(fixtureDef);
+
+		if(m_pBody != nullptr)
+			m_pBody->CreateFixture(&*fixtureDef);
 	}
 }
