@@ -29,6 +29,7 @@ namespace dae
 
 		void AddGameObject(GameObject* object);
 		void RemoveGameObject(GameObject* object);
+		std::vector<GameObject*> GetGameObjectsPendingRemoval() const { return m_ObjectsToRemove; }
 
 		void AddTexture(Texture2D* pTexture);
 		void RemoveTexture(Texture2D* pTexture);
@@ -39,7 +40,7 @@ namespace dae
 		void AddDebugDrawPoint(const SDL_Point &point);
 		void AddDebugDrawPointVec(const std::vector<SDL_Point> &point);
 
-		void Reset();
+		void ResetScene();
 
 		virtual ~Scene();
 		Scene(const Scene& other) = delete;

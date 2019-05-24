@@ -9,6 +9,7 @@
 #include <SubjectComponent.h>
 #include <FSMComponent.h>
 #include <SceneManager.h>
+#include <HelperFunctions.h>
 
 #include <json.hpp>
 
@@ -115,7 +116,11 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 					&& !m_IsFygarSpawned);
 				AddGameObject(go);
 				go->SetPosition(x, y);
-				m_IsFygarSpawned = true;
+
+				if (m_GameMode != GameMode::Versus || m_IsFygarSpawned)
+					m_pEnemyPositionMap.insert({ go, glm::vec2(x,y) });
+
+				m_IsFygarSpawned = true;				
 				break;
 			default:
 				break;
@@ -136,6 +141,16 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 
 void DigDugLevel::Update(const dae::SceneContext &)
 {
+}
+
+void DigDugLevel::LateUpdate(const dae::SceneContext &)
+{
+	auto vec = GetGameObjectsPendingRemoval();
+
+	for (const auto o : vec)
+	{
+		dae::RemoveFromMap(m_pEnemyPositionMap, o);
+	}
 }
 
 void DigDugLevel::OnCollisionEnter(const dae::Contact &, dae::GameObject* )
@@ -162,14 +177,17 @@ void DigDugLevel::OnNotify(const dae::Subject* entity, int , va_list args)
 		{
 		case dae::HealthStatus::LostLife:
 			LogDebugC("LostLife");
-			ResetPlayer(gameObject);
+			if (m_GameMode == GameMode::SinglePlayer)
+				ResetPlayerAndEnemies(gameObject);
+			else
+				ResetPlayer(gameObject);
 			break;
 		case dae::HealthStatus::Dead:
 			LogDebugC("Dead");
 			if (m_IsOnePlayerDead || m_GameMode == GameMode::SinglePlayer)
 			{
 				GetSceneContext().GameContext->Scenes->SetActiveScene("GameOverScene");
-				Reset();
+				ResetScene();
 			}
 			m_IsOnePlayerDead = true;			
 			break;
@@ -187,4 +205,14 @@ void DigDugLevel::ResetPlayer(dae::GameObject* gameObject)
 		gameObject->SetPosition(m_FygarSpawn);
 
 	gameObject->GetComponent<dae::FSMComponent>()->ChangeState<Characters::DigDugEx::States::IdleState>(GetSceneContext());
+}
+
+void DigDugLevel::ResetPlayerAndEnemies(dae::GameObject* gameObject)
+{
+	ResetPlayer(gameObject);
+
+	for (const auto& m : m_pEnemyPositionMap)
+	{
+		m.first->SetPosition(m.second);
+	}
 }

@@ -136,6 +136,9 @@
     <ClInclude Include="ObserverComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="HelperFunctions.h">
+      <Filter>Engine Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
@@ -224,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="ObserverComponent.cpp">
       <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HelperFunctions.cpp">
+      <Filter>Engine Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -183,7 +183,7 @@ namespace dae
 		m_DebugDrawPoints.insert(m_DebugDrawPoints.end(), point.begin(), point.end());
 	}
 
-	void Scene::Reset()
+	void Scene::ResetScene()
 	{
 		m_Reset = true;
 	}
