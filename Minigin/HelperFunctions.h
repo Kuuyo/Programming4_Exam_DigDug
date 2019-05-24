@@ -16,4 +16,10 @@ namespace dae
 			map.erase(objectToRemove);
 		}
 	}
+
+	template <class T>
+	void EraseRemoveFromVector(std::vector<T> &vector, T objectToRemove)
+	{
+		vector.erase(std::remove(vector.begin(), vector.end(), objectToRemove), vector.end());
+	}
 }

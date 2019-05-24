@@ -97,13 +97,11 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 				m_PlayerSpawn = glm::vec2(x, y);
 
 				Characters::DigDug::CreateDigDugCharacter(m_pDigDug, this, true);
-				AddGameObject(m_pDigDug);
 				m_pDigDug->SetPosition(x, y);
 
 				if (m_GameMode == GameMode::Coop)
 				{
 					Characters::DigDug::CreateDigDugCharacter(m_pDigDug2, this, false);
-					AddGameObject(m_pDigDug2);
 					m_pDigDug2->SetPosition(x, y);
 				}
 				break;

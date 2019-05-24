@@ -3,6 +3,7 @@
 
 #include "BaseComponent.h"
 #include "BodyComponent.h"
+#include "HelperFunctions.h"
 
 namespace dae
 {
@@ -27,6 +28,12 @@ namespace dae
 			if (pComponent != nullptr)
 				delete pComponent;
 		}
+
+		for (auto pChild : m_pChildren)
+		{
+			if (pChild != nullptr)
+				delete pChild;
+		}
 	}
 
 	void GameObject::Initialize(const SceneContext &sceneContext)
@@ -37,6 +44,11 @@ namespace dae
 		}
 
 		m_IsInitialized = true;
+
+		for (auto pChild : m_pChildren)
+		{
+			pChild->Initialize(sceneContext);
+		}
 	}
 
 	void GameObject::Update(const SceneContext &sceneContext)
@@ -44,6 +56,11 @@ namespace dae
 		for (auto pComponent : m_pVecComponents)
 		{
 			pComponent->Update(sceneContext);
+		}
+
+		for (auto pChild : m_pChildren)
+		{
+			pChild->Update(sceneContext);
 		}
 	}
 
@@ -53,6 +70,11 @@ namespace dae
 		{
 			pComponent->LateUpdate(sceneContext);
 		}
+
+		for (auto pChild : m_pChildren)
+		{
+			pChild->LateUpdate(sceneContext);
+		}
 	}
 
 	void GameObject::AddComponent(BaseComponent* component)
@@ -60,6 +82,22 @@ namespace dae
 		m_pVecComponents.push_back(component);
 		// TODO: Is GameObject being friend with BaseComponent to set it's parent what I want to do? public SetParent()?
 		component->m_pParent = this;
+	}
+
+	void GameObject::RemoveComponent(BaseComponent* component)
+	{
+		EraseRemoveFromVector(m_pVecComponents, component);
+	}
+
+	void GameObject::AddChild(GameObject* child)
+	{
+		m_pChildren.push_back(child);
+		child->m_pScene = m_pScene;
+	}
+
+	void GameObject::RemoveChild(GameObject* child)
+	{
+		EraseRemoveFromVector(m_pChildren, child);
 	}
 
 	void GameObject::SetPosition(float x, float y, Anchor anchor)

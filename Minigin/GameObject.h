@@ -28,6 +28,10 @@ namespace dae
 		void LateUpdate(const SceneContext &sceneContext);
 
 		void AddComponent(BaseComponent* component);
+		void RemoveComponent(BaseComponent* component);
+
+		void AddChild(GameObject* child);
+		void RemoveChild(GameObject* child);
 
 		void SetPosition(float x = 0, float y = 0, Anchor anchor = Anchor::TopLeft);
 		void SetPosition(glm::vec2 pos);
@@ -90,5 +94,6 @@ namespace dae
 		std::vector<BaseComponent*> m_pVecComponents;
 		TransformComponent* m_pTransform;
 		Scene* m_pScene;
+		std::vector<GameObject*> m_pChildren;
 	};
 }

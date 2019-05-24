@@ -28,6 +28,8 @@ namespace Characters
 		if (out == nullptr)
 			out = new dae::GameObject("DigDug");
 
+		pScene->AddGameObject(out);
+
 		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
 		fixtureDesc.halfWidth = 7.f;
 		fixtureDesc.halfHeight = 7.f;
@@ -78,7 +80,7 @@ namespace Characters
 
 		dae::GameObject* healthDisplay = nullptr;
 		HealthDisplay::CreateHealthDisplay(healthDisplay, isPlayerOne ? "Player1" : "Player2", isPlayerOne);
-		pScene->AddGameObject(healthDisplay); // TODO: Make child instead when children is implemented
+		out->AddChild(healthDisplay); // TODO: Make child instead when children is implemented
 
 		if(isPlayerOne)
 			healthDisplay->SetPosition(3.f, 16.f, dae::Anchor::BottomLeft);
