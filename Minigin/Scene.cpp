@@ -178,7 +178,7 @@ namespace dae
 	{
 		if (sortingLayer >= m_pTextureVec.size())
 		{
-			const unsigned int layersToAdd = (m_pTextureVec.size() - sortingLayer - 1) * -1;
+			const unsigned int layersToAdd = (unsigned int(m_pTextureVec.size()) - sortingLayer - 1) * -1;
 
 			for (size_t i = 0; i < layersToAdd; ++i)
 			{
