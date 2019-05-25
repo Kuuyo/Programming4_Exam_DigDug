@@ -7,24 +7,49 @@ namespace dae
 {
 	struct AnimatedSpriteClip
 	{
-		AnimatedSpriteClip(unsigned int id, unsigned int startFrame,
-			unsigned int nrOfFrames, float secondsPerFrame)
+		AnimatedSpriteClip(unsigned int id, unsigned int nrOfFrames, float secondsPerFrame,
+			unsigned int row, unsigned int column)
 			: m_Id(id)
-			, m_StartFrame(startFrame)
 			, m_NrOfFrames(nrOfFrames)
 			, m_SecondsPerFrame(secondsPerFrame)
+			, m_SourceRect(SDL_Rect())
+			, m_FrameStart(row * column)
+			, m_Rows(0)
+		{}
+
+		AnimatedSpriteClip(unsigned int id, unsigned int framePos, unsigned int nrOfFrames,
+			float secondsPerFrame)
+			: m_Id(id)
+			, m_NrOfFrames(nrOfFrames)
+			, m_SecondsPerFrame(secondsPerFrame)
+			, m_SourceRect(SDL_Rect())
+			, m_FrameStart(framePos)
+			, m_Rows(0)
+		{}
+
+		AnimatedSpriteClip(unsigned int id,	unsigned int nrOfFrames, float secondsPerFrame,
+			unsigned int rows, const SDL_Rect &sourceRect)
+			: m_Id(id)
+			, m_NrOfFrames(nrOfFrames)
+			, m_SecondsPerFrame(secondsPerFrame)
+			, m_SourceRect(sourceRect)
+			, m_FrameStart(0)
+			, m_Rows(rows)
 		{}
 
 		AnimatedSpriteClip()
 			: m_Id(0)
 			, m_NrOfFrames(0)
-			, m_StartFrame(0)
 			, m_SecondsPerFrame(0.f)
+			, m_SourceRect(SDL_Rect())
+			, m_FrameStart(0)
+			, m_Rows(0)
 		{}
 
 		unsigned int m_Id;
-		unsigned int m_StartFrame;
 		unsigned int m_NrOfFrames;
+		unsigned int m_FrameStart;
+		unsigned int m_Rows;
 		float m_SecondsPerFrame;
 		SDL_Rect m_SourceRect;
 	};

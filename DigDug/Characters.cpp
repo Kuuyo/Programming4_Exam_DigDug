@@ -145,7 +145,13 @@ namespace Characters
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::FireBreath), 4, 2, 0.1f));
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Squish), 6, 1, 0.1f));
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Pumped), 7, 1, 0.1f));
-		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Ballooning), 8, 3, 0.1f));
+		SDL_Rect balloonSrc{};
+		balloonSrc.h = 24;
+		balloonSrc.w = 32;
+		balloonSrc.x = 0;
+		balloonSrc.y = 64;
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Ballooning), 3, 0.1f, 1,
+			balloonSrc));
 		animatedSpriteComponent->SetActiveClip(to_integral(AnimationClips::Walking));
 		out->AddComponent(animatedSpriteComponent);
 

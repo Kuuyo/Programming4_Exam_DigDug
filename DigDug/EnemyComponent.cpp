@@ -19,21 +19,21 @@ EnemyComponent::EnemyComponent()
 bool EnemyComponent::Pump()
 {
 	++m_CurrentPumps;
-
+	
 	if (m_pSprite->GetActiveClipID() != to_integral(Characters::Fygar::AnimationClips::Ballooning))
 	{
 		m_pSprite->SetActiveClip(to_integral(Characters::Fygar::AnimationClips::Ballooning));
 	}
 
-	if (m_CurrentPumps < m_MaxPumps)
-	{
-		m_pSprite->MoveOneFrame();
-	}
-	else
+	if (m_CurrentPumps >= m_MaxPumps)
 	{
 		m_pParent->GetComponent<dae::FSMComponent>()->
 			ChangeState<Characters::FygarEx::States::DeathState>(m_pParent->GetScene()->GetSceneContext());
 		return true;
+	}
+	else
+	{
+		m_pSprite->MoveOneFrame();
 	}
 
 	return false;

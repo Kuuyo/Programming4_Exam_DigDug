@@ -196,6 +196,7 @@ namespace Characters
 
 			void DeathState::OnEnter(const dae::SceneContext &)
 			{
+				GetGameObject()->GetComponent<dae::BodyComponent>()->RemoveFixtures();
 			}
 
 			void DeathState::Update(const dae::SceneContext &sceneContext)

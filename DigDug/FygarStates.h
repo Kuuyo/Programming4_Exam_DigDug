@@ -69,7 +69,7 @@ namespace Characters
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 	
 				float m_Timer{};
-				float m_Duration{ .3f };
+				float m_Duration{ .1f };
 			};
 		}
 	}

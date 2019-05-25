@@ -109,7 +109,7 @@ namespace Characters
 				dae::GameObject* m_pPump{ nullptr };
 				float m_HalfWidth;
 				float m_Timer{ 0.f };
-				float m_PumpInterval{ .6f };
+				float m_PumpInterval{ .8f };
 				dae::GameObject* m_EnemyHit{ nullptr };
 			};
 
