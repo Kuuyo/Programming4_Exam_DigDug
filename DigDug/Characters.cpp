@@ -158,10 +158,10 @@ namespace Characters
 		if (isPlayer)
 		{
 			dae::FSMComponent* pFSM = new dae::FSMComponent();
-			pFSM->SetGlobalState(new DigDugEx::States::GlobalState());
+			pFSM->SetGlobalState(new FygarEx::States::GlobalState());
 			pFSM->AddState(new DigDugEx::States::IdleState("P2Horizontal", "P2Vertical"));
 			pFSM->AddState(new DigDugEx::States::MovingState("P2Horizontal", "P2Vertical"));
-			pFSM->AddState(new DigDugEx::States::DeathState());
+			pFSM->AddState(new FygarEx::States::DeathState());
 			out->AddComponent(pFSM);
 
 			dae::GameObject* healthDisplay = nullptr;
