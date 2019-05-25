@@ -17,6 +17,7 @@ namespace Level
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
+				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 			};
 
@@ -30,6 +31,7 @@ namespace Level
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
+				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				float m_Timer{};
@@ -50,6 +52,7 @@ namespace Level
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
+				void LateUpdate(const dae::SceneContext &sceneContext) override;
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 			};
 
@@ -63,6 +66,7 @@ namespace Level
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
+				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				float m_Timer{};

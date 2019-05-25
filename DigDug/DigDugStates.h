@@ -27,6 +27,7 @@ namespace Characters
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
+				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 			};
 
@@ -41,6 +42,7 @@ namespace Characters
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
+				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				std::string m_HAxis, m_VAxis;
@@ -57,6 +59,7 @@ namespace Characters
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
+				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				std::string m_HAxis, m_VAxis;
@@ -75,6 +78,7 @@ namespace Characters
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
+				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				std::string m_PumpMapping;
@@ -101,6 +105,7 @@ namespace Characters
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
+				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				std::string m_PumpMapping;
@@ -123,6 +128,7 @@ namespace Characters
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
+				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				float m_Timer{};
@@ -139,6 +145,7 @@ namespace Characters
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
+				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				float m_Timer{};

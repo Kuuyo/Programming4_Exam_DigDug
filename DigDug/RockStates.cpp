@@ -102,6 +102,10 @@ namespace Level
 
 			void FallingState::Update(const dae::SceneContext &)
 			{
+			}
+
+			void FallingState::LateUpdate(const dae::SceneContext &)
+			{
 				auto pBody = GetGameObject()->GetComponent<dae::BodyComponent>();
 				pBody->SetLinearVelocity(0.f, 48.f);
 

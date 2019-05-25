@@ -65,6 +65,13 @@ namespace dae
 		m_pActiveState->Update(sceneContext);
 	}
 
+	void FSMComponent::LateUpdate(const SceneContext & sceneContext)
+	{
+		if (m_pGlobalState != nullptr)
+			m_pGlobalState->LateUpdate(sceneContext);
+		m_pActiveState->LateUpdate(sceneContext);
+	}
+
 	void FSMComponent::AddState(State* pState)
 	{
 		if (m_pActiveState == nullptr) // TODO: Use a starting state instead

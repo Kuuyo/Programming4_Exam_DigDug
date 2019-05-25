@@ -180,15 +180,10 @@ namespace dae
 		{
 			const unsigned int layersToAdd = (m_pTextureVec.size() - sortingLayer - 1) * -1;
 
-			LogDebugC(std::string("SortingLayer:") + std::to_string(sortingLayer));
-			LogDebugC(std::to_string(layersToAdd));
-
 			for (size_t i = 0; i < layersToAdd; ++i)
 			{
 				m_pTextureVec.push_back({});
 			}
-
-			LogDebugC(std::to_string(m_pTextureVec.size()));
 		}
 
 		m_pTextureVec[sortingLayer].push_back(pTexture);

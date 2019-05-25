@@ -100,6 +100,8 @@ namespace dae
 		bool Raycast(b2RayCastOutput* output, const b2Vec2 &direction, float multiplier, int32 childIndex) const;
 
 		void RemoveFixtures();
+		void RemoveFixture(unsigned int idx);
+		void SetRemovedFixture(unsigned int idx);
 
 		BodyComponent(const BodyComponent &) = delete;
 		BodyComponent(BodyComponent &&) = delete;

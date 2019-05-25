@@ -215,6 +215,31 @@ namespace dae
 		}
 	}
 
+	void BodyComponent::RemoveFixture(unsigned int idx)
+	{
+		unsigned int index = 0;
+
+		auto fix = m_pBody->GetFixtureList();
+		while (fix != nullptr)
+		{
+			if (index == idx)
+			{
+				m_pBody->DestroyFixture(fix);
+				return;
+			}
+
+			auto next = fix->GetNext();
+			fix = next;
+			++index;
+		}
+	}
+
+	void BodyComponent::SetRemovedFixture(unsigned int idx)
+	{
+		if (m_pBody != nullptr && idx < m_FixtureDefVec.size())
+			m_pBody->CreateFixture(&*m_FixtureDefVec[idx]);
+	}
+
 	void BodyComponent::CreateFixtureDef(const std::shared_ptr<b2Shape> shape, const FixtureDesc desc)
 	{
 		auto fixtureDef = std::make_shared<b2FixtureDef>();

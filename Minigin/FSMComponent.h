@@ -25,6 +25,7 @@ namespace dae
 
 		virtual void OnEnter(const SceneContext &sceneContext) = 0;
 		virtual void Update(const SceneContext &sceneContext) = 0;
+		virtual void LateUpdate(const SceneContext &sceneContext) = 0;
 		virtual void OnExit(const SceneContext &sceneContext, State* pNextState) = 0;
 
 		template <class T>
@@ -114,7 +115,7 @@ namespace dae
 	protected:
 		void Initialize(const SceneContext &sceneContext) override;
 		void Update(const SceneContext &sceneContext) override;
-		void LateUpdate(const SceneContext &) override {}
+		void LateUpdate(const SceneContext &sceneContext) override;
 
 		virtual ~FSMComponent();
 
