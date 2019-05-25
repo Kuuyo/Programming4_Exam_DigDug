@@ -43,5 +43,5 @@ void HealthDisplay::CreateHealthDisplay(dae::GameObject* &out, const std::string
 
 	out->AddComponent(pObserver);
 
-	out->AddComponent(new dae::TextureComponent("DigDugLife.gif", false));
+	out->AddComponent(new dae::TextureComponent("DigDugLife.gif", 0, false));
 }

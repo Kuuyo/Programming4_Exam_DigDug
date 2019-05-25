@@ -12,7 +12,8 @@ namespace dae
 		Renderer(SDL_Window* window, const GameContext &gameContext);		
 		~Renderer();
 
-		void Render(const SceneContext &sceneContext, const std::vector<Texture2D*> &pTextures,
+		void Render(const SceneContext &sceneContext,
+			const std::vector<std::vector<Texture2D*>> &pTextures,
 			const std::vector<SDL_Point> &debugDraw, float extrapolate) const;
 
 		SDL_Renderer* GetSDLRenderer() const { return m_pRenderer; }

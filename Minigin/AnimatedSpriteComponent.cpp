@@ -9,8 +9,8 @@
 
 namespace dae
 {
-	AnimatedSpriteComponent::AnimatedSpriteComponent(std::string &&fileName, bool isCentered,
-		const SDL_Rect &sourceRect, int columns, int rows, bool isAnimating)
+	AnimatedSpriteComponent::AnimatedSpriteComponent(std::string &&fileName, unsigned int sortingLayer,
+		bool isCentered, const SDL_Rect &sourceRect, int columns, int rows, bool isAnimating)
 		: m_FileName(std::move(fileName))
 		, m_pTexture(nullptr)
 		, m_SourceRect(sourceRect)
@@ -22,6 +22,7 @@ namespace dae
 		, m_IsAnimating(isAnimating)
 		, m_Timer(0.f)
 		, m_IsInitialized(false)
+		, m_SortingLayer(sortingLayer)
 	{
 	}
 
@@ -36,7 +37,7 @@ namespace dae
 		m_pTexture = sceneContext.GameContext->Resources->CreateTexture(m_FileName,
 			m_pParent, m_SourceRect, m_IsCentered);
 
-		m_pParent->GetScene()->AddTexture(m_pTexture);
+		m_pParent->GetScene()->AddTexture(m_pTexture, m_SortingLayer);
 
 		m_pTexture->SetSourceRect(m_ActiveClip.m_SourceRect);
 

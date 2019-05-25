@@ -59,7 +59,8 @@ namespace dae
 	class AnimatedSpriteComponent final : public BaseComponent
 	{
 	public:
-		AnimatedSpriteComponent(std::string&& fileName, bool isCentered, const SDL_Rect &sourceRect,
+		AnimatedSpriteComponent(std::string&& fileName, unsigned int sortingLayer,
+			bool isCentered, const SDL_Rect &sourceRect,
 			int columns, int rows, bool isAnimating);
 
 		void Play();
@@ -97,6 +98,7 @@ namespace dae
 
 		unsigned int m_Columns, m_Rows;
 		unsigned int m_CurrentFrame, m_NumberOfFrames;
+		unsigned int m_SortingLayer;
 		float m_Timer;
 
 		std::string m_FileName;

@@ -31,7 +31,7 @@ namespace dae
 		void RemoveGameObject(GameObject* object);
 		std::vector<GameObject*> GetGameObjectsPendingRemoval() const { return m_ObjectsToRemove; }
 
-		void AddTexture(Texture2D* pTexture);
+		void AddTexture(Texture2D* pTexture, unsigned int sortingLayer = 0);
 		void RemoveTexture(Texture2D* pTexture);
 
 		const std::string GetName() const;
@@ -81,7 +81,7 @@ namespace dae
 		std::string m_Name{};
 		std::vector<GameObject*> m_Objects{};
 		std::vector<GameObject*> m_ObjectsToRemove{};
-		std::vector<Texture2D*> m_pTextureVec{};
+		std::vector<std::vector<Texture2D*>> m_pTextureVec{};
 		std::vector<Texture2D*> m_pTexturesToRemove{};
 		// TODO: Fix this vector of pointers bullshit
 

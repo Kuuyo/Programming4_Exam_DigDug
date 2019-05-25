@@ -72,7 +72,7 @@ namespace Characters
 
 		SDL_Rect src{};
 		src.h = src.w = 16;
-		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("DigDug.gif", true, src, 8, 2, false);
+		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("DigDug.gif", 1, true, src, 8, 2, false);
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Walking), 0, 2, 0.1f));
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Digging), 2, 2, 0.1f));
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::SquishH), 4, 1, 0.1f));
@@ -108,7 +108,7 @@ namespace Characters
 		pumpSrc.y = 96;
 		pumpSrc.h = -1;
 		pumpSrc.w = -1;
-		pump->AddComponent(new dae::TextureComponent("DigDug.gif", true, pumpSrc));
+		pump->AddComponent(new dae::TextureComponent("DigDug.gif", 2, true, pumpSrc));
 
 		dae::BodyComponent* pPumpBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
 		pump->AddComponent(pPumpBody);
@@ -139,7 +139,7 @@ namespace Characters
 
 		SDL_Rect src{};
 		src.h = src.w = 16;
-		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("Fygar.gif", true, src, 10, 2, false);
+		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("Fygar.gif", 1, true, src, 10, 2, false);
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Walking), 0, 2, 0.1f));
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Ghosting), 2, 2, 0.1f));
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::FireBreath), 4, 2, 0.1f));

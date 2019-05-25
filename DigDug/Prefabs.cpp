@@ -36,7 +36,7 @@ namespace Level
 
 		SDL_Rect src{};
 		src.h = src.w = blockSize;
-		dae::TextureComponent* pTexture = new dae::TextureComponent("LevelBlock.gif", true, src);
+		dae::TextureComponent* pTexture = new dae::TextureComponent("LevelBlock.gif", 0, true, src);
 		out->AddComponent(pTexture);
 	}
 
@@ -69,7 +69,7 @@ namespace Level
 
 		SDL_Rect src{};
 		src.h = src.w = 16;
-		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("Rock.gif", true, src, 2, 2, false);
+		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("Rock.gif", 2, true, src, 2, 2, false);
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Wiggle), 0, 2, 0.2f));
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Break), 2, 2, 0.2f));
 		animatedSpriteComponent->SetActiveClip(to_integral(AnimationClips::Wiggle));

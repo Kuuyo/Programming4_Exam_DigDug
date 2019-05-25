@@ -9,11 +9,13 @@
 
 namespace dae
 {
-	TextureComponent::TextureComponent(std::string&& fileName, bool isCentered, const SDL_Rect &sourceRect)
+	TextureComponent::TextureComponent(std::string&& fileName, unsigned int sortingLayer,
+		bool isCentered, const SDL_Rect &sourceRect)
 		: m_FileName(std::move(fileName))
 		, m_pTexture(nullptr)
 		, m_SourceRect(sourceRect)
 		, m_IsCentered(isCentered)
+		, m_SortingLayer(sortingLayer)
 	{
 	}
 
@@ -27,7 +29,7 @@ namespace dae
 	{
 		m_pTexture = sceneContext.GameContext->Resources->CreateTexture(m_FileName,
 			m_pParent, m_SourceRect, m_IsCentered);
-		m_pParent->GetScene()->AddTexture(m_pTexture);
+		m_pParent->GetScene()->AddTexture(m_pTexture, m_SortingLayer);
 	}
 
 	SDL_Rect TextureComponent::GetSourceRect() const

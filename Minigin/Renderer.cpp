@@ -31,13 +31,15 @@ namespace dae
 			delete m_pBox2DDebugRenderer;
 	}
 
-	void Renderer::Render(const SceneContext &sceneContext, const std::vector<Texture2D*> &pTextures,
+	void Renderer::Render(const SceneContext &sceneContext,
+		const std::vector<std::vector<Texture2D*>> &pTextures,
 		const std::vector<SDL_Point> &debugDraw, float extrapolate) const
 	{
 		SDL_RenderClear(m_pRenderer);
 
-		for (const auto pTexture : pTextures)
-			RenderTexture(*pTexture, extrapolate);
+		for (const auto pTextureLayers : pTextures)
+			for (const auto pTexture : pTextureLayers)
+				RenderTexture(*pTexture, extrapolate);
 
 #if defined(DEBUG) | defined(_DEBUG)
 		sceneContext.Physics->DrawDebugData();

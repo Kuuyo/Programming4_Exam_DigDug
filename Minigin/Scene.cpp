@@ -7,12 +7,16 @@
 
 #include "BodyComponent.h"
 #include "Box2DDebugRender.h"
+#include "HelperFunctions.h"
 
 #include <Box2D.h>
 
 namespace dae
 {
-	Scene::Scene(const std::string& name) : m_Name(name) {}
+	Scene::Scene(const std::string& name) : m_Name(name)
+	{
+		m_pTextureVec.push_back({});
+	}
 
 	Scene::~Scene()
 	{
@@ -82,10 +86,9 @@ namespace dae
 
 		for (auto tX : m_pTexturesToRemove)
 		{
-			auto it = std::find(m_pTextureVec.begin(), m_pTextureVec.end(), tX);
-			if (it != m_pTextureVec.end())
+			for (auto& pSortingLayer : m_pTextureVec)
 			{
-				m_pTextureVec.erase(it);
+				EraseRemoveFromVector(pSortingLayer, tX);
 			}
 		}
 
@@ -171,9 +174,24 @@ namespace dae
 		m_ObjectsToRemove.push_back(object);
 	}
 
-	void Scene::AddTexture(Texture2D* pTexture)
+	void Scene::AddTexture(Texture2D* pTexture, unsigned int sortingLayer)
 	{
-		m_pTextureVec.push_back(pTexture);
+		if (sortingLayer >= m_pTextureVec.size())
+		{
+			const unsigned int layersToAdd = (m_pTextureVec.size() - sortingLayer - 1) * -1;
+
+			LogDebugC(std::string("SortingLayer:") + std::to_string(sortingLayer));
+			LogDebugC(std::to_string(layersToAdd));
+
+			for (size_t i = 0; i < layersToAdd; ++i)
+			{
+				m_pTextureVec.push_back({});
+			}
+
+			LogDebugC(std::to_string(m_pTextureVec.size()));
+		}
+
+		m_pTextureVec[sortingLayer].push_back(pTexture);
 	}
 
 	void Scene::RemoveTexture(Texture2D* pTexture)

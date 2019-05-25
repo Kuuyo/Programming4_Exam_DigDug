@@ -36,7 +36,7 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 
 	// Background
 	auto go = new dae::GameObject();
-	go->AddComponent(new dae::TextureComponent("LevelBackground.png", false));
+	go->AddComponent(new dae::TextureComponent("LevelBackground.png", 0, false));
 	AddGameObject(go);
 
 	// FPS

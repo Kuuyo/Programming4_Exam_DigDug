@@ -9,7 +9,8 @@ namespace dae
 	class TextureComponent final : public BaseComponent
 	{
 	public:
-		TextureComponent(std::string&& fileName, bool isCentered = true, const SDL_Rect &sourceRect = SDL_Rect());
+		TextureComponent(std::string&& fileName, unsigned int sortingLayer = 0,
+			bool isCentered = true, const SDL_Rect &sourceRect = SDL_Rect());
 
 		SDL_Rect GetSourceRect() const;
 		void SetSourceRect(const SDL_Rect &src);
@@ -30,6 +31,7 @@ namespace dae
 		Texture2D* m_pTexture;
 		std::string m_FileName;
 		SDL_Rect m_SourceRect;
+		unsigned int m_SortingLayer;
 		bool m_IsCentered;
 	};
 }
