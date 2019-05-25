@@ -17,7 +17,7 @@ namespace Level
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
-				void OnExit(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 			};
 
 			class WigglingState final : public dae::State
@@ -30,7 +30,7 @@ namespace Level
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
-				void OnExit(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				float m_Timer{};
 				float m_Duration{ 1.f };
@@ -50,7 +50,7 @@ namespace Level
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
-				void OnExit(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 			};
 
 			class BreakingState final : public dae::State
@@ -63,7 +63,7 @@ namespace Level
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
-				void OnExit(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				float m_Timer{};
 				float m_Duration{ .5f };

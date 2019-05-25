@@ -89,7 +89,7 @@ namespace dae
 	{
 		if (m_pGlobalState != nullptr)
 		{
-			m_pGlobalState->OnExit(*m_pGlobalState->m_pSceneContext);
+			m_pGlobalState->OnExit(*m_pGlobalState->m_pSceneContext, nullptr);
 			delete m_pGlobalState;
 			m_pGlobalState = nullptr;
 		}

@@ -27,7 +27,7 @@ namespace Characters
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
-				void OnExit(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 			};
 
 			class IdleState final : public dae::State
@@ -41,7 +41,7 @@ namespace Characters
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
-				void OnExit(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				std::string m_HAxis, m_VAxis;
 			};
@@ -57,7 +57,7 @@ namespace Characters
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
-				void OnExit(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				std::string m_HAxis, m_VAxis;
 			};
@@ -75,13 +75,35 @@ namespace Characters
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
-				void OnExit(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				std::string m_PumpMapping;
 				dae::BodyComponent* m_pBody{ nullptr };
 				dae::TextureComponent* m_pTexture{ nullptr };
 				dae::GameObject* m_pPump{ nullptr };
 				glm::vec2 m_OriginalLocalPos{};
+				float m_HalfWidth;
+			};
+
+			class PumpingState final : public dae::State
+			{
+			public:
+				PumpingState(std::string &&pumpMapping);
+				~PumpingState() = default;
+
+				std::string GetPumpMapping() const { return m_PumpMapping; }
+
+			private:
+				void Initialize(const dae::SceneContext &sceneContext) override;
+
+				void OnEnter(const dae::SceneContext &sceneContext) override;
+				void Update(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
+
+				std::string m_PumpMapping;
+				dae::BodyComponent* m_pBody{ nullptr };
+				dae::TextureComponent* m_pTexture{ nullptr };
+				dae::GameObject* m_pPump{ nullptr };
 				float m_HalfWidth;
 			};
 
@@ -95,7 +117,7 @@ namespace Characters
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
 				void Update(const dae::SceneContext &sceneContext) override;
-				void OnExit(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				float m_Timer{};
 				float m_Duration{ .5f };

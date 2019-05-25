@@ -43,8 +43,9 @@ namespace Characters
 					auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
 					if (contactList != nullptr)
 					{
-						if (reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->
-							GetGameObject()->GetTag() == "Rock" && contactList->other->GetType() == b2BodyType::b2_dynamicBody)
+						const auto tag = reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->
+							GetGameObject()->GetTag();
+						if (tag == "Rock" && contactList->other->GetType() == b2BodyType::b2_dynamicBody)
 						{
 							auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
 							asc->SetActiveClip(to_integral(Characters::Fygar::AnimationClips::Squish));
@@ -57,7 +58,7 @@ namespace Characters
 				}
 			}
 
-			void GlobalState::OnExit(const dae::SceneContext &)
+			void GlobalState::OnExit(const dae::SceneContext &, State* )
 			{
 
 			}
@@ -150,7 +151,7 @@ namespace Characters
 				gameObject->GetComponent<dae::BodyComponent>()->MoveToTarget(vector, 40.f);
 			}
 
-			void MovingState::OnExit(const dae::SceneContext &)
+			void MovingState::OnExit(const dae::SceneContext &, State* )
 			{
 				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 0.f);
 				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Stop();
@@ -160,6 +161,30 @@ namespace Characters
 			{
 				std::uniform_real_distribution<float> dist(min, max);
 				return glm::round(dist(m_RandomEngine));
+			}
+
+
+
+			void HitState::Initialize(const dae::SceneContext &)
+			{
+
+			}
+
+			void HitState::OnEnter(const dae::SceneContext &)
+			{
+				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+				asc->SetActiveClip(to_integral(Characters::Fygar::AnimationClips::Pumped));
+				asc->PlayOnce();
+			}
+
+			void HitState::Update(const dae::SceneContext &)
+			{
+
+			}
+
+			void HitState::OnExit(const dae::SceneContext &, State* )
+			{
+
 			}
 
 
@@ -192,10 +217,11 @@ namespace Characters
 				}
 			}
 
-			void DeathState::OnExit(const dae::SceneContext &)
+			void DeathState::OnExit(const dae::SceneContext &, State* )
 			{
 				m_Timer = 0.f;
 			}
+
 		}
 	}
 }

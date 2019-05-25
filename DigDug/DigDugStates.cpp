@@ -20,6 +20,7 @@
 
 #include "Characters.h"
 #include "Prefabs.h"
+#include "FygarStates.h"
 
 namespace Characters
 {
@@ -71,7 +72,7 @@ namespace Characters
 						}
 					}
 
-					if (!IsActiveState<ThrowPumpState>())
+					if (!IsActiveState<ThrowPumpState>() && !IsActiveState<PumpingState>())
 					{
 						if (sceneContext.GameContext->Input->GetInputMappingAxis(GetState<ThrowPumpState>()->GetPumpMapping()))
 						{
@@ -82,7 +83,7 @@ namespace Characters
 				}
 			}
 
-			void GlobalState::OnExit(const dae::SceneContext &)
+			void GlobalState::OnExit(const dae::SceneContext &, State* )
 			{
 
 			}
@@ -120,7 +121,7 @@ namespace Characters
 				}
 			}
 
-			void IdleState::OnExit(const dae::SceneContext &)
+			void IdleState::OnExit(const dae::SceneContext &, State* )
 			{
 
 			}
@@ -192,7 +193,7 @@ namespace Characters
 				gameObject->GetComponent<dae::BodyComponent>()->MoveToTarget(vector, 32.f);
 			}
 
-			void MovingState::OnExit(const dae::SceneContext &)
+			void MovingState::OnExit(const dae::SceneContext &, State* )
 			{
 				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 0.f);
 				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Stop();
@@ -225,7 +226,7 @@ namespace Characters
 
 			void ThrowPumpState::Update(const dae::SceneContext &sceneContext)
 			{
-				const auto contactList = m_pBody->GetContactList();
+				auto contactList = m_pBody->GetContactList();
 
 				if (contactList != nullptr)
 				{
@@ -234,6 +235,13 @@ namespace Characters
 					if (tag != "Fygar")
 					{
 						ChangeState<IdleState>();
+						return;
+					}
+					else
+					{
+						// TODO: Figure out why it doesn't work in FygarStates, since this is kinda very dirty
+   						gameObject->GetComponent<dae::FSMComponent>()->ChangeState<FygarEx::States::HitState>(sceneContext);
+						ChangeState<PumpingState>();
 						return;
 					}
 				}
@@ -266,10 +274,55 @@ namespace Characters
 				m_pTexture->SetSourceRect(src);
 			}
 
-			void ThrowPumpState::OnExit(const dae::SceneContext &)
+			void ThrowPumpState::OnExit(const dae::SceneContext &, State* pNextState)
 			{
 				m_pBody->RemoveFixtures();
 
+				if (pNextState != GetState<PumpingState>())
+				{
+					SDL_Rect src{};
+					src.y = 96;
+					src.h = -1;
+					src.w = -1;
+					m_pTexture->SetSourceRect(src);
+				}
+			}
+
+
+
+			PumpingState::PumpingState(std::string &&pumpMapping)
+				: m_PumpMapping(std::move(pumpMapping))
+			{
+			}
+
+			void PumpingState::Initialize(const dae::SceneContext &)
+			{
+				m_pPump = GetGameObject()->GetChild(0); // TODO: This can give some problems
+				m_pBody = m_pPump->GetComponent<dae::BodyComponent>();
+				m_pTexture = m_pPump->GetComponent<dae::TextureComponent>();
+			}
+
+			void PumpingState::OnEnter(const dae::SceneContext &)
+			{
+				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Pumping));
+				asc->Pause();
+			}
+
+			void PumpingState::Update(const dae::SceneContext &sceneContext)
+			{
+				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Pumping));
+				asc->Pause();
+
+				if (sceneContext.GameContext->Input->GetInputMappingAxis(m_PumpMapping))
+				{
+					asc->PlayOnce();
+				}
+			}
+
+			void PumpingState::OnExit(const dae::SceneContext &, State* )
+			{
 				SDL_Rect src{};
 				src.y = 96;
 				src.h = -1;
@@ -314,7 +367,7 @@ namespace Characters
 				}
 			}
 
-			void DeathState::OnExit(const dae::SceneContext &)
+			void DeathState::OnExit(const dae::SceneContext &, State* )
 			{
 				m_Timer = 0.f;
 			}

@@ -40,7 +40,7 @@ namespace Level
 					ChangeState<WigglingState>();	
 			}
 
-			void IdleState::OnExit(const dae::SceneContext &)
+			void IdleState::OnExit(const dae::SceneContext &, State* )
 			{
 
 			}
@@ -78,7 +78,7 @@ namespace Level
 					ChangeState<FallingState>();
 			}
 
-			void WigglingState::OnExit(const dae::SceneContext &)
+			void WigglingState::OnExit(const dae::SceneContext &, State* )
 			{
 				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Stop();
 			}
@@ -113,7 +113,7 @@ namespace Level
 				}
 			}
 
-			void FallingState::OnExit(const dae::SceneContext &)
+			void FallingState::OnExit(const dae::SceneContext &, State* )
 			{
 
 			}
@@ -152,7 +152,7 @@ namespace Level
 				}
 			}
 
-			void BreakingState::OnExit(const dae::SceneContext &)
+			void BreakingState::OnExit(const dae::SceneContext &, State* )
 			{
 
 			}

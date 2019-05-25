@@ -25,7 +25,7 @@ namespace dae
 
 		virtual void OnEnter(const SceneContext &sceneContext) = 0;
 		virtual void Update(const SceneContext &sceneContext) = 0;
-		virtual void OnExit(const SceneContext &sceneContext) = 0;
+		virtual void OnExit(const SceneContext &sceneContext, State* pNextState) = 0;
 
 		template <class T>
 		bool IsActiveState();
@@ -82,7 +82,7 @@ namespace dae
 			{
 				if (state.first && typeid(*state.first) == ti)
 				{
-					m_pActiveState->OnExit(sceneContext);
+					m_pActiveState->OnExit(sceneContext, state.first);
 
 					m_pActiveState = state.first;
 

@@ -66,6 +66,7 @@ namespace Characters
 			isPlayerOne ? "P1Vertical" : "P2Vertical"));
 		pFSM->AddState(new DigDugEx::States::DeathState());
 		pFSM->AddState(new DigDugEx::States::ThrowPumpState(isPlayerOne ? "P1Pump" : "P2Pump"));
+		pFSM->AddState(new DigDugEx::States::PumpingState(isPlayerOne ? "P1Pump" : "P2Pump"));
 		out->AddComponent(pFSM);
 
 		SDL_Rect src{};
@@ -124,7 +125,7 @@ namespace Characters
 		fixtureDesc.halfHeight = 7.95f;
 		fixtureDesc.filter.categoryBits = m_CategoryBits;
 		fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits()
-			| DigDug::GetCategoryBits();
+			| DigDug::GetCategoryBits() | DigDug::GetPumpCategoryBits();
 
 		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
 		pBody->SetBoxFixture(fixtureDesc);
@@ -175,6 +176,7 @@ namespace Characters
 			pFSM->SetGlobalState(new FygarEx::States::GlobalState());
 			pFSM->AddState(new FygarEx::States::MovingState());
 			pFSM->AddState(new FygarEx::States::DeathState());
+			pFSM->AddState(new FygarEx::States::HitState());
 			out->AddComponent(pFSM);
 		}
 	}
