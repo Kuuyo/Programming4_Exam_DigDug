@@ -196,9 +196,6 @@ namespace Characters
 
 			void DeathState::OnEnter(const dae::SceneContext &)
 			{
-				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
-				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Dying)); // TODO:
-				asc->PlayOnce();
 			}
 
 			void DeathState::Update(const dae::SceneContext &sceneContext)
@@ -207,8 +204,6 @@ namespace Characters
 
 				if (!asc->IsPlaying())
 				{
-					asc->HideTexture();
-
 					m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
 					if (m_Timer >= m_Duration)
 					{

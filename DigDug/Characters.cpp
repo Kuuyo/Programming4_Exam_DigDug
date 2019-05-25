@@ -17,6 +17,7 @@
 #include "Prefabs.h"
 #include "DigDugLevel.h"
 #include "FygarStates.h"
+#include "EnemyComponent.h"
 
 namespace Characters
 {
@@ -78,7 +79,7 @@ namespace Characters
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::SquishV), 5, 1, 0.1f));
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Dying), 6, 5, 0.5f));
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::ThrowPump), 11, 1, 0.1f));
-		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Pumping), 14, 2, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Pumping), 14, 2, 0.3f));
 		animatedSpriteComponent->SetActiveClip(to_integral(AnimationClips::Walking));
 		out->AddComponent(animatedSpriteComponent);
 
@@ -159,7 +160,7 @@ namespace Characters
 
 			dae::GameObject* healthDisplay = nullptr;
 			HealthDisplay::CreateHealthDisplay(healthDisplay, "Player2", false);
-			pScene->AddGameObject(healthDisplay); // TODO: Make child instead when children is implemented
+			pScene->AddGameObject(healthDisplay);
 
 			healthDisplay->SetPosition(35.f, 16.f, dae::Anchor::BottomRight);
 
@@ -178,6 +179,8 @@ namespace Characters
 			pFSM->AddState(new FygarEx::States::DeathState());
 			pFSM->AddState(new FygarEx::States::HitState());
 			out->AddComponent(pFSM);
+
+			out->AddComponent(new EnemyComponent());
 		}
 	}
 }

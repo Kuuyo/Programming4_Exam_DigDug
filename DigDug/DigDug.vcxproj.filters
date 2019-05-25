@@ -54,6 +54,9 @@
     <ClInclude Include="DigDugStates.h">
       <Filter>Characters</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyComponent.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -90,6 +93,9 @@
       <Filter>Characters</Filter>
     </ClCompile>
     <ClCompile Include="DigDugStates.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyComponent.cpp">
       <Filter>Characters</Filter>
     </ClCompile>
   </ItemGroup>

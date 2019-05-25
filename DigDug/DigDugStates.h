@@ -83,6 +83,7 @@ namespace Characters
 				dae::GameObject* m_pPump{ nullptr };
 				glm::vec2 m_OriginalLocalPos{};
 				float m_HalfWidth;
+				dae::GameObject* m_EnemyHit{ nullptr };
 			};
 
 			class PumpingState final : public dae::State
@@ -94,6 +95,8 @@ namespace Characters
 				std::string GetPumpMapping() const { return m_PumpMapping; }
 
 			private:
+				friend ThrowPumpState;
+
 				void Initialize(const dae::SceneContext &sceneContext) override;
 
 				void OnEnter(const dae::SceneContext &sceneContext) override;
@@ -105,6 +108,9 @@ namespace Characters
 				dae::TextureComponent* m_pTexture{ nullptr };
 				dae::GameObject* m_pPump{ nullptr };
 				float m_HalfWidth;
+				float m_Timer{ 0.f };
+				float m_PumpInterval{ .6f };
+				dae::GameObject* m_EnemyHit{ nullptr };
 			};
 
 			class DeathState final : public dae::State

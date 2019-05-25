@@ -92,6 +92,19 @@ namespace dae
 		m_pTexture->SetSourceRect(m_ActiveClip.m_SourceRect);
 	}
 
+	void AnimatedSpriteComponent::MoveOneFrame()
+	{
+		m_CurrentFrame = (m_CurrentFrame + 1) %
+			(m_ActiveClip.m_StartFrame + m_ActiveClip.m_NrOfFrames);
+		m_CurrentFrame = glm::max(m_CurrentFrame, m_ActiveClip.m_StartFrame);
+
+		SDL_Rect src = m_ActiveClip.m_SourceRect;
+		src.x = src.w * (m_CurrentFrame % m_Rows);
+		src.y = src.h * (m_CurrentFrame / m_Rows);
+
+		m_pTexture->SetSourceRect(src);
+	}
+
 	bool AnimatedSpriteComponent::IsPlaying() const
 	{
 		return m_IsAnimating;

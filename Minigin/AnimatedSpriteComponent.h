@@ -41,6 +41,7 @@ namespace dae
 		void PlayOnce();
 		void Pause();
 		void Stop();
+		void MoveOneFrame();
 
 		bool IsPlaying() const;
 

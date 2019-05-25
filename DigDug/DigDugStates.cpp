@@ -21,6 +21,7 @@
 #include "Characters.h"
 #include "Prefabs.h"
 #include "FygarStates.h"
+#include "EnemyComponent.h"
 
 namespace Characters
 {
@@ -241,6 +242,7 @@ namespace Characters
 					{
 						// TODO: Figure out why it doesn't work in FygarStates, since this is kinda very dirty
    						gameObject->GetComponent<dae::FSMComponent>()->ChangeState<FygarEx::States::HitState>(sceneContext);
+						m_EnemyHit = gameObject;
 						ChangeState<PumpingState>();
 						return;
 					}
@@ -286,6 +288,11 @@ namespace Characters
 					src.w = -1;
 					m_pTexture->SetSourceRect(src);
 				}
+				else
+				{
+					GetState<PumpingState>()->m_EnemyHit = m_EnemyHit;
+					m_EnemyHit = nullptr;
+				}
 			}
 
 
@@ -312,12 +319,25 @@ namespace Characters
 			void PumpingState::Update(const dae::SceneContext &sceneContext)
 			{
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
-				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Pumping));
-				asc->Pause();
 
 				if (sceneContext.GameContext->Input->GetInputMappingAxis(m_PumpMapping))
 				{
 					asc->PlayOnce();
+					m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
+
+					if (m_Timer >= m_PumpInterval)
+					{
+						m_Timer -= m_PumpInterval;
+						if (m_EnemyHit->GetComponent<EnemyComponent>()->Pump())
+						{
+							ChangeState<IdleState>();
+						}
+					}
+				}
+				else
+				{
+					asc->Pause();
+					m_Timer = 0.f;
 				}
 			}
 
@@ -328,6 +348,8 @@ namespace Characters
 				src.h = -1;
 				src.w = -1;
 				m_pTexture->SetSourceRect(src);
+
+				m_EnemyHit = nullptr;
 			}
 
 
