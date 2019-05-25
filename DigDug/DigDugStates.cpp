@@ -259,7 +259,7 @@ namespace Characters
 
 				dae::BodyComponent::BoxFixtureDesc fixtureDesc;
 				fixtureDesc.halfWidth = m_HalfWidth;
-				fixtureDesc.halfHeight = 7.f;
+				fixtureDesc.halfHeight = 4.f;
 				fixtureDesc.filter.categoryBits = Characters::DigDug::GetPumpCategoryBits();
 				fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits() |
 					Fygar::GetCategoryBits();
