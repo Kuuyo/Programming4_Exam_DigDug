@@ -113,6 +113,22 @@ namespace Characters
 				dae::GameObject* m_EnemyHit{ nullptr };
 			};
 
+			class SquishState final : public dae::State
+			{
+			public:
+				~SquishState() = default;
+
+			private:
+				void Initialize(const dae::SceneContext &sceneContext) override;
+
+				void OnEnter(const dae::SceneContext &sceneContext) override;
+				void Update(const dae::SceneContext &sceneContext) override;
+				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
+
+				float m_Timer{};
+				float m_Duration{ .5f };
+			};
+
 			class DeathState final : public dae::State
 			{
 			public:

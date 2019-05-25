@@ -57,13 +57,13 @@ namespace Characters
 						const auto gameObject = reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject();
 						const auto tag = gameObject->GetTag();
 						LogDebugC(tag);
-						if ((tag == "Rock" && contactList->other->GetType() == b2BodyType::b2_dynamicBody)
-							|| tag == "Fygar")
+						if ((tag == "Rock" && contactList->other->GetType() == b2BodyType::b2_dynamicBody))
 						{
-							auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
-							asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::SquishH));
-							asc->PlayOnce();
-
+							ChangeState<SquishState>();
+							return;
+						}
+						else if (tag == "Fygar")
+						{
 							ChangeState<DeathState>();
 							return;
 						}
@@ -350,6 +350,39 @@ namespace Characters
 				m_pTexture->SetSourceRect(src);
 
 				m_EnemyHit = nullptr;
+			}
+
+
+
+			void SquishState::Initialize(const dae::SceneContext &)
+			{
+
+			}
+
+			void SquishState::OnEnter(const dae::SceneContext &)
+			{
+				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::SquishH));
+				asc->PlayOnce();
+			}
+
+			void SquishState::Update(const dae::SceneContext &sceneContext)
+			{
+				const auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+
+				if (!asc->IsPlaying())
+				{
+					m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
+					if (m_Timer >= m_Duration)
+					{
+						ChangeState<DeathState>();
+					}
+				}
+			}
+
+			void SquishState::OnExit(const dae::SceneContext &, State*)
+			{
+
 			}
 
 

@@ -68,6 +68,7 @@ namespace Characters
 		pFSM->AddState(new DigDugEx::States::DeathState());
 		pFSM->AddState(new DigDugEx::States::ThrowPumpState(isPlayerOne ? "P1Pump" : "P2Pump"));
 		pFSM->AddState(new DigDugEx::States::PumpingState(isPlayerOne ? "P1Pump" : "P2Pump"));
+		pFSM->AddState(new DigDugEx::States::SquishState());
 		out->AddComponent(pFSM);
 
 		SDL_Rect src{};
