@@ -76,7 +76,16 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 
 	int index = 0;
 
+	std::vector<dae::GameObject*> activePlayers;
+
 	Characters::DigDug::CreateDigDugCharacter(m_pDigDug, this, true);
+	activePlayers.push_back(m_pDigDug);
+
+	if (m_GameMode == GameMode::Coop)
+	{
+		Characters::DigDug::CreateDigDugCharacter(m_pDigDug2, this, false);
+		activePlayers.push_back(m_pDigDug2);
+	}
 
 	// TODO: Figure out a prettier way to do this ?
 	for (int i = 0; i < height; ++i)
@@ -104,12 +113,11 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 
 				if (m_GameMode == GameMode::Coop)
 				{
-					Characters::DigDug::CreateDigDugCharacter(m_pDigDug2, this, false);
 					m_pDigDug2->SetPosition(x, y);
 				}
 				break;
 			case DigDugLevel::LevelSectionType::Pooka:
-				Characters::Enemy::CreatePookaCharacter(go = nullptr, m_pDigDug, this);
+				Characters::Enemy::CreatePookaCharacter(go = nullptr, activePlayers, this);
 				AddGameObject(go);
 				go->SetPosition(x, y);
 				m_pEnemyPositionMap.insert({ go, glm::vec2(x,y) });
@@ -117,9 +125,8 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 			case DigDugLevel::LevelSectionType::Fygar:
 				if(!m_IsFygarSpawned)
 					m_FygarSpawn = glm::vec2(x, y);
-				Characters::Enemy::CreateFygarCharacter(go = nullptr, m_pDigDug, this, (m_GameMode == GameMode::Versus)
+				Characters::Enemy::CreateFygarCharacter(go = nullptr, activePlayers, this, (m_GameMode == GameMode::Versus)
 					&& !m_IsFygarSpawned);
-				AddGameObject(go);
 				go->SetPosition(x, y);
 
 				if (m_GameMode != GameMode::Versus || m_IsFygarSpawned)
@@ -208,10 +215,7 @@ void DigDugLevel::OnNotify(const dae::Subject* entity, int , va_list args)
 		{
 		case dae::HealthStatus::LostLife:
 			LogDebugC("LostLife");
-			if (m_GameMode == GameMode::SinglePlayer)
-				ResetPlayerAndEnemies(gameObject);
-			else
-				ResetPlayer(gameObject);
+			ResetPlayerAndEnemies(gameObject);
 			break;
 		case dae::HealthStatus::Dead:
 			LogDebugC("Dead");

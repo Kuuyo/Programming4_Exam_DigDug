@@ -23,6 +23,8 @@ namespace dae
 		, m_Timer(0.f)
 		, m_IsInitialized(false)
 		, m_SortingLayer(sortingLayer)
+		, m_GrowedWidth(0)
+		, m_HasLoopedOnce(false)
 	{
 	}
 
@@ -52,17 +54,40 @@ namespace dae
 
 			if (m_Timer >= m_ActiveClip.m_SecondsPerFrame)
 			{
+				if (m_CurrentFrame == 0 && !m_IsLooping && m_HasLoopedOnce)
+					Pause();
+
 				SDL_Rect src = m_ActiveClip.m_SourceRect;
-				src.x += src.w * (m_CurrentFrame % m_ActiveClip.m_Rows);
-				src.y += src.h * (m_CurrentFrame / m_ActiveClip.m_Rows);
+				if (m_ActiveClip.m_Grow.h == 0 && m_ActiveClip.m_Grow.w == 0)
+				{
+					src.x += src.w * (m_CurrentFrame % m_ActiveClip.m_Rows);
+					src.y += src.h * (m_CurrentFrame / m_ActiveClip.m_Rows);
+				}
+				else
+				{
+					const auto grow = m_ActiveClip.m_Grow;
+
+					const auto widthGrow = grow.w * (m_CurrentFrame % m_ActiveClip.m_Rows);
+
+					src.w += widthGrow;
+					src.h += grow.y * (m_CurrentFrame / m_ActiveClip.m_Rows);
+
+					m_GrowedWidth += widthGrow;
+
+					if (m_CurrentFrame == 0)
+					{
+						m_GrowedWidth = 0;
+					}
+
+					src.x = m_GrowedWidth;
+				}
 
 				m_pTexture->SetSourceRect(src);
 
 				m_CurrentFrame = (m_CurrentFrame + 1) % (m_ActiveClip.m_NrOfFrames);
 				m_Timer -= m_ActiveClip.m_SecondsPerFrame;
 
-				if (m_CurrentFrame == 0 && !m_IsLooping)
-					Pause();
+				m_HasLoopedOnce = true;
 			}
 		}
 	}
@@ -77,11 +102,13 @@ namespace dae
 	{
 		m_IsAnimating = true;
 		m_IsLooping = false;
+		m_HasLoopedOnce = false;
 	}
 
 	void AnimatedSpriteComponent::Pause()
 	{
 		m_IsAnimating = false;
+		m_HasLoopedOnce = false;
 	}
 
 	void AnimatedSpriteComponent::Stop()
@@ -155,5 +182,10 @@ namespace dae
 
 		if(m_IsInitialized)
 			m_pTexture->SetSourceRect(m_ActiveClip.m_SourceRect);
+	}
+
+	SDL_Rect AnimatedSpriteComponent::GetCurrentActiveSourceRect() const
+	{
+		return m_pTexture->GetSourceRect();
 	}
 }

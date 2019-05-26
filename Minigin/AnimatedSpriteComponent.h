@@ -13,6 +13,7 @@ namespace dae
 			, m_NrOfFrames(nrOfFrames)
 			, m_SecondsPerFrame(secondsPerFrame)
 			, m_SourceRect(SDL_Rect())
+			, m_Grow(SDL_Rect())
 			, m_FrameStart(row * column)
 			, m_Rows(0)
 		{}
@@ -23,6 +24,7 @@ namespace dae
 			, m_NrOfFrames(nrOfFrames)
 			, m_SecondsPerFrame(secondsPerFrame)
 			, m_SourceRect(SDL_Rect())
+			, m_Grow(SDL_Rect())
 			, m_FrameStart(framePos)
 			, m_Rows(0)
 		{}
@@ -33,6 +35,18 @@ namespace dae
 			, m_NrOfFrames(nrOfFrames)
 			, m_SecondsPerFrame(secondsPerFrame)
 			, m_SourceRect(sourceRect)
+			, m_Grow(SDL_Rect())
+			, m_FrameStart(0)
+			, m_Rows(rows)
+		{}
+
+		AnimatedSpriteClip(unsigned int id, unsigned int nrOfFrames, float secondsPerFrame,
+			unsigned int rows, const SDL_Rect &sourceRect, const SDL_Rect &growRect)
+			: m_Id(id)
+			, m_NrOfFrames(nrOfFrames)
+			, m_SecondsPerFrame(secondsPerFrame)
+			, m_SourceRect(sourceRect)
+			, m_Grow(growRect)
 			, m_FrameStart(0)
 			, m_Rows(rows)
 		{}
@@ -42,6 +56,7 @@ namespace dae
 			, m_NrOfFrames(0)
 			, m_SecondsPerFrame(0.f)
 			, m_SourceRect(SDL_Rect())
+			, m_Grow(SDL_Rect())
 			, m_FrameStart(0)
 			, m_Rows(0)
 		{}
@@ -52,6 +67,7 @@ namespace dae
 		unsigned int m_Rows;
 		float m_SecondsPerFrame;
 		SDL_Rect m_SourceRect;
+		SDL_Rect m_Grow;
 	};
 
 	class Texture2D;
@@ -80,6 +96,8 @@ namespace dae
 		unsigned int GetActiveClipID() const;
 		void SetActiveClip(unsigned int ID);
 
+		SDL_Rect GetCurrentActiveSourceRect() const;
+
 		AnimatedSpriteComponent(const AnimatedSpriteComponent&) = delete;
 		AnimatedSpriteComponent(AnimatedSpriteComponent&&) = delete;
 		AnimatedSpriteComponent& operator= (const AnimatedSpriteComponent&) = delete;
@@ -99,6 +117,7 @@ namespace dae
 		unsigned int m_Columns, m_Rows;
 		unsigned int m_CurrentFrame, m_NumberOfFrames;
 		unsigned int m_SortingLayer;
+		unsigned int m_GrowedWidth;
 		float m_Timer;
 
 		std::string m_FileName;
@@ -107,6 +126,7 @@ namespace dae
 		bool m_IsAnimating;
 		bool m_IsLooping;
 		bool m_IsInitialized;
+		bool m_HasLoopedOnce;
 
 		std::vector<AnimatedSpriteClip> m_Clips;
 		AnimatedSpriteClip m_ActiveClip;

@@ -122,10 +122,12 @@ namespace Characters
 
 	unsigned short Enemy::m_CategoryBits = 0x032;
 
-	void Enemy::CreateFygarCharacter(dae::GameObject* &out, dae::GameObject* &pPlayer, DigDugLevel* pScene, bool isPlayer)
+	void Enemy::CreateFygarCharacter(dae::GameObject* &out, std::vector<dae::GameObject*> pPlayers, DigDugLevel* pScene, bool isPlayer)
 	{
 		if (out == nullptr)
 			out = new dae::GameObject(isPlayer ? "Player2" : "Fygar");
+
+		pScene->AddGameObject(out);
 
 		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
 
@@ -163,6 +165,30 @@ namespace Characters
 		animatedSpriteComponent->SetActiveClip(to_integral(AnimationClips::Walking));
 		out->AddComponent(animatedSpriteComponent);
 
+
+		// Fire
+		auto fire = new dae::GameObject("Fire");
+		out->AddChild(fire);
+		fire->SetLocalPosition(8.f, 0.f);
+
+		SDL_Rect fireSrc{};
+		fireSrc.h = 16;
+		fireSrc.w = 96;
+		animatedSpriteComponent = new dae::AnimatedSpriteComponent("FygarFire.gif", 2, true, fireSrc, 1, 3, false);
+
+		fireSrc.h = 16;
+		fireSrc.w = 16;
+		SDL_Rect fireGrow{};
+		fireGrow.h = 0;
+		fireGrow.w = 16;
+		animatedSpriteComponent->AddClip(
+			dae::AnimatedSpriteClip(to_integral(Fygar::AnimationClips::Fire), 3, .3f, 3, fireSrc, fireGrow));
+		fire->AddComponent(animatedSpriteComponent);
+
+		dae::BodyComponent* pFireBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
+		fire->AddComponent(pFireBody);
+
+		// Player or enemy ?
 		if (isPlayer)
 		{
 			dae::FSMComponent* pFSM = new dae::FSMComponent();
@@ -191,17 +217,18 @@ namespace Characters
 		{
 			dae::FSMComponent* pFSM = new dae::FSMComponent();
 			pFSM->SetGlobalState(new EnemyEx::States::GlobalState());
-			pFSM->AddState(new EnemyEx::States::MovingState());
+			pFSM->AddState(new EnemyEx::States::MovingState(true));
 			pFSM->AddState(new EnemyEx::States::DeathState());
 			pFSM->AddState(new EnemyEx::States::HitState());
 			pFSM->AddState(new EnemyEx::States::GhostState());
+			pFSM->AddState(new FygarEx::States::FireBreathingState());
 			out->AddComponent(pFSM);
 
-			out->AddComponent(new EnemyComponent(pPlayer));
+			out->AddComponent(new EnemyComponent(pPlayers));
 		}
 	}
 
-	void Enemy::CreatePookaCharacter(dae::GameObject* &out, dae::GameObject* &pPlayer, DigDugLevel* pScene)
+	void Enemy::CreatePookaCharacter(dae::GameObject* &out, std::vector<dae::GameObject*> pPlayers, DigDugLevel* pScene)
 	{
 		if (out == nullptr)
 			out = new dae::GameObject("Pooka");
@@ -242,12 +269,12 @@ namespace Characters
 
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
 		pFSM->SetGlobalState(new EnemyEx::States::GlobalState());
-		pFSM->AddState(new EnemyEx::States::MovingState());
+		pFSM->AddState(new EnemyEx::States::MovingState(false));
 		pFSM->AddState(new EnemyEx::States::DeathState());
 		pFSM->AddState(new EnemyEx::States::HitState());
 		pFSM->AddState(new EnemyEx::States::GhostState());
 		out->AddComponent(pFSM);
 
-		out->AddComponent(new EnemyComponent(pPlayer));
+		out->AddComponent(new EnemyComponent(pPlayers));
 	}
 }

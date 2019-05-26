@@ -66,7 +66,8 @@ namespace Characters
 			}
 
 
-			MovingState::MovingState()
+			MovingState::MovingState(bool isFygar)
+				: m_IsFygar(isFygar)
 			{
 			}
 
@@ -85,7 +86,8 @@ namespace Characters
 				asc->Play();
 
 				m_RandomGhostInterval = dae::Random::GetRandomFloat(3.f, 9.f);
-				m_RandomInterval = dae::Random::GetRandomFloat(3.f, 6.f);
+				m_RandomInterval = dae::Random::GetRandomFloat(1.f, 3.f);
+				m_RandomFireBreathInterval = dae::Random::GetRandomFloat(3.f, 9.f);
 			}
 
 			void MovingState::Update(const dae::SceneContext &sceneContext)
@@ -93,6 +95,18 @@ namespace Characters
 				const auto deltaTime = sceneContext.GameContext->Time->GetDeltaTime();
 				m_Timer += deltaTime;
 				m_GhostTimer += deltaTime;
+
+				if (m_IsFygar)
+				{
+					m_FireBreathTimer += deltaTime;
+
+					if (m_FireBreathTimer > m_RandomFireBreathInterval)
+					{
+						ChangeState<FygarEx::States::FireBreathingState>();
+						return;
+					}
+				}
+
 
 				if (m_GhostTimer > m_RandomGhostInterval)
 				{
@@ -102,7 +116,7 @@ namespace Characters
 
 				if (m_Timer > m_RandomInterval)
 				{
-					m_RandomInterval = dae::Random::GetRandomFloat(3.f, 6.f);
+					m_RandomInterval = dae::Random::GetRandomFloat(1.f, 3.f);
 					m_Horizontal = dae::Random::GetRandomFloat(-1.f, 1.f);
 					m_Vertical = dae::Random::GetRandomFloat(-1.f, 1.f);
 					m_Timer = 0.f;
@@ -170,6 +184,7 @@ namespace Characters
 
 				m_GhostTimer = 0.f;
 				m_Timer = 0.f;
+				m_FireBreathTimer = 0.f;
 			}
 
 
@@ -183,6 +198,10 @@ namespace Characters
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
 				asc->SetActiveClip(to_integral(Characters::Enemy::AnimationClips::Ghosting));
 				asc->Play();
+
+				const auto players = m_pEnemyComponent->GetPlayers();
+				const int randomPlayer = int(glm::round(dae::Random::GetRandomFloat(0, float(players.size() - 1))));
+				m_pFollowedPlayer = players[randomPlayer];
 			}
 
 			void GhostState::Update(const dae::SceneContext &sceneContext)
@@ -216,13 +235,14 @@ namespace Characters
 					}
 				}
 
-				const auto playerPos = m_pEnemyComponent->GetPlayer()->GetPosition();
+				const auto playerPos = m_pFollowedPlayer->GetPosition();
 				GetGameObject()->GetComponent<dae::BodyComponent>()->MoveToTarget(playerPos, 40.f);
 			}
 
 			void GhostState::OnExit(const dae::SceneContext &, State *)
 			{
-				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 0.f);
+				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(1.f, 0.f);
+				m_Timer = 0.f;
 			}
 
 
@@ -274,9 +294,64 @@ namespace Characters
 				}
 			}
 
-			void DeathState::OnExit(const dae::SceneContext &, State* )
+			void DeathState::OnExit(const dae::SceneContext &, State*)
 			{
 				m_Timer = 0.f;
+			}
+		}
+	}
+
+	namespace FygarEx
+	{
+		namespace States
+		{
+			void FireBreathingState::Initialize(const dae::SceneContext &)
+			{
+				m_pFire = GetGameObject()->GetChild(0); // TODO: This can give some problems
+				m_pBody = m_pFire->GetComponent<dae::BodyComponent>();
+				m_pTexture = m_pFire->GetComponent<dae::AnimatedSpriteComponent>();
+				m_OriginalLocalPos = m_pFire->GetLocalPosition();
+			}
+
+			void FireBreathingState::OnEnter(const dae::SceneContext &)
+			{
+				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+				asc->SetActiveClip(to_integral(Characters::Enemy::Fygar::AnimationClips::FireBreath));
+				asc->Play();
+
+				m_pTexture->SetActiveClip(to_integral(Characters::Enemy::Fygar::AnimationClips::Fire));
+				m_pTexture->PlayOnce();
+
+				m_HalfWidth = 0.f;
+				m_pFire->SetLocalPosition(m_OriginalLocalPos);
+			}
+
+			void FireBreathingState::Update(const dae::SceneContext &)
+			{
+				m_HalfWidth = float(m_pTexture->GetCurrentActiveSourceRect().w) * .5f;
+
+				dae::BodyComponent::BoxFixtureDesc fixtureDesc;
+				fixtureDesc.halfWidth = m_HalfWidth;
+				fixtureDesc.halfHeight = 4.f;
+				fixtureDesc.filter.categoryBits = Enemy::GetCategoryBits();
+				fixtureDesc.filter.maskBits = DigDug::GetCategoryBits();
+
+				m_pBody->RemoveFixtures();
+				m_pBody->SetBoxFixture(fixtureDesc);
+				m_pFire->SetLocalPosition(m_OriginalLocalPos.x + m_HalfWidth, m_OriginalLocalPos.y);
+
+				if (!m_pTexture->IsPlaying())
+				{
+					ChangeState<EnemyEx::States::MovingState>();
+					return;
+				}
+			}
+
+			void FireBreathingState::OnExit(const dae::SceneContext &, State*)
+			{
+				m_pBody->RemoveFixtures();
+				m_pTexture->Stop();
+				m_pTexture->HideTexture();
 			}
 		}
 	}

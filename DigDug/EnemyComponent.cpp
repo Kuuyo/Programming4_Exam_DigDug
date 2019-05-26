@@ -11,8 +11,8 @@
 #include "Characters.h"
 #include "EnemyStates.h"
 
-EnemyComponent::EnemyComponent(dae::GameObject* pPlayer)
-	: m_pPlayer(pPlayer)
+EnemyComponent::EnemyComponent(std::vector<dae::GameObject*> pPlayers)
+	: m_pPlayer(pPlayers)
 {
 }
 

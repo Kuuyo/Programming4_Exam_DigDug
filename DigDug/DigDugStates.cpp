@@ -63,7 +63,7 @@ namespace Characters
 							ChangeState<SquishState>();
 							return;
 						}
-						else if (tag == "Fygar" || tag == "Pooka")
+						else if (tag == "Fygar" || tag == "Pooka" || tag == "Fire")
 						{
 							ChangeState<DeathState>();
 							return;

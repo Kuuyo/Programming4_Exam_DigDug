@@ -54,12 +54,13 @@ namespace Characters
 
 			enum class AnimationClips : unsigned int
 			{
-				FireBreath = to_integral(Enemy::AnimationClips::_count)
+				FireBreath = to_integral(Enemy::AnimationClips::_count),
+				Fire
 			};
 		};
 
-		static void CreateFygarCharacter(dae::GameObject* &out, dae::GameObject* &pPlayer, DigDugLevel* pScene, bool isPlayer);
-		static void CreatePookaCharacter(dae::GameObject* &out, dae::GameObject* &pPlayer, DigDugLevel* pScene);
+		static void CreateFygarCharacter(dae::GameObject* &out, std::vector<dae::GameObject*> pPlayers, DigDugLevel* pScene, bool isPlayer);
+		static void CreatePookaCharacter(dae::GameObject* &out, std::vector<dae::GameObject*> pPlayers, DigDugLevel* pScene);
 		static unsigned short GetCategoryBits() { return m_CategoryBits; }
 
 	private:
