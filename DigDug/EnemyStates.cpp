@@ -12,6 +12,7 @@
 #include <GameTime.h>
 #include <Scene.h>
 #include <Box2DRaycastCallback.h>
+#include <HelperFunctions.h>
 
 #pragma warning(push)
 #pragma warning (disable:4201)
@@ -74,8 +75,6 @@ namespace Characters
 
 			void MovingState::Initialize(const dae::SceneContext &)
 			{
-				// https://stackoverflow.com/questions/686353/random-float-number-generation
-				m_RandomEngine = std::mt19937(m_RandomDevice());
 			}
 
 			void MovingState::OnEnter(const dae::SceneContext &)
@@ -89,10 +88,10 @@ namespace Characters
 			{
 				m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
 
-				if (m_Timer > GetRandomFloat(1.f, 5.f))
+				if (m_Timer > dae::Random::GetRandomFloat(1.f, 5.f))
 				{
-					m_Horizontal = GetRandomFloat(-1.f, 1.f);
-					m_Vertical = GetRandomFloat(-1.f, 1.f);
+					m_Horizontal = dae::Random::GetRandomFloat(-1.f, 1.f);
+					m_Vertical = dae::Random::GetRandomFloat(-1.f, 1.f);
 					m_Timer = 0.f;
 				}
 
@@ -157,12 +156,26 @@ namespace Characters
 				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Stop();
 			}
 
-			float MovingState::GetRandomFloat(float min, float max)
+
+			void GhostState::Initialize(const dae::SceneContext &)
 			{
-				std::uniform_real_distribution<float> dist(min, max);
-				return glm::round(dist(m_RandomEngine));
+
 			}
 
+			void GhostState::OnEnter(const dae::SceneContext &)
+			{
+
+			}
+
+			void GhostState::Update(const dae::SceneContext &)
+			{
+
+			}
+
+			void GhostState::OnExit(const dae::SceneContext &, State *)
+			{
+
+			}
 
 
 			void HitState::Initialize(const dae::SceneContext &)
@@ -217,7 +230,6 @@ namespace Characters
 			{
 				m_Timer = 0.f;
 			}
-
 		}
 	}
 }

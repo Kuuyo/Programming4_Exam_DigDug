@@ -222,5 +222,8 @@
     <ClCompile Include="GameTime.cpp">
       <Filter>Engine Files\_Core</Filter>
     </ClCompile>
+    <ClCompile Include="HelperFunctions.cpp">
+      <Filter>Engine Files\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -25,4 +25,10 @@ namespace dae
 
 		return size == vector.size();
 	}
+
+	class Random
+	{
+	public:
+		static float GetRandomFloat(float min, float max);
+	};
 }

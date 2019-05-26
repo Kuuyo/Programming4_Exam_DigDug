@@ -259,6 +259,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(SolutionDir)_Build\$(Co
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GridComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="InfiniteGridComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Log.cpp" />

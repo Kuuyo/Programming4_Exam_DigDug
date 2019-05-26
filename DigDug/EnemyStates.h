@@ -1,6 +1,5 @@
 #pragma once
 #include <FSMComponent.h>
-#include <random>
 
 namespace Characters
 {
@@ -36,13 +35,25 @@ namespace Characters
 				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
-				float GetRandomFloat(float min, float max);
-
-				std::random_device m_RandomDevice;
-				std::mt19937 m_RandomEngine;
-
 				float m_Horizontal, m_Vertical, m_Timer;
 				float m_MaxInterval;
+			};
+
+			class GhostState final : public dae::State
+			{
+			public:
+				~GhostState() = default;
+
+			private:
+				void Initialize(const dae::SceneContext &sceneContext) override;
+
+				void OnEnter(const dae::SceneContext &sceneContext) override;
+				void Update(const dae::SceneContext &sceneContext) override;
+				void LateUpdate(const dae::SceneContext &) override {}
+				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
+
+				float m_Timer{};
+				float m_Duration{ .1f };
 			};
 
 			class HitState final : public dae::State
