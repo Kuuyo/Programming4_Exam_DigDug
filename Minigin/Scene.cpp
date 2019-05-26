@@ -65,12 +65,6 @@ namespace dae
 
 	void Scene::DestroyUpdate()
 	{
-		if (m_Reset)
-		{
-			Cleanup();
-			RootInitialize(*m_SceneContext.GameContext);
-		}
-
 		// TODO: Maybe find a prettier way to do this
 		for (auto gO : m_ObjectsToRemove)
 		{
@@ -93,6 +87,12 @@ namespace dae
 		}
 
 		m_pTexturesToRemove.clear();
+
+		if (m_Reset)
+		{
+			Cleanup();
+			RootInitialize(*m_SceneContext.GameContext);
+		}
 	}
 
 	void Scene::Render(Renderer* pRenderer, float extrapolate) const
@@ -149,6 +149,8 @@ namespace dae
 		}
 
 		m_Objects.clear();
+		m_pTexturesToRemove.clear();
+		m_pTextureVec.clear();
 
 		m_DebugDrawPoints.clear();
 

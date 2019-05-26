@@ -339,7 +339,6 @@ namespace Characters
 				else
 				{
 					asc->Pause();
-					m_Timer = 0.f;
 				}
 			}
 
@@ -352,6 +351,7 @@ namespace Characters
 				m_pTexture->SetSourceRect(src);
 
 				m_EnemyHit = nullptr;
+				m_Timer = 0.f;
 			}
 
 
