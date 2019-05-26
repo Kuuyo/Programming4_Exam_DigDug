@@ -21,6 +21,8 @@
 
 #include "Characters.h"
 #include "EnemyComponent.h"
+#include "PlayerComponent.h"
+#include "DigDugStates.h"
 
 namespace Characters
 {
@@ -28,6 +30,12 @@ namespace Characters
 	{
 		namespace States
 		{
+			GlobalState::GlobalState(bool isPlayer)
+				: m_IsPlayer(isPlayer)
+			{
+
+			}
+
 			void GlobalState::Initialize(const dae::SceneContext &)
 			{
 
@@ -38,7 +46,7 @@ namespace Characters
 
 			}
 
-			void GlobalState::Update(const dae::SceneContext &)
+			void GlobalState::Update(const dae::SceneContext &sceneContext)
 			{
 				if (!IsActiveState<DeathState>())
 				{
@@ -56,6 +64,14 @@ namespace Characters
 							ChangeState<DeathState>();
 							return;
 						}
+					}
+
+					if (m_IsPlayer && sceneContext.GameContext->Input->GetInputMappingAxis(
+						GetGameObject()->GetComponent<PlayerComponent>()->GetPumpMapping())
+						&& !IsActiveState<FygarEx::States::FireBreathingState>())
+					{
+						ChangeState<FygarEx::States::FireBreathingState>();
+						return;
 					}
 				}
 			}
@@ -305,6 +321,11 @@ namespace Characters
 	{
 		namespace States
 		{
+			FireBreathingState::FireBreathingState(bool isPlayer)
+				: m_IsPlayer(isPlayer)
+			{
+			}
+
 			void FireBreathingState::Initialize(const dae::SceneContext &)
 			{
 				m_pFire = GetGameObject()->GetChild(0); // TODO: This can give some problems
@@ -342,8 +363,16 @@ namespace Characters
 
 				if (!m_pTexture->IsPlaying())
 				{
-					ChangeState<EnemyEx::States::MovingState>();
-					return;
+					if (!m_IsPlayer)
+					{
+						ChangeState<EnemyEx::States::MovingState>();
+						return;
+					}
+					else
+					{
+						ChangeState<DigDugEx::States::MovingState>();
+						return;
+					}
 				}
 			}
 

@@ -22,7 +22,7 @@ namespace Characters
 			class GlobalState final : public dae::State
 			{
 			public:
-				~GlobalState() = default;
+				GlobalState(bool isPlayer);
 	
 			private:
 				void Initialize(const dae::SceneContext &sceneContext) override;
@@ -31,6 +31,8 @@ namespace Characters
 				void Update(const dae::SceneContext &sceneContext) override;
 				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
+
+				bool m_IsPlayer;
 			};
 	
 			class MovingState final : public dae::State
@@ -115,6 +117,7 @@ namespace Characters
 			class FireBreathingState final : public dae::State
 			{
 			public:
+				FireBreathingState(bool isPlayer);
 				~FireBreathingState() = default;
 
 			private:
@@ -130,6 +133,8 @@ namespace Characters
 				dae::GameObject* m_pFire{ nullptr };
 				glm::vec2 m_OriginalLocalPos{};
 				float m_HalfWidth;
+
+				bool m_IsPlayer;
 			};
 		}
 	}

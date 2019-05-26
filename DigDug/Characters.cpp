@@ -192,10 +192,11 @@ namespace Characters
 		if (isPlayer)
 		{
 			dae::FSMComponent* pFSM = new dae::FSMComponent();
-			pFSM->SetGlobalState(new EnemyEx::States::GlobalState());
+			pFSM->SetGlobalState(new EnemyEx::States::GlobalState(isPlayer));
 			pFSM->AddState(new DigDugEx::States::IdleState());
 			pFSM->AddState(new DigDugEx::States::MovingState());
 			pFSM->AddState(new EnemyEx::States::DeathState());
+			pFSM->AddState(new FygarEx::States::FireBreathingState(isPlayer));
 			out->AddComponent(pFSM);
 
 			dae::GameObject* healthDisplay = nullptr;
@@ -211,17 +212,17 @@ namespace Characters
 
 			out->AddComponent(new dae::HealthComponent(1.f, 3));
 
-			out->AddComponent(new PlayerComponent(Settings::P2HAxis, Settings::P1VAxis, Settings::P2Pump));
+			out->AddComponent(new PlayerComponent(Settings::P2HAxis, Settings::P2VAxis, Settings::P2Pump));
 		}
 		else
 		{
 			dae::FSMComponent* pFSM = new dae::FSMComponent();
-			pFSM->SetGlobalState(new EnemyEx::States::GlobalState());
+			pFSM->SetGlobalState(new EnemyEx::States::GlobalState(isPlayer));
 			pFSM->AddState(new EnemyEx::States::MovingState(true));
 			pFSM->AddState(new EnemyEx::States::DeathState());
 			pFSM->AddState(new EnemyEx::States::HitState());
 			pFSM->AddState(new EnemyEx::States::GhostState());
-			pFSM->AddState(new FygarEx::States::FireBreathingState());
+			pFSM->AddState(new FygarEx::States::FireBreathingState(isPlayer));
 			out->AddComponent(pFSM);
 
 			out->AddComponent(new EnemyComponent(pPlayers));
@@ -268,7 +269,7 @@ namespace Characters
 		out->AddComponent(animatedSpriteComponent);
 
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
-		pFSM->SetGlobalState(new EnemyEx::States::GlobalState());
+		pFSM->SetGlobalState(new EnemyEx::States::GlobalState(false));
 		pFSM->AddState(new EnemyEx::States::MovingState(false));
 		pFSM->AddState(new EnemyEx::States::DeathState());
 		pFSM->AddState(new EnemyEx::States::HitState());

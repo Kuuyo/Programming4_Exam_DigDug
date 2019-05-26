@@ -129,8 +129,7 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 					&& !m_IsFygarSpawned);
 				go->SetPosition(x, y);
 
-				if (m_GameMode != GameMode::Versus || m_IsFygarSpawned)
-					m_pEnemyPositionMap.insert({ go, glm::vec2(x,y) });
+				m_pEnemyPositionMap.insert({ go, glm::vec2(x,y) });
 
 				m_IsFygarSpawned = true;				
 				break;
