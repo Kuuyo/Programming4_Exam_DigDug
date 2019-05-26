@@ -50,7 +50,7 @@ namespace Characters
 
 		boxDescs.push_back(fixtureDesc);
 
-		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
+		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_staticBody);
 		pBody->SetBoxFixtures(boxDescs);
 		out->AddComponent(pBody);
 

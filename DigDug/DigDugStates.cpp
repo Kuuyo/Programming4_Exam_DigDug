@@ -62,7 +62,7 @@ namespace Characters
 							ChangeState<SquishState>();
 							return;
 						}
-						else if (tag == "Fygar")
+						else if (tag == "Fygar" || tag == "Pooka")
 						{
 							ChangeState<DeathState>();
 							return;
@@ -149,6 +149,8 @@ namespace Characters
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
 				asc->SetActiveClip(to_integral(Characters::DigDug::AnimationClips::Walking));
 				asc->Play();
+
+				GetGameObject()->GetComponent<dae::BodyComponent>()->SetType(b2BodyType::b2_dynamicBody);
 			}
 
 			void MovingState::Update(const dae::SceneContext &sceneContext)
@@ -196,7 +198,7 @@ namespace Characters
 
 			void MovingState::OnExit(const dae::SceneContext &, State* )
 			{
-				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 0.f);
+				GetGameObject()->GetComponent<dae::BodyComponent>()->SetType(b2BodyType::b2_staticBody);
 				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Stop();
 			} 
 
@@ -233,7 +235,7 @@ namespace Characters
 				{
 					const auto gameObject = reinterpret_cast<dae::BodyComponent*>(contactList->other->GetUserData())->GetGameObject();
 					const auto tag = gameObject->GetTag();
-					if (tag != "Fygar")
+					if (tag != "Fygar" && tag != "Pooka")
 					{
 						ChangeState<IdleState>();
 						return;
