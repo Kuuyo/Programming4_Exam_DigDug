@@ -9,10 +9,11 @@ namespace dae
 class EnemyComponent : public dae::BaseComponent
 {
 public:
-	EnemyComponent();
+	EnemyComponent(dae::GameObject* pPlayer);
 
 	// Returns true if Enemy dead
 	bool Pump();
+	dae::GameObject* GetPlayer() const { return m_pPlayer; }
 
 	EnemyComponent(const EnemyComponent &) = delete;
 	EnemyComponent(EnemyComponent &&) = delete;
@@ -32,6 +33,7 @@ private:
 	float m_Timer{ 0.f };
 	float m_DeflationTime{ .5f };
 	dae::AnimatedSpriteComponent* m_pSprite{ nullptr };
+	dae::GameObject* m_pPlayer;
 	bool m_IsBeingPumped{ false };
 };
 

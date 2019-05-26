@@ -20,6 +20,7 @@
 #pragma warning(pop)
 
 #include "Characters.h"
+#include "EnemyComponent.h"
 
 namespace Characters
 {
@@ -82,14 +83,26 @@ namespace Characters
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
 				asc->SetActiveClip(to_integral(Characters::Enemy::AnimationClips::Walking));
 				asc->Play();
+
+				m_RandomGhostInterval = dae::Random::GetRandomFloat(3.f, 9.f);
+				m_RandomInterval = dae::Random::GetRandomFloat(3.f, 6.f);
 			}
 
 			void MovingState::Update(const dae::SceneContext &sceneContext)
 			{
-				m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
+				const auto deltaTime = sceneContext.GameContext->Time->GetDeltaTime();
+				m_Timer += deltaTime;
+				m_GhostTimer += deltaTime;
 
-				if (m_Timer > dae::Random::GetRandomFloat(1.f, 5.f))
+				if (m_GhostTimer > m_RandomGhostInterval)
 				{
+					ChangeState<GhostState>();
+					return;
+				}
+
+				if (m_Timer > m_RandomInterval)
+				{
+					m_RandomInterval = dae::Random::GetRandomFloat(3.f, 6.f);
 					m_Horizontal = dae::Random::GetRandomFloat(-1.f, 1.f);
 					m_Vertical = dae::Random::GetRandomFloat(-1.f, 1.f);
 					m_Timer = 0.f;
@@ -109,9 +122,9 @@ namespace Characters
 				auto fixt = callback.GetFixtures();
 
 				for (const auto& f : fixt)
-				{				
-					if (reinterpret_cast<dae::BodyComponent*>(f->GetUserData())->GetGameObject()->GetTag()
-						== "LevelBlock")
+				{
+					const auto tag = reinterpret_cast<dae::BodyComponent*>(f->GetUserData())->GetGameObject()->GetTag();
+					if (tag == "LevelBlock" || tag == "Rock")
 					{
 						m_Horizontal = -m_Horizontal;
 						m_Vertical = -m_Vertical;
@@ -154,27 +167,45 @@ namespace Characters
 			{
 				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 0.f);
 				GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>()->Stop();
+
+				m_GhostTimer = 0.f;
+				m_Timer = 0.f;
 			}
 
 
 			void GhostState::Initialize(const dae::SceneContext &)
 			{
-
+				m_pEnemyComponent = GetGameObject()->GetComponent<EnemyComponent>();
 			}
 
 			void GhostState::OnEnter(const dae::SceneContext &)
 			{
-
+				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
+				asc->SetActiveClip(to_integral(Characters::Enemy::AnimationClips::Ghosting));
+				asc->Play();
 			}
 
-			void GhostState::Update(const dae::SceneContext &)
+			void GhostState::Update(const dae::SceneContext &sceneContext)
 			{
+				m_Timer += sceneContext.GameContext->Time->GetDeltaTime();
 
+				if (m_Timer > m_MinGhostTime)
+				{
+					auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
+					if (contactList == nullptr)
+					{
+						ChangeState<MovingState>();
+						return;
+					}
+				}
+
+				const auto playerPos = m_pEnemyComponent->GetPlayer()->GetPosition();
+				GetGameObject()->GetComponent<dae::BodyComponent>()->MoveToTarget(playerPos, 40.f);
 			}
 
 			void GhostState::OnExit(const dae::SceneContext &, State *)
 			{
-
+				GetGameObject()->GetComponent<dae::BodyComponent>()->SetLinearVelocity(0.f, 0.f);
 			}
 
 

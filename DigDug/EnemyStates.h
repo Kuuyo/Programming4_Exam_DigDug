@@ -1,6 +1,8 @@
 #pragma once
 #include <FSMComponent.h>
 
+class EnemyComponent;
+
 namespace Characters
 {
 	namespace EnemyEx
@@ -35,8 +37,10 @@ namespace Characters
 				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
-				float m_Horizontal, m_Vertical, m_Timer;
-				float m_MaxInterval;
+				float m_Horizontal, m_Vertical;
+				float m_Timer{}, m_RandomInterval{};
+
+				float m_GhostTimer{}, m_RandomGhostInterval{};
 			};
 
 			class GhostState final : public dae::State
@@ -52,8 +56,8 @@ namespace Characters
 				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
-				float m_Timer{};
-				float m_Duration{ .1f };
+				EnemyComponent* m_pEnemyComponent{ nullptr };
+				float m_Timer, m_MinGhostTime{ .3f };
 			};
 
 			class HitState final : public dae::State

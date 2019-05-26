@@ -58,8 +58,8 @@ namespace Characters
 			};
 		};
 
-		static void CreateFygarCharacter(dae::GameObject* &out, DigDugLevel* pScene, bool isPlayer);
-		static void CreatePookaCharacter(dae::GameObject* &out, DigDugLevel* pScene);
+		static void CreateFygarCharacter(dae::GameObject* &out, dae::GameObject* &pPlayer, DigDugLevel* pScene, bool isPlayer);
+		static void CreatePookaCharacter(dae::GameObject* &out, dae::GameObject* &pPlayer, DigDugLevel* pScene);
 		static unsigned short GetCategoryBits() { return m_CategoryBits; }
 
 	private:

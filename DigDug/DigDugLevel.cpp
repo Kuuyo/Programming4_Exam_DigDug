@@ -18,6 +18,7 @@
 #include "Prefabs.h"
 #include "Characters.h"
 #include "DigDugStates.h"
+#include "EnemyStates.h"
 
 DigDugLevel::DigDugLevel(std::string &&sceneName, std::string &&levelName, const GameMode gameMode)
 	: Scene(sceneName)
@@ -75,6 +76,8 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 
 	int index = 0;
 
+	Characters::DigDug::CreateDigDugCharacter(m_pDigDug, this, true);
+
 	// TODO: Figure out a prettier way to do this ?
 	for (int i = 0; i < height; ++i)
 	{
@@ -97,8 +100,6 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 				break;
 			case DigDugLevel::LevelSectionType::DigDug:
 				m_PlayerSpawn = glm::vec2(x, y);
-
-				Characters::DigDug::CreateDigDugCharacter(m_pDigDug, this, true);
 				m_pDigDug->SetPosition(x, y);
 
 				if (m_GameMode == GameMode::Coop)
@@ -108,7 +109,7 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 				}
 				break;
 			case DigDugLevel::LevelSectionType::Pooka:
-				Characters::Enemy::CreatePookaCharacter(go = nullptr, this);
+				Characters::Enemy::CreatePookaCharacter(go = nullptr, m_pDigDug, this);
 				AddGameObject(go);
 				go->SetPosition(x, y);
 				m_pEnemyPositionMap.insert({ go, glm::vec2(x,y) });
@@ -116,7 +117,7 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 			case DigDugLevel::LevelSectionType::Fygar:
 				if(!m_IsFygarSpawned)
 					m_FygarSpawn = glm::vec2(x, y);
-				Characters::Enemy::CreateFygarCharacter(go = nullptr, this, (m_GameMode == GameMode::Versus)
+				Characters::Enemy::CreateFygarCharacter(go = nullptr, m_pDigDug, this, (m_GameMode == GameMode::Versus)
 					&& !m_IsFygarSpawned);
 				AddGameObject(go);
 				go->SetPosition(x, y);
@@ -244,5 +245,6 @@ void DigDugLevel::ResetPlayerAndEnemies(dae::GameObject* gameObject)
 	for (const auto& m : m_pEnemyPositionMap)
 	{
 		m.first->SetPosition(m.second);
+		m.first->GetComponent<dae::FSMComponent>()->ChangeState<Characters::EnemyEx::States::MovingState>(GetSceneContext());
 	}
 }

@@ -117,14 +117,16 @@ namespace Characters
 
 	unsigned short Enemy::m_CategoryBits = 0x032;
 
-	void Enemy::CreateFygarCharacter(dae::GameObject* &out, DigDugLevel* pScene, bool isPlayer)
+	void Enemy::CreateFygarCharacter(dae::GameObject* &out, dae::GameObject* &pPlayer, DigDugLevel* pScene, bool isPlayer)
 	{
 		if (out == nullptr)
 			out = new dae::GameObject(isPlayer ? "Player2" : "Fygar");
 
 		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
-		fixtureDesc.halfWidth = 7.95f;
-		fixtureDesc.halfHeight = 7.95f;
+
+		fixtureDesc.halfWidth = 7.7f;
+		fixtureDesc.halfHeight = 7.7f;
+		fixtureDesc.isSensor = true;
 		fixtureDesc.filter.categoryBits = m_CategoryBits;
 		fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits()
 			| DigDug::GetCategoryBits() | DigDug::GetPumpCategoryBits();
@@ -185,20 +187,22 @@ namespace Characters
 			pFSM->AddState(new EnemyEx::States::MovingState());
 			pFSM->AddState(new EnemyEx::States::DeathState());
 			pFSM->AddState(new EnemyEx::States::HitState());
+			pFSM->AddState(new EnemyEx::States::GhostState());
 			out->AddComponent(pFSM);
 
-			out->AddComponent(new EnemyComponent());
+			out->AddComponent(new EnemyComponent(pPlayer));
 		}
 	}
 
-	void Enemy::CreatePookaCharacter(dae::GameObject* &out, DigDugLevel* pScene)
+	void Enemy::CreatePookaCharacter(dae::GameObject* &out, dae::GameObject* &pPlayer, DigDugLevel* pScene)
 	{
 		if (out == nullptr)
 			out = new dae::GameObject("Pooka");
 
 		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
-		fixtureDesc.halfWidth = 7.95f;
-		fixtureDesc.halfHeight = 7.95f;
+		fixtureDesc.halfWidth = 7.7f;
+		fixtureDesc.halfHeight = 7.7f;
+		fixtureDesc.isSensor = true;
 		fixtureDesc.filter.categoryBits = m_CategoryBits;
 		fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits()
 			| DigDug::GetCategoryBits() | DigDug::GetPumpCategoryBits();
@@ -234,8 +238,9 @@ namespace Characters
 		pFSM->AddState(new EnemyEx::States::MovingState());
 		pFSM->AddState(new EnemyEx::States::DeathState());
 		pFSM->AddState(new EnemyEx::States::HitState());
+		pFSM->AddState(new EnemyEx::States::GhostState());
 		out->AddComponent(pFSM);
 
-		out->AddComponent(new EnemyComponent()); 
+		out->AddComponent(new EnemyComponent(pPlayer));
 	}
 }

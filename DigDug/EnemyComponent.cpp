@@ -11,33 +11,11 @@
 #include "Characters.h"
 #include "EnemyStates.h"
 
-EnemyComponent::EnemyComponent()
+EnemyComponent::EnemyComponent(dae::GameObject* pPlayer)
+	: m_pPlayer(pPlayer)
 {
 }
 
-
-bool EnemyComponent::Pump()
-{
-	++m_CurrentPumps;
-	
-	if (m_pSprite->GetActiveClipID() != to_integral(Characters::Enemy::AnimationClips::Ballooning))
-	{
-		m_pSprite->SetActiveClip(to_integral(Characters::Enemy::AnimationClips::Ballooning));
-	}
-
-	if (m_CurrentPumps >= m_MaxPumps)
-	{
-		m_pParent->GetComponent<dae::FSMComponent>()->
-			ChangeState<Characters::EnemyEx::States::DeathState>(m_pParent->GetScene()->GetSceneContext());
-		return true;
-	}
-	else
-	{
-		m_pSprite->MoveOneFrame();
-	}
-
-	return false;
-}
 
 void EnemyComponent::Initialize(const dae::SceneContext &)
 {
@@ -60,4 +38,28 @@ void EnemyComponent::Update(const dae::SceneContext &sceneContext)
 			}
 		}
 	}
+}
+
+
+bool EnemyComponent::Pump()
+{
+	++m_CurrentPumps;
+
+	if (m_pSprite->GetActiveClipID() != to_integral(Characters::Enemy::AnimationClips::Ballooning))
+	{
+		m_pSprite->SetActiveClip(to_integral(Characters::Enemy::AnimationClips::Ballooning));
+	}
+
+	if (m_CurrentPumps >= m_MaxPumps)
+	{
+		m_pParent->GetComponent<dae::FSMComponent>()->
+			ChangeState<Characters::EnemyEx::States::DeathState>(m_pParent->GetScene()->GetSceneContext());
+		return true;
+	}
+	else
+	{
+		m_pSprite->MoveOneFrame();
+	}
+
+	return false;
 }
