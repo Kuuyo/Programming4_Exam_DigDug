@@ -22,6 +22,7 @@
 #include "Prefabs.h"
 #include "EnemyStates.h"
 #include "EnemyComponent.h"
+#include "PlayerComponent.h"
 
 namespace Characters
 {
@@ -75,7 +76,8 @@ namespace Characters
 
 					if (!IsActiveState<ThrowPumpState>() && !IsActiveState<PumpingState>())
 					{
-						if (sceneContext.GameContext->Input->GetInputMappingAxis(GetState<ThrowPumpState>()->GetPumpMapping()))
+						if (sceneContext.GameContext->Input->GetInputMappingAxis(
+							GetGameObject()->GetComponent<PlayerComponent>()->GetPumpMapping()))
 						{
 							ChangeState<ThrowPumpState>();
 							return;
@@ -90,9 +92,7 @@ namespace Characters
 			}
 
 
-			IdleState::IdleState(std::string &&hAxis, std::string &&vAxis)
-				: m_HAxis(std::move(hAxis))
-				, m_VAxis(std::move(vAxis))
+			IdleState::IdleState()
 			{
 			}
 
@@ -102,7 +102,7 @@ namespace Characters
 
 			void IdleState::Initialize(const dae::SceneContext &)
 			{
-
+				m_pPlayerComponent = GetGameObject()->GetComponent<PlayerComponent>();
 			}
 
 			void IdleState::OnEnter(const dae::SceneContext &)
@@ -114,8 +114,9 @@ namespace Characters
 
 			void IdleState::Update(const dae::SceneContext &sceneContext)
 			{
-				if (sceneContext.GameContext->Input->GetInputMappingAxis(m_HAxis) != 0.f
-					|| sceneContext.GameContext->Input->GetInputMappingAxis(m_VAxis) != 0.f)
+				const auto pInput = sceneContext.GameContext->Input;
+				if (pInput->GetInputMappingAxis(m_pPlayerComponent->GetHAxisMapping()) != 0.f
+					|| pInput->GetInputMappingAxis(m_pPlayerComponent->GetVAxisMapping()) != 0.f)
 				{
 					ChangeState<MovingState>();
 					return;
@@ -129,9 +130,7 @@ namespace Characters
 
 
 
-			MovingState::MovingState(std::string &&hAxis, std::string &&vAxis)
-				: m_HAxis(std::move(hAxis))
-				, m_VAxis(std::move(vAxis))
+			MovingState::MovingState()
 			{
 			}
 
@@ -141,7 +140,7 @@ namespace Characters
 
 			void MovingState::Initialize(const dae::SceneContext &)
 			{
-
+				m_pPlayerComponent = GetGameObject()->GetComponent<PlayerComponent>();
 			}
 
 			void MovingState::OnEnter(const dae::SceneContext &)
@@ -155,8 +154,9 @@ namespace Characters
 
 			void MovingState::Update(const dae::SceneContext &sceneContext)
 			{
-				float horizontal = sceneContext.GameContext->Input->GetInputMappingAxis(m_HAxis);
-				float vertical = sceneContext.GameContext->Input->GetInputMappingAxis(m_VAxis);
+				const auto pInput = sceneContext.GameContext->Input;
+				float horizontal = pInput->GetInputMappingAxis(m_pPlayerComponent->GetHAxisMapping());
+				float vertical = pInput->GetInputMappingAxis(m_pPlayerComponent->GetVAxisMapping());
 
 				if (horizontal == 0.f && vertical == 0.f)
 				{
@@ -204,8 +204,7 @@ namespace Characters
 
 
 
-			ThrowPumpState::ThrowPumpState(std::string &&pumpMapping)
-				: m_PumpMapping(std::move(pumpMapping))
+			ThrowPumpState::ThrowPumpState()
 			{
 			}
 
@@ -215,6 +214,8 @@ namespace Characters
 				m_pBody = m_pPump->GetComponent<dae::BodyComponent>();
 				m_pTexture = m_pPump->GetComponent<dae::TextureComponent>();
 				m_OriginalLocalPos = m_pPump->GetLocalPosition();
+
+				m_pPlayerComponent = GetGameObject()->GetComponent<PlayerComponent>();
 			}
 
 			void ThrowPumpState::OnEnter(const dae::SceneContext &)
@@ -250,7 +251,7 @@ namespace Characters
 					}
 				}
 
-				if (!sceneContext.GameContext->Input->GetInputMappingAxis(m_PumpMapping)
+				if (!sceneContext.GameContext->Input->GetInputMappingAxis(m_pPlayerComponent->GetPumpMapping())
 					|| m_HalfWidth >= 16.f)
 				{
 					ChangeState<IdleState>();
@@ -299,8 +300,7 @@ namespace Characters
 
 
 
-			PumpingState::PumpingState(std::string &&pumpMapping)
-				: m_PumpMapping(std::move(pumpMapping))
+			PumpingState::PumpingState()
 			{
 			}
 
@@ -309,6 +309,8 @@ namespace Characters
 				m_pPump = GetGameObject()->GetChild(0); // TODO: This can give some problems
 				m_pBody = m_pPump->GetComponent<dae::BodyComponent>();
 				m_pTexture = m_pPump->GetComponent<dae::TextureComponent>();
+
+				m_pPlayerComponent = GetGameObject()->GetComponent<PlayerComponent>();
 			}
 
 			void PumpingState::OnEnter(const dae::SceneContext &)
@@ -322,7 +324,7 @@ namespace Characters
 			{
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
 
-				if (sceneContext.GameContext->Input->GetInputMappingAxis(m_PumpMapping))
+				if (sceneContext.GameContext->Input->GetInputMappingAxis(m_pPlayerComponent->GetPumpMapping()))
 				{
 					asc->PlayOnce();
 					m_Timer += sceneContext.GameContext->Time->GetDeltaTime();

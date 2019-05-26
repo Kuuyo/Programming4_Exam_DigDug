@@ -112,8 +112,42 @@ namespace dae
 	{
 		return std::find(m_GridPointsVec.begin(), m_GridPointsVec.end(), point) != m_GridPointsVec.end();
 	}
+
+	bool GridComponent::IsOnGrid(const glm::vec2 &point) const
+	{
+		auto points = GetClosestGridPoints(point);
+		bool horizontal{ false }, vertical{ false };
+
+		for (const auto& gPoint : points)
+		{
+			if (point.x == gPoint.x)
+			{
+				horizontal = true;
+			}
+			if(point.y == gPoint.y)
+			{
+				vertical = true;
+			}
+		}
+
+		return horizontal && vertical;
+	}
+
 	std::vector<glm::vec2> GridComponent::GetGrid() const
 	{
 		return m_GridPointsVec;
+	}
+
+	glm::vec2 GridComponent::SnapToGrid(const glm::vec2 &pos) const
+	{
+		auto point = GetClosestGridPoint(pos);
+
+		auto xDiff = glm::abs(pos.x - point.x);
+		auto yDiff = glm::abs(pos.y - point.y);
+
+		if (xDiff < yDiff)
+			return glm::vec2(point.x, pos.y);
+		else
+			return glm::vec2(pos.x, point.y);
 	}
 }

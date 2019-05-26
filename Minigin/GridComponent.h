@@ -17,7 +17,10 @@ namespace dae
 		glm::vec2 GetClosestGridPoint(const glm::vec2 &position) const;
 		glm::vec2 GetNextGridPoint(const glm::vec2 &position, const glm::vec2 &direction) const;
 		bool IsValidGridPoint(const glm::vec2 &point) const;
+		bool IsOnGrid(const glm::vec2 &point) const;
 		std::vector<glm::vec2> GetGrid() const;
+
+		glm::vec2 SnapToGrid(const glm::vec2 &pos) const;
 
 	protected:
 		void Initialize(const SceneContext &sceneContext) override;

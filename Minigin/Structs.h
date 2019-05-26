@@ -50,9 +50,9 @@ namespace dae
 			, GamePadAxis(GamePadAxis::None)
 		{}
 
-		InputMapping(std::string&& name,
+		InputMapping(const std::string& name,
 			const SDL_Scancode &key)
-			: Name(std::move(name))
+			: Name(name)
 			, PositiveKey(key)
 			, NegativeKey(SDL_SCANCODE_UNKNOWN)
 			, Mods(SDL_Keymod())
@@ -64,9 +64,9 @@ namespace dae
 			, GamePadAxis(GamePadAxis::None)
 		{}
 
-		InputMapping(std::string&& name,
+		InputMapping(const std::string& name,
 			const unsigned short &gamePadButton, unsigned int playerIndex)
-			: Name(std::move(name))
+			: Name(name)
 			, PositiveKey(SDL_SCANCODE_UNKNOWN)
 			, NegativeKey(SDL_SCANCODE_UNKNOWN)
 			, Mods(SDL_Keymod())
@@ -79,10 +79,10 @@ namespace dae
 			, GamePadAxis(GamePadAxis::None)
 		{}
 
-		InputMapping(std::string&& name,
+		InputMapping(const std::string& name,
 			const SDL_Scancode &key,
 			const unsigned short &gamePadButton, unsigned int playerIndex)
-			: Name(std::move(name))
+			: Name(name)
 			, PositiveKey(key)
 			, NegativeKey(SDL_SCANCODE_UNKNOWN)
 			, Mods(SDL_Keymod())
@@ -95,10 +95,10 @@ namespace dae
 			, GamePadAxis(GamePadAxis::None)
 		{}
 
-		InputMapping(std::string&& name,
+		InputMapping(const std::string& name,
 			const SDL_Scancode &positiveKey,
 			const SDL_Scancode &negativeKey )
-			: Name(std::move(name))
+			: Name(name)
 			, PositiveKey(positiveKey)
 			, NegativeKey(negativeKey)
 			, Mods(SDL_Keymod())
@@ -109,11 +109,11 @@ namespace dae
 			, GamePadAxis(GamePadAxis::None)
 		{}
 
-		InputMapping(std::string&& name,
+		InputMapping(const std::string& name,
 			const SDL_Scancode &positiveKey,
 			const SDL_Scancode &negativeKey,
 			const GamePadAxis gamePadAxis, unsigned int playerIndex)
-			: Name(std::move(name))
+			: Name(name)
 			, PositiveKey(positiveKey)
 			, NegativeKey(negativeKey)
 			, Mods(SDL_Keymod())

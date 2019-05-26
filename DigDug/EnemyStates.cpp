@@ -191,9 +191,26 @@ namespace Characters
 
 				if (m_Timer > m_MinGhostTime)
 				{
-					auto contactList = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
-					if (contactList == nullptr)
+					bool isInLevel{ true };
+
+					auto fix = GetGameObject()->GetComponent<dae::BodyComponent>()->GetContactList();
+					while (fix != nullptr)
 					{
+						const auto tag = reinterpret_cast<dae::BodyComponent*>(fix->other->GetUserData())->
+							GetGameObject()->GetTag();
+
+						if (tag == "LevelBlock")
+						{
+							isInLevel = false;
+						}
+
+						fix = fix->next;
+					}
+
+					if (isInLevel)
+					{
+						GetGameObject()->SetPosition(GetGameObject()->GetComponent<dae::GridComponent>()->
+							SnapToGrid(GetGameObject()->GetPosition()));
 						ChangeState<MovingState>();
 						return;
 					}

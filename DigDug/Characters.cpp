@@ -18,6 +18,8 @@
 #include "DigDugLevel.h"
 #include "EnemyStates.h"
 #include "EnemyComponent.h"
+#include "PlayerComponent.h"
+#include "Settings.h"
 
 namespace Characters
 {
@@ -46,7 +48,6 @@ namespace Characters
 		fixtureDesc.halfWidth = 7.7f;
 		fixtureDesc.halfHeight = 7.7f;
 		fixtureDesc.isSensor = true;
-		fixtureDesc.filter.categoryBits = isPlayerOne ? m_CategoryBitsP1 : m_CategoryBitsP2;
 
 		boxDescs.push_back(fixtureDesc);
 
@@ -61,13 +62,11 @@ namespace Characters
 
 		dae::FSMComponent* pFSM = new dae::FSMComponent();
 		pFSM->SetGlobalState(new DigDugEx::States::GlobalState());
-		pFSM->AddState(new DigDugEx::States::IdleState(isPlayerOne ? "P1Horizontal" : "P2Horizontal",
-			isPlayerOne ? "P1Vertical" : "P2Vertical"));
-		pFSM->AddState(new DigDugEx::States::MovingState(isPlayerOne ? "P1Horizontal" : "P2Horizontal",
-			isPlayerOne ? "P1Vertical" : "P2Vertical"));
+		pFSM->AddState(new DigDugEx::States::IdleState());
+		pFSM->AddState(new DigDugEx::States::MovingState());
 		pFSM->AddState(new DigDugEx::States::DeathState());
-		pFSM->AddState(new DigDugEx::States::ThrowPumpState(isPlayerOne ? "P1Pump" : "P2Pump"));
-		pFSM->AddState(new DigDugEx::States::PumpingState(isPlayerOne ? "P1Pump" : "P2Pump"));
+		pFSM->AddState(new DigDugEx::States::ThrowPumpState());
+		pFSM->AddState(new DigDugEx::States::PumpingState());
 		pFSM->AddState(new DigDugEx::States::SquishState());
 		out->AddComponent(pFSM);
 
@@ -99,6 +98,12 @@ namespace Characters
 		out->AddComponent(pSubject);
 
 		out->AddComponent(new dae::HealthComponent(1.f, 3));
+
+		const std::string hAxisMapping = isPlayerOne ? Settings::P1HAxis : Settings::P2HAxis;
+		const std::string vAxisMapping = isPlayerOne ? Settings::P1VAxis : Settings::P2VAxis;
+		const std::string pumpMapping = isPlayerOne ? Settings::P1Pump : Settings::P2Pump;
+
+		out->AddComponent(new PlayerComponent(hAxisMapping, vAxisMapping, pumpMapping));
 
 		// Pump
 		auto pump = new dae::GameObject("Pump");
@@ -162,8 +167,8 @@ namespace Characters
 		{
 			dae::FSMComponent* pFSM = new dae::FSMComponent();
 			pFSM->SetGlobalState(new EnemyEx::States::GlobalState());
-			pFSM->AddState(new DigDugEx::States::IdleState("P2Horizontal", "P2Vertical"));
-			pFSM->AddState(new DigDugEx::States::MovingState("P2Horizontal", "P2Vertical"));
+			pFSM->AddState(new DigDugEx::States::IdleState());
+			pFSM->AddState(new DigDugEx::States::MovingState());
 			pFSM->AddState(new EnemyEx::States::DeathState());
 			out->AddComponent(pFSM);
 
@@ -179,6 +184,8 @@ namespace Characters
 			out->AddComponent(pSubject);
 
 			out->AddComponent(new dae::HealthComponent(1.f, 3));
+
+			out->AddComponent(new PlayerComponent(Settings::P2HAxis, Settings::P1VAxis, Settings::P2Pump));
 		}
 		else
 		{

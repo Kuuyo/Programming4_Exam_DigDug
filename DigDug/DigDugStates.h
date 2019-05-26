@@ -11,6 +11,8 @@ namespace dae
 	class TextureComponent;
 }
 
+class PlayerComponent;
+
 namespace Characters
 {
 	namespace DigDugEx
@@ -34,7 +36,7 @@ namespace Characters
 			class IdleState final : public dae::State
 			{
 			public:
-				IdleState(std::string &&hAxis, std::string &&vAxis);
+				IdleState();
 				~IdleState();
 
 			private:
@@ -45,13 +47,13 @@ namespace Characters
 				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
-				std::string m_HAxis, m_VAxis;
+				PlayerComponent* m_pPlayerComponent{ nullptr };
 			};
 
 			class MovingState final : public dae::State
 			{
 			public:
-				MovingState(std::string &&hAxis, std::string &&vAxis);
+				MovingState();
 				~MovingState();
 
 			private:
@@ -62,16 +64,14 @@ namespace Characters
 				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
-				std::string m_HAxis, m_VAxis;
+				PlayerComponent* m_pPlayerComponent{ nullptr };
 			};
 
 			class ThrowPumpState final : public dae::State
 			{
 			public:
-				ThrowPumpState(std::string &&pumpMapping);
+				ThrowPumpState();
 				~ThrowPumpState() = default;
-
-				std::string GetPumpMapping() const { return m_PumpMapping; }
 
 			private:
 				void Initialize(const dae::SceneContext &sceneContext) override;
@@ -81,22 +81,21 @@ namespace Characters
 				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
-				std::string m_PumpMapping;
 				dae::BodyComponent* m_pBody{ nullptr };
 				dae::TextureComponent* m_pTexture{ nullptr };
 				dae::GameObject* m_pPump{ nullptr };
 				glm::vec2 m_OriginalLocalPos{};
 				float m_HalfWidth;
 				dae::GameObject* m_EnemyHit{ nullptr };
+
+				PlayerComponent* m_pPlayerComponent{ nullptr };
 			};
 
 			class PumpingState final : public dae::State
 			{
 			public:
-				PumpingState(std::string &&pumpMapping);
+				PumpingState();
 				~PumpingState() = default;
-
-				std::string GetPumpMapping() const { return m_PumpMapping; }
 
 			private:
 				friend ThrowPumpState;
@@ -108,7 +107,6 @@ namespace Characters
 				void LateUpdate(const dae::SceneContext &) override {}
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
-				std::string m_PumpMapping;
 				dae::BodyComponent* m_pBody{ nullptr };
 				dae::TextureComponent* m_pTexture{ nullptr };
 				dae::GameObject* m_pPump{ nullptr };
@@ -116,6 +114,8 @@ namespace Characters
 				float m_Timer{ 0.f };
 				float m_PumpInterval{ .8f };
 				dae::GameObject* m_EnemyHit{ nullptr };
+
+				PlayerComponent* m_pPlayerComponent{ nullptr };
 			};
 
 			class SquishState final : public dae::State
@@ -149,7 +149,7 @@ namespace Characters
 				void OnExit(const dae::SceneContext &sceneContext, State* pNextState) override;
 
 				float m_Timer{};
-				float m_Duration{ .5f };
+				float m_Duration{ .8f };
 			};
 		}
 	}

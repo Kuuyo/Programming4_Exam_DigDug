@@ -7,41 +7,42 @@
 #include "MainMenu.h"
 #include "DigDugLevel.h"
 #include "GameOverScene.h"
+#include "Settings.h"
 
 void DigDug::LoadGame(const dae::GameContext &gameContext) const
 {
 	gameContext.Input->AddInputMapping(
-		dae::InputMapping("P1Horizontal"
+		dae::InputMapping(Settings::P1HAxis
 			, SDL_SCANCODE_D, SDL_SCANCODE_A
 			, dae::GamePadAxis::LeftStickHorizontalAnalog, 0));
 
 	gameContext.Input->AddInputMapping(
-		dae::InputMapping("P1Vertical"
+		dae::InputMapping(Settings::P1VAxis
 			, SDL_SCANCODE_S, SDL_SCANCODE_W
 			, dae::GamePadAxis::LeftStickVerticalAnalog, 0));
 
 	gameContext.Input->AddInputMapping(
-		dae::InputMapping("P1Pump"
+		dae::InputMapping(Settings::P1Pump
 			, SDL_SCANCODE_SPACE
 			, XINPUT_GAMEPAD_A, 0));
 
 	gameContext.Input->AddInputMapping(
-		dae::InputMapping("P2Horizontal"
+		dae::InputMapping(Settings::P2HAxis
 			, SDL_SCANCODE_RIGHT, SDL_SCANCODE_LEFT
 			, dae::GamePadAxis::LeftStickHorizontalAnalog, 1));
 
 	gameContext.Input->AddInputMapping(
-		dae::InputMapping("P2Vertical"
+		dae::InputMapping(Settings::P2VAxis
 			, SDL_SCANCODE_DOWN, SDL_SCANCODE_UP
 			, dae::GamePadAxis::LeftStickVerticalAnalog, 1));
 
 	gameContext.Input->AddInputMapping(
-		dae::InputMapping("P2Pump"
+		dae::InputMapping(Settings::P2Pump
 			, SDL_SCANCODE_RCTRL
 			, XINPUT_GAMEPAD_A, 1));
 
 	gameContext.Input->AddInputMapping(
-		dae::InputMapping("Confirm"
+		dae::InputMapping(Settings::Confirm
 			, SDL_SCANCODE_RETURN
 			, XINPUT_GAMEPAD_START, 0));
 
