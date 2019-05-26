@@ -13,6 +13,8 @@
 
 #include <json.hpp>
 
+#include <regex>
+
 #include "Prefabs.h"
 #include "Characters.h"
 #include "DigDugStates.h"
@@ -137,8 +139,34 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 		float(sceneContext.GameContext->GameSettings.WindowResolutionH - blockSize * .5f));
 }
 
-void DigDugLevel::Update(const dae::SceneContext &)
+void DigDugLevel::Update(const dae::SceneContext &sceneContext)
 {
+	if (m_pEnemyPositionMap.size() == 0)
+	{
+		// TODO: Winning screen
+  		const std::string level{ GetName() };
+		const std::regex rgxMatch{ "(?:Level)(\\d+)(?:_\\w*)" };
+		const std::regex rgxReplace{ "(\\d+)(_\\w*)" };
+		std::smatch sm;
+
+		if (std::regex_match(level, sm, rgxMatch))
+		{
+			const auto nextLevelNumber = std::stoi(sm[1]) + 1;
+			const std::string replace{ std::to_string(nextLevelNumber) + std::string("$2") };
+			auto nextLevel = std::regex_replace(level, rgxReplace, replace);
+
+			auto pScenes = sceneContext.GameContext->Scenes;
+
+			if (pScenes->GetScene(nextLevel) != nullptr)
+			{
+				pScenes->SetActiveScene(nextLevel);
+			}
+			else
+			{
+				pScenes->SetActiveScene("GameOverScene");
+			}
+		}
+	}
 }
 
 void DigDugLevel::LateUpdate(const dae::SceneContext &)

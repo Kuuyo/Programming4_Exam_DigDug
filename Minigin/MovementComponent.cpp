@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "MovementComponent.h"
 #include "GameObject.h"
-#include "Time.h"
+#include "GameTime.h"
 #include "InputManager.h"
 #include "BodyComponent.h"
 #include "InfiniteGridComponent.h"

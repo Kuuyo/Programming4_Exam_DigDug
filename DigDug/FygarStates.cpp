@@ -9,7 +9,7 @@
 #include <AnimatedSpriteComponent.h>
 #include <HealthComponent.h>
 #include <SubjectComponent.h>
-#include <Time.h>
+#include <GameTime.h>
 #include <Scene.h>
 #include <Box2DRaycastCallback.h>
 

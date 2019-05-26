@@ -2,7 +2,7 @@
 #include "FPSComponent.h"
 
 #include "TextComponent.h"
-#include "Time.h"
+#include "GameTime.h"
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "Font.h"

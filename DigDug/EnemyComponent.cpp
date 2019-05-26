@@ -2,7 +2,7 @@
 #include "EnemyComponent.h"
 
 #include <GameContext.h>
-#include <Time.h>
+#include <GameTime.h>
 #include <GameObject.h>
 #include <AnimatedSpriteComponent.h>
 #include <FSMComponent.h>

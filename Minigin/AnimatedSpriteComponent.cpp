@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 #include "ResourceManager.h"
-#include "Time.h"
+#include "GameTime.h"
 #include "Texture2D.h"
 #include "Scene.h"
 

@@ -23,7 +23,7 @@ void GameOverScene::Initialize(const dae::SceneContext &)
 	go->SetPosition(0.f, 50.f, dae::Anchor::TopCenter);
 
 	go = new dae::GameObject();
-	go->AddComponent(new dae::TextComponent("Press Space or (A)", true, 12));
+	go->AddComponent(new dae::TextComponent("Press Enter or (A)", true, 12)); // TODO: Make this not hardcoded
 	AddGameObject(go);
 	go->SetPosition(0.f, 100.f, dae::Anchor::TopCenter);
 

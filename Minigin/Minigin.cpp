@@ -7,7 +7,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "Time.h"
+#include "GameTime.h"
 
 #include "GameObject.h"
 #include "Scene.h"

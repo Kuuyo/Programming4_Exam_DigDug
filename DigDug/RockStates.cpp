@@ -5,7 +5,7 @@
 #include <Box2D.h>
 #include <GameObject.h>
 #include <BodyComponent.h>
-#include <Time.h>
+#include <GameTime.h>
 #include <Box2DRaycastCallback.h>
 #include <AnimatedSpriteComponent.h>
 #include <Scene.h>

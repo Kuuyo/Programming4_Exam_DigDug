@@ -70,9 +70,6 @@
     <ClInclude Include="TextComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>Engine Files\_Core</Filter>
-    </ClInclude>
     <ClInclude Include="FPSComponent.h">
       <Filter>Engine Files\Components</Filter>
     </ClInclude>
@@ -136,6 +133,9 @@
     <ClInclude Include="HelperFunctions.h">
       <Filter>Engine Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Engine Files\_Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputManager.cpp">
@@ -167,9 +167,6 @@
     </ClCompile>
     <ClCompile Include="TextComponent.cpp">
       <Filter>Engine Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Time.cpp">
-      <Filter>Engine Files\_Core</Filter>
     </ClCompile>
     <ClCompile Include="FPSComponent.cpp">
       <Filter>Engine Files\Components</Filter>
@@ -221,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="ObserverComponent.cpp">
       <Filter>Engine Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Engine Files\_Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
