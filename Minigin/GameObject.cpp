@@ -58,6 +58,8 @@ namespace dae
 			pComponent->Update(sceneContext);
 		}
 
+		TransformUpdate();
+
 		for (auto pChild : m_pChildren)
 		{
 			pChild->Update(sceneContext);

@@ -30,7 +30,6 @@ namespace dae
 		void Update();
 		void LateUpdate();
 		void DestroyUpdate();
-		void TransformUpdate();
 		void Render(const GameContext &gameContext, float extrapolate);
 
 		std::map<std::string, Scene*> m_pScenesMap;

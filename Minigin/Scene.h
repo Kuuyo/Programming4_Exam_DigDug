@@ -65,7 +65,6 @@ namespace dae
 		void RootUpdate();
 		void RootLateUpdate();
 		void DestroyUpdate();
-		void TransformUpdate();
 
 		void Render(Renderer* pRenderer, float extrapolate) const;
 

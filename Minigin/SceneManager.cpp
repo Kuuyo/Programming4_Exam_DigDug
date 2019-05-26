@@ -49,11 +49,6 @@ namespace dae
 		}
 	}
 
-	void SceneManager::TransformUpdate()
-	{
-		m_pActiveScene->TransformUpdate();
-	}
-
 	void SceneManager::Render(const GameContext &gameContext, float extrapolate)
 	{
 		m_pActiveScene->Render(gameContext.Renderer, extrapolate);
