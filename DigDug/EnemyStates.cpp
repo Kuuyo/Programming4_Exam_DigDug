@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "FygarStates.h"
+#include "EnemyStates.h"
 
 #include <GameContext.h>
 #include <InputManager.h>
@@ -22,7 +22,7 @@
 
 namespace Characters
 {
-	namespace FygarEx
+	namespace EnemyEx
 	{
 		namespace States
 		{
@@ -48,7 +48,7 @@ namespace Characters
 						if (tag == "Rock" && contactList->other->GetType() == b2BodyType::b2_dynamicBody)
 						{
 							auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
-							asc->SetActiveClip(to_integral(Characters::Fygar::AnimationClips::Squish));
+							asc->SetActiveClip(to_integral(Characters::Enemy::AnimationClips::Squish));
 							asc->PlayOnce();
 
 							ChangeState<DeathState>();
@@ -81,7 +81,7 @@ namespace Characters
 			void MovingState::OnEnter(const dae::SceneContext &)
 			{
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
-				asc->SetActiveClip(to_integral(Characters::Fygar::AnimationClips::Walking));
+				asc->SetActiveClip(to_integral(Characters::Enemy::AnimationClips::Walking));
 				asc->Play();
 			}
 
@@ -173,7 +173,7 @@ namespace Characters
 			void HitState::OnEnter(const dae::SceneContext &)
 			{
 				auto asc = GetGameObject()->GetComponent<dae::AnimatedSpriteComponent>();
-				asc->SetActiveClip(to_integral(Characters::Fygar::AnimationClips::Pumped));
+				asc->SetActiveClip(to_integral(Characters::Enemy::AnimationClips::Pumped));
 				asc->PlayOnce();
 			}
 

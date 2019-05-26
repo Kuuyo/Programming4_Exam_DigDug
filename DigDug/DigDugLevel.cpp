@@ -108,11 +108,15 @@ void DigDugLevel::Initialize(const dae::SceneContext &sceneContext)
 				}
 				break;
 			case DigDugLevel::LevelSectionType::Pooka:
+				Characters::Enemy::CreatePookaCharacter(go = nullptr, this);
+				AddGameObject(go);
+				go->SetPosition(x, y);
+				m_pEnemyPositionMap.insert({ go, glm::vec2(x,y) });
 				break;
 			case DigDugLevel::LevelSectionType::Fygar:
 				if(!m_IsFygarSpawned)
 					m_FygarSpawn = glm::vec2(x, y);
-				Characters::Fygar::CreateFygarCharacter(go = nullptr, this, (m_GameMode == GameMode::Versus)
+				Characters::Enemy::CreateFygarCharacter(go = nullptr, this, (m_GameMode == GameMode::Versus)
 					&& !m_IsFygarSpawned);
 				AddGameObject(go);
 				go->SetPosition(x, y);

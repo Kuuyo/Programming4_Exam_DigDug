@@ -9,7 +9,7 @@
 #include <Scene.h>
 
 #include "Characters.h"
-#include "FygarStates.h"
+#include "EnemyStates.h"
 
 EnemyComponent::EnemyComponent()
 {
@@ -20,15 +20,15 @@ bool EnemyComponent::Pump()
 {
 	++m_CurrentPumps;
 	
-	if (m_pSprite->GetActiveClipID() != to_integral(Characters::Fygar::AnimationClips::Ballooning))
+	if (m_pSprite->GetActiveClipID() != to_integral(Characters::Enemy::AnimationClips::Ballooning))
 	{
-		m_pSprite->SetActiveClip(to_integral(Characters::Fygar::AnimationClips::Ballooning));
+		m_pSprite->SetActiveClip(to_integral(Characters::Enemy::AnimationClips::Ballooning));
 	}
 
 	if (m_CurrentPumps >= m_MaxPumps)
 	{
 		m_pParent->GetComponent<dae::FSMComponent>()->
-			ChangeState<Characters::FygarEx::States::DeathState>(m_pParent->GetScene()->GetSceneContext());
+			ChangeState<Characters::EnemyEx::States::DeathState>(m_pParent->GetScene()->GetSceneContext());
 		return true;
 	}
 	else

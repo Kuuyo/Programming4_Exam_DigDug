@@ -192,7 +192,7 @@
     <ClInclude Include="DigDug.h" />
     <ClInclude Include="DigDugLevel.h" />
     <ClInclude Include="EnemyComponent.h" />
-    <ClInclude Include="FygarStates.h" />
+    <ClInclude Include="EnemyStates.h" />
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="HealthDisplay.h" />
     <ClInclude Include="MainMenu.h" />
@@ -206,7 +206,7 @@
     <ClCompile Include="DigDug.cpp" />
     <ClCompile Include="DigDugLevel.cpp" />
     <ClCompile Include="EnemyComponent.cpp" />
-    <ClCompile Include="FygarStates.cpp" />
+    <ClCompile Include="EnemyStates.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="HealthDisplay.cpp" />
     <ClCompile Include="MainMenu.cpp" />

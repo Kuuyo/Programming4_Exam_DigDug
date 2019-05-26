@@ -20,7 +20,7 @@
 
 #include "Characters.h"
 #include "Prefabs.h"
-#include "FygarStates.h"
+#include "EnemyStates.h"
 #include "EnemyComponent.h"
 
 namespace Characters
@@ -241,7 +241,7 @@ namespace Characters
 					else
 					{
 						// TODO: Figure out why it doesn't work in FygarStates, since this is kinda very dirty
-   						gameObject->GetComponent<dae::FSMComponent>()->ChangeState<FygarEx::States::HitState>(sceneContext);
+   						gameObject->GetComponent<dae::FSMComponent>()->ChangeState<EnemyEx::States::HitState>(sceneContext);
 						m_EnemyHit = gameObject;
 						ChangeState<PumpingState>();
 						return;
@@ -262,7 +262,7 @@ namespace Characters
 				fixtureDesc.halfHeight = 4.f;
 				fixtureDesc.filter.categoryBits = Characters::DigDug::GetPumpCategoryBits();
 				fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits() |
-					Fygar::GetCategoryBits();
+					Enemy::GetCategoryBits();
 
 				m_pBody->RemoveFixtures();
 				m_pBody->SetBoxFixture(fixtureDesc);

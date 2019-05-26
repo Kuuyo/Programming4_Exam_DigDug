@@ -4,7 +4,7 @@
 
 namespace Characters
 {
-	namespace FygarEx
+	namespace EnemyEx
 	{
 		namespace States
 		{

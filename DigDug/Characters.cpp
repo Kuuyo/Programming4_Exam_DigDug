@@ -16,7 +16,7 @@
 #include "HealthDisplay.h"
 #include "Prefabs.h"
 #include "DigDugLevel.h"
-#include "FygarStates.h"
+#include "EnemyStates.h"
 #include "EnemyComponent.h"
 
 namespace Characters
@@ -38,7 +38,7 @@ namespace Characters
 		fixtureDesc.halfHeight = 7.f;
 		fixtureDesc.filter.categoryBits = isPlayerOne ? m_CategoryBitsP1 : m_CategoryBitsP2;
 		fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits() |
-			Fygar::GetCategoryBits();
+			Enemy::GetCategoryBits();
 
 		std::vector<dae::BodyComponent::BoxFixtureDesc> boxDescs;
 		boxDescs.push_back(fixtureDesc);
@@ -115,9 +115,9 @@ namespace Characters
 		pump->AddComponent(pPumpBody);
 	}
 
-	unsigned short Fygar::m_CategoryBits = 0x032;
+	unsigned short Enemy::m_CategoryBits = 0x032;
 
-	void Fygar::CreateFygarCharacter(dae::GameObject* &out, DigDugLevel* pScene, bool isPlayer)
+	void Enemy::CreateFygarCharacter(dae::GameObject* &out, DigDugLevel* pScene, bool isPlayer)
 	{
 		if (out == nullptr)
 			out = new dae::GameObject(isPlayer ? "Player2" : "Fygar");
@@ -141,9 +141,9 @@ namespace Characters
 		SDL_Rect src{};
 		src.h = src.w = 16;
 		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("Fygar.gif", 1, true, src, 10, 2, false);
-		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Walking), 0, 2, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Walking), 0, 2, 0.2f));
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Ghosting), 2, 2, 0.1f));
-		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::FireBreath), 4, 2, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(Fygar::AnimationClips::FireBreath), 4, 2, 0.1f));
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Squish), 6, 1, 0.1f));
 		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Pumped), 7, 1, 0.1f));
 		SDL_Rect balloonSrc{};
@@ -159,10 +159,10 @@ namespace Characters
 		if (isPlayer)
 		{
 			dae::FSMComponent* pFSM = new dae::FSMComponent();
-			pFSM->SetGlobalState(new FygarEx::States::GlobalState());
+			pFSM->SetGlobalState(new EnemyEx::States::GlobalState());
 			pFSM->AddState(new DigDugEx::States::IdleState("P2Horizontal", "P2Vertical"));
 			pFSM->AddState(new DigDugEx::States::MovingState("P2Horizontal", "P2Vertical"));
-			pFSM->AddState(new FygarEx::States::DeathState());
+			pFSM->AddState(new EnemyEx::States::DeathState());
 			out->AddComponent(pFSM);
 
 			dae::GameObject* healthDisplay = nullptr;
@@ -181,13 +181,61 @@ namespace Characters
 		else
 		{
 			dae::FSMComponent* pFSM = new dae::FSMComponent();
-			pFSM->SetGlobalState(new FygarEx::States::GlobalState());
-			pFSM->AddState(new FygarEx::States::MovingState());
-			pFSM->AddState(new FygarEx::States::DeathState());
-			pFSM->AddState(new FygarEx::States::HitState());
+			pFSM->SetGlobalState(new EnemyEx::States::GlobalState());
+			pFSM->AddState(new EnemyEx::States::MovingState());
+			pFSM->AddState(new EnemyEx::States::DeathState());
+			pFSM->AddState(new EnemyEx::States::HitState());
 			out->AddComponent(pFSM);
 
 			out->AddComponent(new EnemyComponent());
 		}
+	}
+
+	void Enemy::CreatePookaCharacter(dae::GameObject* &out, DigDugLevel* pScene)
+	{
+		if (out == nullptr)
+			out = new dae::GameObject("Pooka");
+
+		dae::BodyComponent::BoxFixtureDesc fixtureDesc{};
+		fixtureDesc.halfWidth = 7.95f;
+		fixtureDesc.halfHeight = 7.95f;
+		fixtureDesc.filter.categoryBits = m_CategoryBits;
+		fixtureDesc.filter.maskBits = Level::Rock::GetCategoryBits() | Level::LevelBlock::GetCategoryBits()
+			| DigDug::GetCategoryBits() | DigDug::GetPumpCategoryBits();
+
+		dae::BodyComponent* pBody = new dae::BodyComponent(b2BodyType::b2_dynamicBody);
+		pBody->SetBoxFixture(fixtureDesc);
+		out->AddComponent(pBody);
+
+		// TODO: Make grid not hardcoded
+		auto pGrid = new dae::GridComponent(16, { 8.f,24.f }, 224, 256, true);
+		pScene->AddDebugDrawPointVec(dae::Conversions::GLM_To_SDL(pGrid->GetGrid()));
+		out->AddComponent(pGrid);
+
+		SDL_Rect src{};
+		src.h = src.w = 16;
+		auto animatedSpriteComponent = new dae::AnimatedSpriteComponent("Pooka.gif", 1, true, src, 10, 2, false);
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Walking), 0, 2, 0.2f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Ghosting), 2, 2, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Squish), 4, 1, 0.1f));
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Pumped), 5, 1, 0.1f));
+		SDL_Rect balloonSrc{};
+		balloonSrc.h = 24;
+		balloonSrc.w = 32;
+		balloonSrc.x = 0;
+		balloonSrc.y = 48;
+		animatedSpriteComponent->AddClip(dae::AnimatedSpriteClip(to_integral(AnimationClips::Ballooning), 3, 0.1f, 1,
+			balloonSrc));
+		animatedSpriteComponent->SetActiveClip(to_integral(AnimationClips::Walking));
+		out->AddComponent(animatedSpriteComponent);
+
+		dae::FSMComponent* pFSM = new dae::FSMComponent();
+		pFSM->SetGlobalState(new EnemyEx::States::GlobalState());
+		pFSM->AddState(new EnemyEx::States::MovingState());
+		pFSM->AddState(new EnemyEx::States::DeathState());
+		pFSM->AddState(new EnemyEx::States::HitState());
+		out->AddComponent(pFSM);
+
+		out->AddComponent(new EnemyComponent()); 
 	}
 }

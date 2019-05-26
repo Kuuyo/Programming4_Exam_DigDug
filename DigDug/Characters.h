@@ -35,24 +35,34 @@ namespace Characters
 		static unsigned short m_CategoryBitsPump;
 	};
 
-	class Fygar
+	class Enemy
 	{
 	public:
 		enum class AnimationClips : unsigned int
 		{
 			Walking,
 			Ghosting,
-			FireBreath,
 			Squish,
 			Pumped,
-			Ballooning
+			Ballooning,
+			_count
+		};
+
+		class Fygar
+		{
+		public:
+
+			enum class AnimationClips : unsigned int
+			{
+				FireBreath = to_integral(Enemy::AnimationClips::_count)
+			};
 		};
 
 		static void CreateFygarCharacter(dae::GameObject* &out, DigDugLevel* pScene, bool isPlayer);
+		static void CreatePookaCharacter(dae::GameObject* &out, DigDugLevel* pScene);
 		static unsigned short GetCategoryBits() { return m_CategoryBits; }
 
 	private:
 		static unsigned short m_CategoryBits;
-
 	};
 }
