@@ -1,4 +1,4 @@
-# Programming4 Exam DigDug
+# Small 2D Engine with DigDug
 
 2D Game Engine with DigDug as demo game
 
