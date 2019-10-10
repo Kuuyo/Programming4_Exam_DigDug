@@ -14,7 +14,7 @@
 - http://www.gameprogrammingpatterns.com/
 
 ## Some Engine specifics
-=================================================
+
 GAMELOOP
 -------------------------------------------------
 -------------------------------------------------
@@ -62,10 +62,7 @@ every component having a Render function.
 
 V-Sync is on by default, constricting the entire loop to your
 screen's vertical sync rate.
--------------------------------------------------
-=================================================
 
-=================================================
 LOGGING
 -------------------------------------------------
 Logging is done by using the macro's
@@ -82,9 +79,7 @@ variable with __FUNCTION__, so there's no need to pass where
 the logger is being called from.
 This had to be done through a macro, as __FUNCTION__ uses the
 function it was called in.
-=================================================
 
-=================================================
 GameObject
 -------------------------------------------------
 This is your lifeline in this engine.
@@ -98,6 +93,3 @@ Therefore the classic transform functions are immediately
 available on the GameObject.
 
 GameObjects can also have Children.
-=================================================
-
-=================================================
